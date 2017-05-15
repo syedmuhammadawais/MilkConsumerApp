@@ -3,9 +3,12 @@ package com.conformiz.milkconsumerapp.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.activities.MainActivity;
@@ -127,6 +130,30 @@ public class Utility {
         Log.i("Test email value", "isValidEmail: "+ android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches());
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
 
+    }
+
+
+
+    // UI Button Pressed State UIs
+    public static void buttonEffect(View button){
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
 }

@@ -17,6 +17,7 @@ import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;
 import com.conformiz.milkconsumerapp.utils.SharedPreferenceUtil;
+import com.conformiz.milkconsumerapp.utils.Utility;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -43,6 +44,9 @@ public class LoginActivity extends AppCompatActivity implements
         bindView = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
         bindView.btnLogin.setOnClickListener(this);
+        Utility.buttonEffect(bindView.btnLogin);
+        Utility.buttonEffect(bindView.btnSignUp);
+
         bindView.btnSignUp.setOnClickListener(this);
         bindView.tvForgetPassword.setOnClickListener(this);
         bindView.tvRememberMe.setOnClickListener(this);

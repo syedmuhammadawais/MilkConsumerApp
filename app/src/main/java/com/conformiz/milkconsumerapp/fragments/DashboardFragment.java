@@ -13,6 +13,7 @@ import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.activities.MainActivity;
 import com.conformiz.milkconsumerapp.callbacks.OnItemClick;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
+import com.conformiz.milkconsumerapp.utils.Utility;
 
 import java.util.Observable;
 
@@ -38,6 +39,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         //((TextView)getActivity().findViewById(R.id.tv_screen_header)).setText("Main Menu");
         view.findViewById(R.id.btn_back_main_menu);
+
+
 
         view.findViewById(R.id.rl_complaints).setOnClickListener(this);
         view.findViewById(R.id.rl_deliveries_history).setOnClickListener(this);

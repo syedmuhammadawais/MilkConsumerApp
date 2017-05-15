@@ -22,6 +22,7 @@ import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;
 import com.conformiz.milkconsumerapp.utils.SharedPreferenceUtil;
+import com.conformiz.milkconsumerapp.utils.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +51,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         binding = DataBindingUtil.setContentView(SignupActivity.this, R.layout.activity_signup);
         binding.btnNext.setOnClickListener(this);
         binding.btnBack.setOnClickListener(this);
+
+        Utility.buttonEffect(binding.btnNext);
+        Utility.buttonEffect(binding.btnBack);
 
         screenOneFragment = new ScreenOneFragment();
         screenTwoFragment = new ScreenTwoFragment();
