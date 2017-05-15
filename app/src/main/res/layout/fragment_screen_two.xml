@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<LinearLayout
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:id="@+id/et_email_sign_up"
+        android:maxLines="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/login_user_pass_et_bg_round"
+        android:hint="Email Address"
+        android:inputType="textWebEmailAddress"
+        android:padding="14dp"
+        android:textColorHint="@color/colorAccent" />
+
+
+    <EditText
+        android:id="@+id/et_phone_sign_up"
+        android:maxLines="1"
+        android:maxLength="11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/login_user_pass_et_bg_round"
+        android:hint="Phone Number"
+        android:inputType="number"
+        android:padding="14dp"
+        android:textColorHint="@color/colorAccent" />
+
+
+    <EditText
+        android:id="@+id/et_username_sign_up"
+        android:maxLines="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/login_user_pass_et_bg_round"
+        android:hint="Username"
+        android:inputType="text"
+        android:padding="14dp"
+        android:textColorHint="@color/colorAccent" />
+
+
+    <EditText
+        android:id="@+id/et_password_sign_up"
+        android:maxLines="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/login_user_pass_et_bg_round"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="14dp"
+        android:textColorHint="@color/colorAccent" />
+
+
+</LinearLayout>
+    </ScrollView>

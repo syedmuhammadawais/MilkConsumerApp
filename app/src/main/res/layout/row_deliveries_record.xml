@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_product_plan_row_deliveries_record"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_product_label_deliveries_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:text="Product: "
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_product_plan_name_deliveries_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_toRightOf="@+id/tv_product_label_deliveries_record"
+        android:text="Product: "
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_product_start_date_deliveries_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_product_label_deliveries_record"
+        android:layout_marginBottom="3dp"
+        android:text="Date:       17 March, 2017: "
+        android:textColor="@color/app_black" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_product_quantity_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_product_start_date_deliveries_record"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tv_product_quantity_deliveries_record"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Quantity: 4kg"
+            android:textColor="@color/app_black" />
+
+        <TextView
+            android:id="@+id/tv_product_price_deliveries_record"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Price: 100"
+            android:textColor="@color/app_black" />
+
+    </LinearLayout>
+
+
+    <!--<ImageView-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:src="@drawable/btn_arrow_right"-->
+    <!--android:layout_width="25dp"-->
+    <!--android:layout_height="25dp" />-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/ll_product_quantity_price"
+        android:layout_marginTop="0dp"
+        android:background="@color/colorAccent" />
+
+</RelativeLayout>

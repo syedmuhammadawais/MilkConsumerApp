@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<RelativeLayout
+    android:background="@drawable/background_image"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.conformiz.milkconsumerapp.activities.LoginActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_above="@+id/ll_user_pass_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp">
+
+            <TextView
+                android:shadowColor="@color/app_black"
+                android:shadowRadius="1.5"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:textSize="30sp"
+                android:gravity="center_horizontal"
+                android:text="Taza Farms"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:src="@drawable/milk_seller_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_user_pass_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_enter_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/login_user_pass_et_bg_round"
+            android:hint="Enter User Name"
+            android:inputType="text"
+            android:padding="14dp"
+            android:text=""
+            android:textColorHint="@color/colorAccent" />
+
+        <EditText
+            android:text=""
+            android:id="@+id/et_enter_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/login_user_pass_et_bg_round"
+            android:hint="Enter Password"
+            android:inputType="textPassword"
+            android:padding="14dp"
+            android:textColorHint="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_login_bg_yellow_round"
+            android:text="Login"
+            android:textAllCaps="false"
+            android:textColor="@color/app_black"
+            android:textSize="22sp" />
+
+
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <it.beppi.tristatetogglebutton_library.TriStateToggleButton
+                android:id="@+id/tb_remember_me"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                app:tbOnColor="@color/colorAccent"
+                app:tbIsMidSelectable="false" />
+
+
+            <TextView
+                android:id="@+id/tv_remember_me"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:text="Keep Me Sign in"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_sign_up"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="Forgot Your Password?"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp" />
+
+
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_sign_up_round_blue"
+        android:text="Signup"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="22sp" />
+
+
+</RelativeLayout>
+</layout>

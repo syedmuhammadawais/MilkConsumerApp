@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Milk Consumer App</string>
+    <string name="check_email_sms">Please check your sms and enter the
+        verification code below
+    </string>
+ <string name="enter_email_or_phone">Please enter your phone number to
+     recover your password
+    </string>
+    <string name="logout"><strong>Logout</strong></string>
+
+
+</resources>

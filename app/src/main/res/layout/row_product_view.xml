@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_product_row_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:layout_weight="1">
+
+
+    <ImageView
+        android:id="@+id/iv_manager_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/product_cow_milk" />
+
+    <TextView
+        android:id="@+id/tv_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_manager_order"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Product Name"
+        android:textColor="@color/white" />
+
+    <ImageView
+        android:src="@drawable/product_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView_product_info"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/iv_manager_order"
+        android:layout_alignEnd="@+id/iv_manager_order"
+        android:layout_marginTop="15dp" />
+
+</RelativeLayout>
+
+
+

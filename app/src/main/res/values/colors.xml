@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black_overlay">#66000000</color>
+    <!--<color name="colorPrimary">#0063bb</color>-->
+    <!--<color name="colorPrimaryDark">#0063bb</color>-->
+
+    <color name="colorPrimary">#3DAF49</color>
+    <color name="colorPrimaryDark">#3DAF49</color>
+    <color name="primary_light">#B3E5FC</color>
+    <color name="colorAccent">#448AFF</color>
+    <color name="bgblue">#2B6FAC</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="white">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="red">#FF5252</color>
+    <color name="light_red">#FF5252</color>
+
+    <color name="green">#558811</color>
+    <color name="yellow_dark">#cccc00</color>
+    <color name="yellow">#e5e500</color>
+    <color name="toggle_yellow">#FFB30C</color>
+
+
+
+    <color name="app_black">#131313</color>
+    <color name="app_black_light">#333333</color>
+    <color name="app_gray">#6e6e70</color>
+    <color name="app_gray_light">#808080</color>
+    <color name="app_brown_light">#E5E5E5</color>
+
+
+    <!-- Sign-in Button Colors -->
+    <color name="common_signin_btn_dark_text_default">@android:color/white</color>
+    <color name="common_signin_btn_dark_text_pressed">@android:color/white</color>
+    <color name="common_signin_btn_dark_text_disabled">#FFAAAAAA</color>
+    <color name="common_signin_btn_dark_text_focused">@android:color/white</color>
+    <color name="common_signin_btn_light_text_default">#FF737373</color>
+    <color name="common_signin_btn_light_text_pressed">@android:color/white</color>
+    <color name="common_signin_btn_light_text_disabled">#FFAAAAAA</color>
+    <color name="common_signin_btn_light_text_focused">#FF737373</color>
+    <color name="common_signin_btn_default_background">#FFDD4B39</color>
+    <color name="common_action_bar_splitter">#d2d2d2</color>
+</resources>
