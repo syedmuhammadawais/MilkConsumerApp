@@ -1,4 +1,4 @@
-package com.conformiz.milkconsumerapp.fragments.fragmentsforsteps;
+package com.conformiz.milkconsumerapp.fragments.signupfragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.models.Request.SignUpUserRootRequest;
 import com.conformiz.milkconsumerapp.models.response.SaveDataArrayResponse;
-import com.conformiz.milkconsumerapp.models.response.SaveDataResponse;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;

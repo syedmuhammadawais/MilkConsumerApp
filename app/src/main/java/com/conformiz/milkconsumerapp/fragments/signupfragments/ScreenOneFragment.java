@@ -1,4 +1,4 @@
-package com.conformiz.milkconsumerapp.fragments.fragmentsforsteps;
+package com.conformiz.milkconsumerapp.fragments.signupfragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;

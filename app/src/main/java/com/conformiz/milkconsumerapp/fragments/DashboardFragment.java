@@ -39,14 +39,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         //((TextView)getActivity().findViewById(R.id.tv_screen_header)).setText("Main Menu");
         view.findViewById(R.id.btn_back_main_menu);
-
-
-
         view.findViewById(R.id.rl_complaints).setOnClickListener(this);
         view.findViewById(R.id.rl_deliveries_history).setOnClickListener(this);
         view.findViewById(R.id.rl_manage_order).setOnClickListener(this);
         view.findViewById(R.id.rl_settings).setOnClickListener(this);
-        view.findViewById(R.id.rl_payments);
+        view.findViewById(R.id.rl_payments).setOnClickListener(this);
 
 
 //        if (SharedPreferenceUtil.getInstance(getActivity()).getEnrolled()) {

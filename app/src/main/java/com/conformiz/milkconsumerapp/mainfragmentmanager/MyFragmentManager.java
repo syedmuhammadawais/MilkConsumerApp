@@ -13,6 +13,7 @@ import com.conformiz.milkconsumerapp.fragments.ComplaintsFragment;
 import com.conformiz.milkconsumerapp.fragments.DeliveriesRecordFragment;
 import com.conformiz.milkconsumerapp.fragments.ProductsFragment;
 import com.conformiz.milkconsumerapp.fragments.SettingsFragment;
+import com.conformiz.milkconsumerapp.fragments.paymentfragments.PaymentFragment;
 import com.conformiz.milkconsumerapp.utils.Constants;
 
 import java.util.EmptyStackException;
@@ -115,9 +116,11 @@ public class MyFragmentManager implements Constants, OnItemClick {
 
             case R.id.rl_payments:
                 Log.i(TAG, "onClick: on Payments  click");
-                // ChangePasswordFragment changePassword = new ChangePasswordFragment();
-               // addFragment(changePassword);
-               // transaction.replace(R.id.fragment_container_dashboard, changePassword);
+
+                PaymentFragment paymentFragment = new PaymentFragment();
+                addFragment(paymentFragment);
+                transaction.replace(R.id.fragment_container,paymentFragment);
+
                 break;
 
             case R.id.rl_complaints:
@@ -126,9 +129,6 @@ public class MyFragmentManager implements Constants, OnItemClick {
                 ComplaintsFragment complaintsFragment = new ComplaintsFragment();
                 addFragment(complaintsFragment);
                 transaction.replace(R.id.fragment_container,complaintsFragment);
-                // ChangePasswordFragment changePassword = new ChangePasswordFragment();
-               // addFragment(changePassword);
-               // transaction.replace(R.id.fragment_container_dashboard, changePassword);
 
                 break;
 

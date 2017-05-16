@@ -28,6 +28,8 @@ public interface Constants {
     String ACTION_POST_CUSTOMER_SIGN_UP = "customerSignUP";
     String ACTION_POST_CUSTOMER_AUTHENTICATION = "customerAuthentication";
     String ACTION_POST_DELIVERIES_BETWEEN_DATE_RANGE = "deliverybetweenDateRange";
+    String ACTION_POST_CUSTOMER_ACCOUNT_BALANCE = "checkAccountBalnce";
+
 
 
 

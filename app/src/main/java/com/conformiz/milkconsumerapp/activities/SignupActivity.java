@@ -12,9 +12,9 @@ import android.widget.Toast;
 
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.databinding.ActivitySignupBinding;
-import com.conformiz.milkconsumerapp.fragments.fragmentsforsteps.ScreenTwoFragment;
-import com.conformiz.milkconsumerapp.fragments.fragmentsforsteps.ScreenThreeFragment;
-import com.conformiz.milkconsumerapp.fragments.fragmentsforsteps.ScreenOneFragment;
+import com.conformiz.milkconsumerapp.fragments.signupfragments.ScreenTwoFragment;
+import com.conformiz.milkconsumerapp.fragments.signupfragments.ScreenThreeFragment;
+import com.conformiz.milkconsumerapp.fragments.signupfragments.ScreenOneFragment;
 import com.conformiz.milkconsumerapp.models.Request.SignUpUserRootRequest;
 import com.conformiz.milkconsumerapp.models.response.SaveDataResponse;
 import com.conformiz.milkconsumerapp.models.response.UserCreationResponse;
