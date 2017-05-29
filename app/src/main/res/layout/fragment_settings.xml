@@ -13,7 +13,7 @@
         android:layout_marginBottom="10dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/white"
@@ -24,6 +24,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:paddingLeft="5dp"
                     android:id="@+id/btn_back_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -42,7 +43,7 @@
                     android:textSize="22sp"
                     android:textStyle="bold" />
             </RelativeLayout>
-        </android.support.v7.widget.Toolbar>
+        </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
@@ -77,28 +78,27 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Change Password -->
-        <!--<LinearLayout-->
-            <!--android:id="@+id/ll_row_change_password"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@drawable/circle_round"-->
-            <!--android:orientation="horizontal">-->
+        <LinearLayout
+            android:id="@+id/ll_row_change_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/circle_round"
+            android:orientation="horizontal">
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:drawableLeft="@drawable/btn_logout"-->
-                <!--android:drawablePadding="15dp"-->
-                <!--android:drawableStart="@drawable/change_password"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:text="Change Password"-->
-                <!--android:textColor="@color/bgblue"-->
-                <!--android:textSize="20sp"-->
-                <!--android:textStyle="bold" />-->
-        <!--</LinearLayout>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawableLeft="@drawable/btn_logout"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/change_password"
+                android:gravity="center_vertical"
+                android:text="Change Password"
+                android:textColor="@color/bgblue"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
 
         <!-- Logout -->

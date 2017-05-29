@@ -32,6 +32,8 @@ public class ProfileViewFragment extends Fragment implements INetworkListener, V
     private TextView userNameTV, emailTV, idCardTV, phoneTV, addressTV;
     ProgressDialog dialog;
 
+    ProfileViewRootResponseData responseData = new ProfileViewRootResponseData();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class ProfileViewFragment extends Fragment implements INetworkListener, V
         addressTV = (TextView) view.findViewById(R.id.tv_show_address);
 
         view.findViewById(R.id.btn_back_profile_view).setOnClickListener(this);
+        view.findViewById(R.id.btn_profile_edit).setOnClickListener(this);
+
 
         JSONObject request = new JSONObject();
 
@@ -76,7 +80,7 @@ public class ProfileViewFragment extends Fragment implements INetworkListener, V
 
         if(result!= null && result instanceof ProfileViewRootResponse){
             ProfileViewRootResponse response = (ProfileViewRootResponse)result;
-            ProfileViewRootResponseData responseData = response.getData();
+            responseData = response.getData();
             userNameTV.setText(responseData.getFullname());
             emailTV.setText(responseData.getEmail());
             idCardTV.setText(responseData.getCnic());
@@ -99,6 +103,7 @@ public class ProfileViewFragment extends Fragment implements INetworkListener, V
             case R.id.btn_profile_edit:
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 ProfileEditFragment profileEditFragment = new ProfileEditFragment();
+                profileEditFragment.setData(responseData);
                 MyFragmentManager.getInstance().addFragment(profileEditFragment);
                 transaction.replace(R.id.fragment_container, profileEditFragment).commit();
                 break;
@@ -106,6 +111,8 @@ public class ProfileViewFragment extends Fragment implements INetworkListener, V
             case R.id.btn_back_profile_view:
                 ((MainActivity) getActivity()).onBackPressed();
                 break;
+
+
 
         }
 

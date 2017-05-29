@@ -11,7 +11,7 @@
         android:layout_marginBottom="10dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/white"
@@ -22,12 +22,12 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:paddingLeft="5dp"
                     android:id="@+id/btn_back_deliveries_record"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/btn_back_design" />
 
@@ -35,13 +35,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Deliveries Record"
+                    android:text="Order History"
+                    android:paddingRight="40dp"
                     android:textColor="@color/bgblue"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
 
                 <Button
+                    android:translationZ="5dp"
                     android:id="@+id/btn_select_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,7 +59,7 @@
                     android:textAllCaps="false" />
 
             </RelativeLayout>
-        </android.support.v7.widget.Toolbar>
+        </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout

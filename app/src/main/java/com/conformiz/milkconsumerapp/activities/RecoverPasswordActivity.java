@@ -8,16 +8,19 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.conformiz.milkconsumerapp.R;
+import com.conformiz.milkconsumerapp.models.SaveDataObjectResponse;
 import com.conformiz.milkconsumerapp.models.response.SaveDataArrayResponse;
 import com.conformiz.milkconsumerapp.models.response.SaveDataResponse;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;
+import com.conformiz.milkconsumerapp.utils.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +35,8 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
     private boolean isValidate = false;
     private ProgressDialog mProgressDialog;
 
+    Button recoverPasswordBT;
+
     private EditText emailOrPhoneET;
 
    // private TextView emailOrPhoneTV;
@@ -41,10 +46,14 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recover_password);
 
+        recoverPasswordBT = (Button) findViewById(R.id.btn_recover_password);
         emailOrPhoneET = (EditText) findViewById(R.id.et_email_forget_pass);
       //  emailOrPhoneTV = (TextView) findViewById(R.id.tv_email_phone);
         emailOrPhoneET.setOnFocusChangeListener(this);
-        findViewById(R.id.btn_recover_password).setOnClickListener(this);
+        recoverPasswordBT.setOnClickListener(this);
+
+        Utility.getInstance().buttonEffect(recoverPasswordBT,R.color.app_brown_light);
+        findViewById(R.id.btn_back_recover_password).setOnClickListener(this);
 
 
        // ((TriStateToggleButton) findViewById(R.id.tb_email_or_password)).setOnToggleChanged(this);
@@ -67,8 +76,12 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
                         e.printStackTrace();
                     }
 
-                    NetworkOperations.getInstance().postData(RecoverPasswordActivity.this, Constants.ACTION_GET_RECOVER_PASSWORD,request,this, SaveDataResponse.class);
+                    NetworkOperations.getInstance().postData(RecoverPasswordActivity.this, Constants.ACTION_GET_RECOVER_PASSWORD,request,this, SaveDataObjectResponse.class);
                 }
+                break;
+
+            case R.id.btn_back_recover_password:
+                onBackPressed();
                 break;
         }
 
@@ -97,10 +110,10 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
 
-            if(result !=null  && result instanceof SaveDataResponse){
-                SaveDataResponse response = (SaveDataResponse)result;
+            if(result !=null  && result instanceof SaveDataObjectResponse){
+                SaveDataObjectResponse response = (SaveDataObjectResponse)result;
                 if(response.getSuccess()){
-                    showMessageDialog("Your Password is: "+response.getData());
+                    showMessageDialog(""+response.getMessage());
                 } else{
                     Toast.makeText(RecoverPasswordActivity.this,""+response.getMessage(),Toast.LENGTH_SHORT).show();
                 }
@@ -143,7 +156,23 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
         if(TextUtils.isEmpty(emailOrPhoneET.getText().toString())){
             isValidate = false;
             emailOrPhoneET.setError("Please Enter Your Phone");
-        } else {
+        } else if(emailOrPhoneET.getText().toString().length()>0){
+
+
+            String str = emailOrPhoneET.getText().toString().substring(0,3);
+
+            Log.i("tag", "checkValidation: "+str);
+            if(str.equalsIgnoreCase("+92")){
+                isValidate = true;
+            }else {
+                emailOrPhoneET.setError("Please write phone number in the format of +923xxxxxxxxx");
+                isValidate = false;
+
+            }
+
+        }
+
+        else {
             isValidate = true;
         }
 

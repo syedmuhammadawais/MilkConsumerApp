@@ -14,14 +14,22 @@
     <color name="white">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="red">#FF5252</color>
-    <color name="light_red">#FF5252</color>
+    <color name="light_red">#FFB2B2</color>
 
     <color name="green">#558811</color>
     <color name="yellow_dark">#cccc00</color>
     <color name="yellow">#e5e500</color>
     <color name="toggle_yellow">#FFB30C</color>
 
+    <!-- WEEK COLORS-->
 
+    <color name="monday">#6033AF</color>
+    <color name="tuesday">#0D3289</color>
+    <color name="wednesday">#D8202A</color>
+    <color name="thursday">#B0BD20</color>
+    <color name="friday">#F8850A</color>
+    <color name="saturday">#A2912C</color>
+    <color name="sunday">#48CEC9</color>
 
     <color name="app_black">#131313</color>
     <color name="app_black_light">#333333</color>

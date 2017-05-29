@@ -14,8 +14,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        new MyTimer(200, 2000).start();
+        new MyTimer(3000, 1000).start();
     }
 
     private final class MyTimer extends CountDownTimer {

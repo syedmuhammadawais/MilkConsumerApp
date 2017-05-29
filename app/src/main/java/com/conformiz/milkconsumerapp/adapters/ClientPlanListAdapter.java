@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.callbacks.OnItemClick;
 import com.conformiz.milkconsumerapp.models.response.ClientPlansRootResponseData;
+import com.conformiz.milkconsumerapp.utils.Utility;
 import com.conformiz.milkconsumerapp.viewholders.PlanListVH;
 
 import java.util.ArrayList;
@@ -52,20 +53,27 @@ public class ClientPlanListAdapter extends RecyclerView.Adapter<PlanListVH> {
 
         ClientPlansRootResponseData item = mData.get(position);
 
-        holder.getProductName().setText(item.getProduct_name());
-        holder.getProductDate().setText("Plan Start Date: " + item.getOrderStartDate());
 
         if (item.getOrder_type().contains("s") && item.getOrder_type().equalsIgnoreCase("spacial") || item.getOrder_type().equalsIgnoreCase("special")) {
-            holder.getProductOrderType().setVisibility(View.VISIBLE);
-        } else{
+//            holder.getProductOrderType().setVisibility(View.VISIBLE);
+            holder.getProductName().setText(item.getProduct_name() + " (Special)");
+            holder.getProductDate().setText("From:  " + Utility.getInstance().changeDateFormat(item.getStart_date()) +
+                    "   To:  " + Utility.getInstance().changeDateFormat(item.getEnd_date())
+            );
+        } else if (item.getOrder_type().equalsIgnoreCase("regular")) {
+            if (!item.getIs_halt().equalsIgnoreCase("0")) {
+                holder.getProductName().setText(item.getProduct_name() + " (Stopped)");
+            } else {
+                holder.getProductName().setText(item.getProduct_name() + " (Regular)");
+            }
+            holder.getProductDate().setText("Plan Start Date: " + Utility.getInstance().changeDateFormat(item.getStart_date()));
             holder.getProductOrderType().setVisibility(View.INVISIBLE);
-
         }
 
         holder.getRow().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  mOnItemClick.onClick(position, 100);
+                mOnItemClick.onClick(position, 100);
             }
         });
 

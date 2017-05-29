@@ -3,11 +3,14 @@ package com.conformiz.milkconsumerapp.models.response;
 public class ClientPlansRootResponseData implements java.io.Serializable {
     private static final long serialVersionUID = 3463179830035345727L;
     private String unit;
-    private String orderStartDate;
+    private String start_date;
+    private String end_date;
     private String price;
     private String product_id;
     private String product_name;
     private String order_type;
+    private String is_halt;
+
 
 
     public String getUnit() {
@@ -16,14 +19,6 @@ public class ClientPlansRootResponseData implements java.io.Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit;
-    }
-
-    public String getOrderStartDate() {
-        return this.orderStartDate;
-    }
-
-    public void setOrderStartDate(String orderStartDate) {
-        this.orderStartDate = orderStartDate;
     }
 
     public String getPrice() {
@@ -56,5 +51,29 @@ public class ClientPlansRootResponseData implements java.io.Serializable {
 
     public void setOrder_type(String order_type) {
         this.order_type = order_type;
+    }
+
+    public String getStart_date() {
+        return start_date;
+    }
+
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
+    }
+
+    public String getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(String end_date) {
+        this.end_date = end_date;
+    }
+
+    public String getIs_halt() {
+        return is_halt;
+    }
+
+    public void setIs_halt(String is_halt) {
+        this.is_halt = is_halt;
     }
 }

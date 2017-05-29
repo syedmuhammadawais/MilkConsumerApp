@@ -4,13 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.callbacks.OnItemClick;
-import com.conformiz.milkconsumerapp.fragments.ClientPlansFragment;
 import com.conformiz.milkconsumerapp.fragments.DashboardFragment;
 import com.conformiz.milkconsumerapp.fragments.ComplaintsFragment;
 import com.conformiz.milkconsumerapp.fragments.DeliveriesRecordFragment;
+import com.conformiz.milkconsumerapp.fragments.HowToPayFragment;
 import com.conformiz.milkconsumerapp.fragments.ProductsFragment;
 import com.conformiz.milkconsumerapp.fragments.SettingsFragment;
 import com.conformiz.milkconsumerapp.fragments.paymentfragments.PaymentFragment;
@@ -31,10 +30,7 @@ public class MyFragmentManager implements Constants, OnItemClick {
     Stack<Fragment> mHomeTabStack;
     DashboardFragment homeFragment;
 
-   // DashboardChatFragment mDashboardChatFragment;
-    //DashboardMessagesFragment messageFragment;
-    //Settings settingsFragment;
-    //DashboardMoreFragment moreFragment;
+
     int selectedTab = 1 ;//TAB_HOME;
 
     private MyFragmentManager() {
@@ -62,18 +58,6 @@ public class MyFragmentManager implements Constants, OnItemClick {
         homeFragment.setOnItemClick(this);
         addFragment(homeFragment);
 
-
-//        mDashboardChatFragment = new DashboardChatFragment();
-//        mDashboardChatFragment.setOnItemClick(this);
-//
-////        messageFragment = new DashboardMessagesFragment();
-////        messageFragment.setOnItemClick(this);
-//
-//        settingsFragment = new Settings();
-//        settingsFragment.setOnItemClick(this);
-//
-//        moreFragment = new DashboardMoreFragment();
-//        moreFragment.setOnItemClick(this);
     }
 
     @Override
@@ -83,9 +67,8 @@ public class MyFragmentManager implements Constants, OnItemClick {
         switch (pPosition) {
 
 
-
-
             case R.id.rl_manage_order:
+            case R.id.iv_manager_order:
                 Log.i(TAG, "onClick: on manage order click");
                 ProductsFragment productsFragment = new ProductsFragment();
                 addFragment(productsFragment);
@@ -103,6 +86,7 @@ public class MyFragmentManager implements Constants, OnItemClick {
                 break;
 
             case R.id.rl_deliveries_history:
+            case R.id.iv_deliveries_history:
                 Log.i(TAG, "onClick: on DELEVIER order click");
                 DeliveriesRecordFragment deliveriesRecordFragment = new DeliveriesRecordFragment();
                 addFragment(deliveriesRecordFragment);
@@ -115,6 +99,7 @@ public class MyFragmentManager implements Constants, OnItemClick {
                 break;
 
             case R.id.rl_payments:
+            case R.id.iv_payments:
                 Log.i(TAG, "onClick: on Payments  click");
 
                 PaymentFragment paymentFragment = new PaymentFragment();
@@ -124,6 +109,7 @@ public class MyFragmentManager implements Constants, OnItemClick {
                 break;
 
             case R.id.rl_complaints:
+            case R.id.iv_complaints:
                 Log.i(TAG, "onClick: on rl_complaints  click");
 
                 ComplaintsFragment complaintsFragment = new ComplaintsFragment();
@@ -133,10 +119,24 @@ public class MyFragmentManager implements Constants, OnItemClick {
                 break;
 
             case R.id.rl_settings:
+            case R.id.iv_settings:
                 Log.i(TAG, "onClick: on rl_settings  click");
                 SettingsFragment settingsFragment = new SettingsFragment();
                 addFragment(settingsFragment);
                 transaction.replace(R.id.fragment_container,settingsFragment);
+               // ChangePasswordFragment changePassword = new ChangePasswordFragment();
+               // addFragment(changePassword);
+               // transaction.replace(R.id.fragment_container_dashboard, changePassword);
+
+                break;
+
+
+            case R.id.rl_how_to_pay:
+            case R.id.iv_how_to_pay:
+                Log.i(TAG, "onClick: on rl_settings  click");
+                HowToPayFragment howToPayFragment = new HowToPayFragment();
+                addFragment(howToPayFragment);
+                transaction.replace(R.id.fragment_container,howToPayFragment);
                // ChangePasswordFragment changePassword = new ChangePasswordFragment();
                // addFragment(changePassword);
                // transaction.replace(R.id.fragment_container_dashboard, changePassword);

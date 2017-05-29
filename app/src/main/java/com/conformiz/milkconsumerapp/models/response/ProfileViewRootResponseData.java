@@ -9,6 +9,15 @@ public class ProfileViewRootResponseData implements java.io.Serializable {
     private String fullname;
     private String cnic;
     private String email;
+    private String client_id;
+
+    public String getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(String client_id) {
+        this.client_id = client_id;
+    }
 
     public String getZone_id() {
         return this.zone_id;

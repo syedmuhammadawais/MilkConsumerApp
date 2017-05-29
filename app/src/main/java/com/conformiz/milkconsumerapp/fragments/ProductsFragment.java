@@ -29,6 +29,9 @@ import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;
 import com.conformiz.milkconsumerapp.utils.SharedPreferenceUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -68,7 +71,15 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
         productsRV.setItemAnimator(new DefaultItemAnimator());
         productsRV.setAdapter(mProductsListAdapter);
 
-        NetworkOperations.getInstance().getProductsList(getActivity(), this);
+        JSONObject request = new JSONObject();
+        try {
+            request.put("client_id", SharedPreferenceUtil.getInstance(getActivity()).getClientId() + "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        NetworkOperations.getInstance().postData(getActivity(), Constants.ACTION_POST_ALL_PRODUCT, request, this, AllProductsRootResponse.class);
+        //  NetworkOperations.getInstance().getProductsList(getActivity(), this);
         return view;
     }
 
@@ -109,27 +120,33 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
     @Override
     public void onClick(int pPosition, int id) {
         Log.i(TAG, "onClick: " + productsDataList.get(pPosition).getProduct_name());
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
 
         switch (id) {
             case ON_CLICK_PRODUCT:
                 String clientId = SharedPreferenceUtil.getInstance(getActivity()).getClientId();
-                String productId = productsDataList.get(pPosition).getProduct_id();
-                String productUnit = productsDataList.get(pPosition).getUnit();
-                String productName = productsDataList.get(pPosition).getProduct_name();
-                Intent intent = getActivity().getIntent();
+//                String productId = productsDataList.get(pPosition).getProduct_id();
+//                String productUnit = productsDataList.get(pPosition).getUnit();
+//                String productName = productsDataList.get(pPosition).getProduct_name();
+//                String productPrice = productsDataList.get(pPosition).getPrice();
 
-                if (intent != null) {
-                    Log.i(TAG, "onClick: Selected Order Type = " + intent.getStringExtra("selected_plan"));
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    ProductScheduleFragment productScheduleFragment = new ProductScheduleFragment();
-                    productScheduleFragment.setProductId(productId);
-                    productScheduleFragment.setProductUnit(productUnit);
-                    productScheduleFragment.setProductName(productName);
+                    if(productsDataList.get(pPosition).getIs_selected().equalsIgnoreCase("0")) {
+                        ProductScheduleFragment productScheduleFragment = new ProductScheduleFragment();
+                        productScheduleFragment.setSelectedProductData(productsDataList.get(pPosition));
+//                    productScheduleFragment.setProductId(productId);
+//                    productScheduleFragment.setProductUnit(productUnit);
+//                    productScheduleFragment.setProductName(productName);
+//                    productScheduleFragment.setProductPrice(productPrice);
 
-                    MyFragmentManager.getInstance().addFragment(productScheduleFragment);
-                    transaction.replace(R.id.fragment_container, productScheduleFragment).commit();
-
+                        MyFragmentManager.getInstance().addFragment(productScheduleFragment);
+                        transaction.replace(R.id.fragment_container, productScheduleFragment).commit();
+                    } else{
+                        PlanSelectionFragment planSelectionFragment = new PlanSelectionFragment();
+                        planSelectionFragment.setSelectedProductData(productsDataList.get(pPosition));
+                        MyFragmentManager.getInstance().addFragment(planSelectionFragment);
+                        transaction.replace(R.id.fragment_container,planSelectionFragment).commit();
+                    }
 //                    if (intent.getStringExtra("selected_plan").equalsIgnoreCase(Constants.ADD_SPECIAL_ORDER + "")) {
 //
 //                        SpecialOrderFragment specialOrderFragment = new SpecialOrderFragment();
@@ -145,9 +162,6 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
 //                        transaction.replace(R.id.fragment_container, productScheduleFragment).commit();
 //                    }
 
-                } else {
-                    Log.i(TAG, "onClick: null of selected_plan");
-                }
 
                 break;
 

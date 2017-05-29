@@ -44,8 +44,8 @@ public class LoginActivity extends AppCompatActivity implements
         bindView = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
         bindView.btnLogin.setOnClickListener(this);
-        Utility.buttonEffect(bindView.btnLogin);
-        Utility.buttonEffect(bindView.btnSignUp);
+        Utility.getInstance().buttonEffect(bindView.btnLogin,R.color.app_brown_light);
+        Utility.getInstance().buttonEffect(bindView.btnSignUp,R.color.app_brown_light);
 
         bindView.btnSignUp.setOnClickListener(this);
         bindView.tvForgetPassword.setOnClickListener(this);
@@ -134,9 +134,14 @@ public class LoginActivity extends AppCompatActivity implements
 
             if (response.getSuccess()) {
                 SharedPreferenceUtil.getInstance(LoginActivity.this).saveClientId(response.getData().getClient_id());
+                SharedPreferenceUtil.getInstance(LoginActivity.this).saveClientFullName(response.getData().getFullname());
+                SharedPreferenceUtil.getInstance(LoginActivity.this).saveClientEmail(response.getData().getEmail());
+                SharedPreferenceUtil.getInstance(LoginActivity.this).saveClientContact(response.getData().getCell_no_1());
+
+
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
-                Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 Toast.makeText(LoginActivity.this, response.getMessage() + "", Toast.LENGTH_SHORT).show();

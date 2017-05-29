@@ -33,6 +33,9 @@ public class PostRequest implements IRequest {
 
         try {
             String URL = Constants.URL_BASE_URL+action;
+            if(action.contains("interpayafrica") || action.contains("milk")){
+                URL = action;
+            }
            // String baseURL = Utility.getInstance().getBaseURL(context);
             Log.d("debug", "URL: " + "baseURL "+ URL);
             Log.d("debug", "BODY: " + bodyData);

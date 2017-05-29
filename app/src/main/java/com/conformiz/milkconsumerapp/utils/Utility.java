@@ -9,10 +9,14 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.activities.MainActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,7 +40,6 @@ public class Utility {
 
         return (netInfo != null && netInfo.isConnected());
     }
-
 
     public boolean isContainOneNumberAndString(String s) {
         String number = ".*[0-9].*";
@@ -126,22 +129,40 @@ public class Utility {
 
     }
 
-    public  boolean isValidEmail(CharSequence target) {
-        Log.i("Test email value", "isValidEmail: "+ android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    public boolean isValidEmail(CharSequence target) {
+        Log.i("Test email value", "isValidEmail: " + android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches());
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
 
     }
 
+    public String changeDateFormat(String strDate) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("MMM d, yyyy");
+        Date date = null;
+        String str = null;
+        if (strDate.trim().length() > 0) {
 
+            try {
+                date = inputFormat.parse(strDate);
+                str = outputFormat.format(date);
+                Log.i("Formatted Date", "changeDateFormat: Data is " + str);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return str;
+    }
 
     // UI Button Pressed State UIs
-    public static void buttonEffect(View button){
+    public void buttonEffect(View button, final int color) {
+
         button.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                        v.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
                         v.invalidate();
                         break;
                     }
@@ -155,5 +176,87 @@ public class Utility {
             }
         });
     }
+
+    // UI Button Pressed State UIs
+    public void imageViewClickEffect(ImageView imageView, final int color) {
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        Log.i("Down", "onTouch: DOWN");
+                        ImageView view = (ImageView) v;
+                        //overlay is black with transparency of 0x77 (119)
+                        view.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                        view.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        Log.i("UP", "onTouch: UP");
+                        ImageView view = (ImageView) v;
+                        //clear the overlay
+                        view.getDrawable().clearColorFilter();
+                        view.invalidate();
+                        break;
+                    }
+                }
+
+                return false;
+            }
+        });
+
+    }
+
+    public void showMessageDialog(String msg, Context context) {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
+        builder.setTitle("" + msg)
+                .setIcon(R.drawable.product_info)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+
+
+                    }
+                });
+
+        builder.show();
+    }
+
+    public boolean compareTwoDates(String firstDate, String secondDate) {
+
+        boolean isSecondGreater = false;
+        try {
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date date1 = formatter.parse(firstDate);
+            Date date2 = formatter.parse(secondDate);
+
+            if (date1.compareTo(date2) <= 0) {
+                isSecondGreater = true;
+                System.out.println("date2 is Greater than my date1");
+            }
+
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+        return isSecondGreater;
+    }
+
+    // date format should be yyyy-MM-dd
+    public int [] getYearMonthDay(String date){
+
+        String [] yearDayMonth = date.split("-");
+        int []integerArray = new int[yearDayMonth.length];
+        integerArray[0] = Integer.parseInt(yearDayMonth[0]);
+        integerArray[1] = Integer.parseInt(yearDayMonth[1])-1;
+        integerArray[2] = Integer.parseInt(yearDayMonth[2]);
+
+        return integerArray;
+    }
+
 
 }

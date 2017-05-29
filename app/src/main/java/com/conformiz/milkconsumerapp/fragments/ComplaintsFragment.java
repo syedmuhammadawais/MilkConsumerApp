@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +18,11 @@ import android.widget.Toast;
 
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.activities.MainActivity;
+import com.conformiz.milkconsumerapp.mainfragmentmanager.MyFragmentManager;
+import com.conformiz.milkconsumerapp.models.SaveDataObjectResponse;
 import com.conformiz.milkconsumerapp.models.response.ComplaintsReasonsRootResponse;
 import com.conformiz.milkconsumerapp.models.response.ComplaintsReasonsRootResponseData;
-import com.conformiz.milkconsumerapp.models.response.SaveDataResponse;
+import com.conformiz.milkconsumerapp.models.response.SaveDataArrayResponse;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;
@@ -62,6 +65,8 @@ public class ComplaintsFragment extends Fragment implements INetworkListener,
 
         view.findViewById(R.id.btn_submit_complaint).setOnClickListener(this);
         view.findViewById(R.id.btn_back_complaints).setOnClickListener(this);
+        view.findViewById(R.id.btn_view_complaints).setOnClickListener(this);
+
         //((TextView)getActivity().findViewById(R.id.tv_screen_header)).setText("Complaints");
         mComplaintSpinner.setOnItemSelectedListener(this);
         dialog = new ProgressDialog(getActivity());
@@ -73,7 +78,7 @@ public class ComplaintsFragment extends Fragment implements INetworkListener,
     @Override
     public void onPreExecute() {
         dialog = new ProgressDialog(getActivity());
-        dialog.setMessage("Loading Plan Details....");
+        dialog.setMessage("Sending Complaint....");
         dialog.setCancelable(false);
         dialog.show();
     }
@@ -94,8 +99,8 @@ public class ComplaintsFragment extends Fragment implements INetworkListener,
                 }
             }
 
-            if (result instanceof SaveDataResponse) {
-                SaveDataResponse response = (SaveDataResponse) result;
+            if (result instanceof SaveDataObjectResponse) {
+                SaveDataObjectResponse response = (SaveDataObjectResponse) result;
                 if (response.getSuccess()) {
                     Utility.getInstance().onSuccessSubmitDialog("Complaint Sent Successfully", getActivity());
                 } else {
@@ -119,14 +124,14 @@ public class ComplaintsFragment extends Fragment implements INetworkListener,
     public void onFocusChange(View v, boolean hasFocus) {
 
         switch (v.getId()) {
-            case R.id.et_complaint_text:
-                if (!hasFocus) {
-                    isValidate = complaintTextArea.getText().toString().trim().length() > 0;
-                    if (!isValidate) {
-                        complaintTextArea.setError("Please Write Some Detail");
-                    }
-                }
-                break;
+//            case R.id.et_complaint_text:
+//                if (!hasFocus) {
+//                    isValidate = complaintTextArea.getText().toString().trim().length() > 0;
+//                    if (!isValidate) {
+//                        complaintTextArea.setError("Please Write Some Detail");
+//                    }
+//                }
+               // break;
         }
     }
 
@@ -136,36 +141,51 @@ public class ComplaintsFragment extends Fragment implements INetworkListener,
 
         switch (v.getId()) {
 
+
+            case R.id.btn_view_complaints:
+
+                ComplaintsViewFragment complaintsViewFragment = new ComplaintsViewFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                MyFragmentManager.getInstance().addFragment(complaintsViewFragment);
+                fragmentTransaction.replace(R.id.fragment_container, complaintsViewFragment).commit();
+
+                break;
+
             case R.id.btn_back_complaints:
                 ((MainActivity) getActivity()).onBackPressed();
                 break;
 
             case R.id.btn_submit_complaint:
                 if (isValidated()) {
+
                     JSONObject requestJson = new JSONObject();
                     try {
                         requestJson.put("complain_type_id", selectedReasonId);
                         requestJson.put("client_id", SharedPreferenceUtil.getInstance(getActivity()).getClientId());
-                        requestJson.put("query_text", complaintTextArea.getText().toString());
+                        requestJson.put("query_text", complaintTextArea.getText().toString()+"");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    NetworkOperations.getInstance().postData(getActivity(), Constants.ACTION_POST_SAVE_COMPLAINT, requestJson, this, SaveDataResponse.class);
+
+                    NetworkOperations.getInstance().postData(getActivity(), Constants.ACTION_POST_SAVE_COMPLAINT, requestJson, this, SaveDataObjectResponse.class);
                     Log.i(TAG, "onClick: Everything true");
                 } else {
                     Toast.makeText(getActivity(), "Please Update Fields With Error Message", Toast.LENGTH_SHORT).show();
                 }
+
+                break;
         }
     }
 
     public boolean isValidated() {
-        if (TextUtils.isEmpty(complaintTextArea.getText().toString().trim())) {
-            complaintTextArea.setError("Please Write Some Detail");
-            isValidate = false;
-        } else {
-            isValidate = true;
-        }
-        return isValidate;
+//        if (TextUtils.isEmpty(complaintTextArea.getText().toString().trim())) {
+//            complaintTextArea.setError("Please Write Some Detail");
+//            isValidate = false;
+//        } else {
+//            isValidate = true;
+//        }
+//        return isValidate;
+        return true;
     }
 
     @Override

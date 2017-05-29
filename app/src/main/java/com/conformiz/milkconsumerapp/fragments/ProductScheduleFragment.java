@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.activities.MainActivity;
 import com.conformiz.milkconsumerapp.mainfragmentmanager.MyFragmentManager;
+import com.conformiz.milkconsumerapp.models.response.AllProductsRootResponseData;
 import com.conformiz.milkconsumerapp.models.response.PreferredTimeListRootResponse;
 import com.conformiz.milkconsumerapp.models.response.PreferredTimeListRootResponseData;
 import com.conformiz.milkconsumerapp.models.response.ProductWeeklyScheduleRootResponse;
@@ -28,16 +29,15 @@ import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;
 import com.conformiz.milkconsumerapp.utils.SharedPreferenceUtil;
+import com.conformiz.milkconsumerapp.utils.Utility;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 import it.beppi.tristatetogglebutton_library.TriStateToggleButton;
@@ -49,22 +49,16 @@ import it.beppi.tristatetogglebutton_library.TriStateToggleButton;
 public class ProductScheduleFragment extends Fragment implements View.OnClickListener, View.OnFocusChangeListener, INetworkListener {
 
     String TAG = "ProductSchedule ";
-    private String mProductId = "0";
-    private String mProductUnit = "";
-    private String mProductName = "";
 
-
-    private int selectedIndexReferredTime = 0;
+    AllProductsRootResponseData mSelectedProductData = new AllProductsRootResponseData();
     private String mClientId = "";
     private ProgressDialog dialog;
-
-    int autoUpdateUI = 0;
 
     // 0 for new 1 for update
     int isPlanUpdate = 0;
 
     TriStateToggleButton tb_Monday, tb_Tuesday, tb_Wednesday, tb_Thursday, tb_Friday, tb_Saturday, tb_Sunday;
-    EditText time_et_monday, time_et_tuesday, time_et_wednesday, time_et_thursday, time_et_friday, time_et_saturday, time_et_sunday;
+    //   EditText time_et_monday, time_et_tuesday, time_et_wednesday, time_et_thursday, time_et_friday, time_et_saturday, time_et_sunday;
     EditText quantity_et_monday, quantity_et_tuesday, quantity_et_wednesday, quantity_et_thursday, quantity_et_friday, quantity_et_saturday, quantity_et_sunday;
 
     TextView orderStartDate;
@@ -79,10 +73,14 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_schedule, container, false);
 
-         ((TextView) view.findViewById(R.id.tv_weekly_product_name)).setText(mProductName);
+        ((TextView) view.findViewById(R.id.tv_weekly_product_name)).setText(mSelectedProductData.getProduct_name());
+        ((TextView) view.findViewById(R.id.tv_rate_ps)).setText("Rs " + mSelectedProductData.getPrice() + " per " + mSelectedProductData.getUnit());
 
-        HashMap<String, String> test = new HashMap<>();
-        test.put("key1", "value1");
+        if (mSelectedProductData.getPrice().trim().length() > 0) {
+            ((TextView) view.findViewById(R.id.tv_month_bill_repeat)).setText("Rs " + Integer.parseInt(mSelectedProductData.getPrice()) * 30);
+        } else {
+            ((TextView) view.findViewById(R.id.tv_month_bill_repeat)).setText("Rs " + mSelectedProductData.getPrice());
+        }
 
         orderStartDate = (TextView) view.findViewById(R.id.et_start_date);
         orderStartDate.setOnClickListener(this);
@@ -90,15 +88,20 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         view.findViewById(R.id.btn_special_order).setOnClickListener(this);
         view.findViewById(R.id.btn_back_schedule).setOnClickListener(this);
 
-        ((TextView) view.findViewById(R.id.tv_unit_monday_0)).setText(mProductUnit);
-        ((TextView) view.findViewById(R.id.tv_unit_tuesday_1)).setText(mProductUnit);
-        ((TextView) view.findViewById(R.id.tv_unit_wednesday_2)).setText(mProductUnit);
-        ((TextView) view.findViewById(R.id.tv_unit_thursday_3)).setText(mProductUnit);
-        ((TextView) view.findViewById(R.id.tv_unit_friday_4)).setText(mProductUnit);
-        ((TextView) view.findViewById(R.id.tv_unit_saturday_5)).setText(mProductUnit);
-        ((TextView) view.findViewById(R.id.tv_unit_sunday_6)).setText(mProductUnit);
+        view.findViewById(R.id.btn_fps_save_plan).setOnClickListener(this);
+        Utility.getInstance().buttonEffect(view.findViewById(R.id.btn_fps_save_plan), R.color.app_brown_light);
+
+        String productUnit = mSelectedProductData.getUnit();
+        ((TextView) view.findViewById(R.id.tv_unit_monday_0)).setText(productUnit);
+        ((TextView) view.findViewById(R.id.tv_unit_tuesday_1)).setText(productUnit);
+        ((TextView) view.findViewById(R.id.tv_unit_wednesday_2)).setText(productUnit);
+        ((TextView) view.findViewById(R.id.tv_unit_thursday_3)).setText(productUnit);
+        ((TextView) view.findViewById(R.id.tv_unit_friday_4)).setText(productUnit);
+        ((TextView) view.findViewById(R.id.tv_unit_saturday_5)).setText(productUnit);
+        ((TextView) view.findViewById(R.id.tv_unit_sunday_6)).setText(productUnit);
 
 
+        // Because Using Custom 3rd Party TriStateToggle That's why instead of implementing Interface using separate listeners
         tb_Monday = (TriStateToggleButton) view.findViewById(R.id.tb_fps_monday_0);
         tb_Monday.setOnToggleChanged(new TriStateToggleButton.OnToggleChanged() {
             @Override
@@ -205,23 +208,22 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        time_et_monday = (EditText) view.findViewById(R.id.et_time_monday_0);
-        time_et_tuesday = (EditText) view.findViewById(R.id.et_time_tuesday_1);
-        time_et_wednesday = (EditText) view.findViewById(R.id.et_time_wednesday_2);
-        time_et_thursday = (EditText) view.findViewById(R.id.et_time_thursday_3);
-        time_et_friday = (EditText) view.findViewById(R.id.et_time_friday_4);
-        time_et_saturday = (EditText) view.findViewById(R.id.et_time_saturday_5);
-        time_et_sunday = (EditText) view.findViewById(R.id.et_time_sunday_6);
-
-        time_et_monday.setOnClickListener(this);
-        time_et_tuesday.setOnClickListener(this);
-        time_et_wednesday.setOnClickListener(this);
-        time_et_thursday.setOnClickListener(this);
-        time_et_friday.setOnClickListener(this);
-        time_et_thursday.setOnClickListener(this);
-        time_et_saturday.setOnClickListener(this);
-        time_et_sunday.setOnClickListener(this);
-
+//        time_et_monday = (EditText) view.findViewById(R.id.et_time_monday_0);
+//        time_et_tuesday = (EditText) view.findViewById(R.id.et_time_tuesday_1);
+//        time_et_wednesday = (EditText) view.findViewById(R.id.et_time_wednesday_2);
+//        time_et_thursday = (EditText) view.findViewById(R.id.et_time_thursday_3);
+//        time_et_friday = (EditText) view.findViewById(R.id.et_time_friday_4);
+//        time_et_saturday = (EditText) view.findViewById(R.id.et_time_saturday_5);
+//        time_et_sunday = (EditText) view.findViewById(R.id.et_time_sunday_6);
+//
+//        time_et_monday.setOnClickListener(this);
+//        time_et_tuesday.setOnClickListener(this);
+//        time_et_wednesday.setOnClickListener(this);
+//        time_et_thursday.setOnClickListener(this);
+//        time_et_friday.setOnClickListener(this);
+//        time_et_thursday.setOnClickListener(this);
+//        time_et_saturday.setOnClickListener(this);
+//        time_et_sunday.setOnClickListener(this);
 
         quantity_et_monday = (EditText) view.findViewById(R.id.et_quantity_monday_0);
         quantity_et_tuesday = (EditText) view.findViewById(R.id.et_quantity_tuesday_1);
@@ -240,8 +242,6 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         quantity_et_sunday.setOnFocusChangeListener(this);
 
 
-        view.findViewById(R.id.btn_fps_save_plan).setOnClickListener(this);
-
         NetworkOperations.getInstance().getPreferredTimeList(getActivity(), new INetworkListener<PreferredTimeListRootResponse>() {
             @Override
             public void onPreExecute() {
@@ -250,7 +250,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 
             @Override
             public void onPostExecute(PreferredTimeListRootResponse result) {
-                if (result instanceof PreferredTimeListRootResponse) {
+                if (result != null) {
 
                     PreferredTimeListRootResponse response = (PreferredTimeListRootResponse) result;
 
@@ -262,8 +262,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                             preferredTimeId.put(preferredTimeList.get(i).getPreferred_time_id(), preferredTimeList.get(i).getPreferred_time_name());
                         }
                     } else {
-
-                        Toast.makeText(getActivity(), "Could'nt download Preffered time List", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Could'nt download Preferred time List", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -287,7 +286,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         JSONObject postArgs = new JSONObject();
         try {
             postArgs.put("client_id", SharedPreferenceUtil.getInstance(getActivity()).getClientId());
-            postArgs.put("product_id", mProductId);
+            postArgs.put("product_id", mSelectedProductData.getProduct_id());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -302,9 +301,11 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
             case R.id.btn_special_order:
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 SpecialOrderFragment specialOrderFragment = new SpecialOrderFragment();
-                specialOrderFragment.setProductId(mProductId);
-                specialOrderFragment.setProductUnit(mProductUnit);
-                specialOrderFragment.setProductName(mProductName);
+//                specialOrderFragment.setProductId(mProductId);
+//                specialOrderFragment.setProductUnit(mProductUnit);
+//                specialOrderFragment.setProductName(mProductName);
+                specialOrderFragment.setSelectedProductData(mSelectedProductData);
+
 
                 MyFragmentManager.getInstance().addFragment(specialOrderFragment);
                 transaction.replace(R.id.fragment_container, specialOrderFragment).commit();
@@ -357,31 +358,31 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 
             case R.id.et_time_monday_0:
                 Log.i(TAG, "onClick: ");
-                showPreferredTimeDialog(time_et_monday, 0);
+                //  showPreferredTimeDialog(time_et_monday, 0);
                 break;
 
             case R.id.et_time_tuesday_1:
-                showPreferredTimeDialog(time_et_tuesday, 1);
+                //   showPreferredTimeDialog(time_et_tuesday, 1);
                 break;
 
             case R.id.et_time_wednesday_2:
-                showPreferredTimeDialog(time_et_wednesday, 2);
+                //  showPreferredTimeDialog(time_et_wednesday, 2);
                 break;
 
             case R.id.et_time_thursday_3:
-                showPreferredTimeDialog(time_et_thursday, 3);
+                //   showPreferredTimeDialog(time_et_thursday, 3);
                 break;
 
             case R.id.et_time_friday_4:
-                showPreferredTimeDialog(time_et_friday, 4);
+                //  showPreferredTimeDialog(time_et_friday, 4);
                 break;
 
             case R.id.et_time_saturday_5:
-                showPreferredTimeDialog(time_et_saturday, 5);
+                //  showPreferredTimeDialog(time_et_saturday, 5);
                 break;
 
             case R.id.et_time_sunday_6:
-                showPreferredTimeDialog(time_et_sunday, 6);
+                //  showPreferredTimeDialog(time_et_sunday, 6);
                 break;
 
         }
@@ -393,18 +394,22 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         mProductWeekSchedule = productWeekSchedule;
     }
 
+//    public void setProductId(String productId) {
+//        mProductId = productId;
+//    }
+//
+//    public void setProductUnit(String productUnit) {
+//        mProductUnit = productUnit;
+//    }
+//
+//    public void setProductName(String productName){
+//        mProductName = productName;
+//    }
+//
+//    public void setProductPrice(String productPrice){
+//        mProductPrice = productPrice;
+//    }
 
-    public void setProductId(String productId) {
-        mProductId = productId;
-    }
-
-    public void setProductUnit(String productUnit) {
-        mProductUnit = productUnit;
-    }
-
-    public void setProductName(String productName){
-        mProductName = productName;
-    }
 
     private void savePlan() {
         mResponse.getData().clear();
@@ -414,7 +419,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         Log.i(TAG, "onClick: Json = " + new Gson().toJson(mResponse));
 
         mResponse.setClientId(mClientId);
-        mResponse.setProductId(mProductId);
+        mResponse.setProductId(mSelectedProductData.getProduct_id());
         NetworkOperations.getInstance().postData(getActivity(), Constants.ACTION_POST_SAVE_UPDATE_WEEKLY_PLAN, mResponse, this, SaveDataResponse.class);
 
     }
@@ -444,11 +449,9 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                     mProductWeekSchedule.addAll(mResponse.getData());
 
                     SimpleDateFormat outputFormat = new SimpleDateFormat("MMM d, yyyy");
-
                     if (mResponse.getOrderStartDate().trim().length() > 0) {
 
-                        orderStartDate.setText("Order Start Date: " + changeDateFormat(mResponse.getOrderStartDate()));
-
+                        orderStartDate.setText("Order Start Date: " + Utility.getInstance().changeDateFormat(mResponse.getOrderStartDate()));
                     } else {
                         Calendar cal = Calendar.getInstance();
                         String todaysDate = outputFormat.format(cal.getTime());
@@ -495,7 +498,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
             Log.i(TAG, "updateAllElements: frequency id " + dayNumber);
             switch (dayNumber) {
                 case 0:
-                    updateToggleTimeQuantity(i, tb_Monday, time_et_monday, quantity_et_monday, isUpdate);
+                    updateToggleTimeQuantity(i, tb_Monday, quantity_et_monday, isUpdate);
 //                    if(mProductWeekScgit remote rm originhedule.get(i).getIsSelected().equalsIgnoreCase("1")) {
 //                        tb_Monday.setToggleStatus(2, true);
 //                    }
@@ -505,27 +508,27 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                     break;
 
                 case 1:
-                    updateToggleTimeQuantity(i, tb_Tuesday, time_et_tuesday, quantity_et_tuesday, isUpdate);
+                    updateToggleTimeQuantity(i, tb_Tuesday, quantity_et_tuesday, isUpdate);
                     break;
 
                 case 2:
-                    updateToggleTimeQuantity(i, tb_Wednesday, time_et_wednesday, quantity_et_wednesday, isUpdate);
+                    updateToggleTimeQuantity(i, tb_Wednesday, quantity_et_wednesday, isUpdate);
                     break;
 
                 case 3:
-                    updateToggleTimeQuantity(i, tb_Thursday, time_et_thursday, quantity_et_thursday, isUpdate);
+                    updateToggleTimeQuantity(i, tb_Thursday, quantity_et_thursday, isUpdate);
                     break;
 
                 case 4:
-                    updateToggleTimeQuantity(i, tb_Friday, time_et_friday, quantity_et_friday, isUpdate);
+                    updateToggleTimeQuantity(i, tb_Friday, quantity_et_friday, isUpdate);
                     break;
 
                 case 5:
-                    updateToggleTimeQuantity(i, tb_Saturday, time_et_saturday, quantity_et_saturday, isUpdate);
+                    updateToggleTimeQuantity(i, tb_Saturday, quantity_et_saturday, isUpdate);
                     break;
 
                 case 6:
-                    updateToggleTimeQuantity(i, tb_Sunday, time_et_sunday, quantity_et_sunday, isUpdate);
+                    updateToggleTimeQuantity(i, tb_Sunday, quantity_et_sunday, isUpdate);
                     break;
 
             }
@@ -533,14 +536,15 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 
     }
 
-    public void updateToggleTimeQuantity(int index, TriStateToggleButton toggle, EditText time, EditText quantity, int isUpdate) {
+    public void updateToggleTimeQuantity(int index, TriStateToggleButton toggle, EditText quantity, int isUpdate) {
 
+        // 0 for new 1 for update
         if (isUpdate == 0) {
             if (mProductWeekSchedule.get(index).getIsSelected().equalsIgnoreCase("1")) {
                 toggle.setToggleStatus(2, true);
                 String timeValue = mProductWeekSchedule.get(index).getPreferredTime();
-                time.setText(timeValue.trim().length() == 0 || timeValue == null || timeValue.equalsIgnoreCase("0") ? "Select Time" : "" + preferredTimeId.get(timeValue));
-
+                //  time.setText(timeValue.trim().length() == 0 || timeValue == null || timeValue.equalsIgnoreCase("0") ? "Select Time" : "" + preferredTimeId.get(timeValue));
+                mProductWeekSchedule.get(index).setPreferredTime("1");
                 if (mProductWeekSchedule.get(index).getQuantity().equalsIgnoreCase("0"))
                     quantity.setText("");
                 else quantity.setText(mProductWeekSchedule.get(index).getQuantity());
@@ -551,7 +555,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                 mProductWeekSchedule.get(index).setIsSelected("0");
             } else
                 mProductWeekSchedule.get(index).setIsSelected("1");
-            //  mProductWeekSchedule.get(index).setPreferredTime(time.getText().toString());
+            mProductWeekSchedule.get(index).setPreferredTime("1");
             if (quantity.getText().toString().equalsIgnoreCase("0") || quantity.getText().toString().trim().length() == 0)
                 mProductWeekSchedule.get(index).setQuantity("0");
             else mProductWeekSchedule.get(index).setQuantity(quantity.getText().toString());
@@ -560,7 +564,6 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
     }
 
     public void alertDatePicker() {
-
     /*
      * Inflate the XML view. activity_main is in res/layout/date_picker.xml
      */
@@ -583,128 +586,13 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                         int month = myDatePicker.getMonth() + 1;
                         int day = myDatePicker.getDayOfMonth();
                         int year = myDatePicker.getYear();
-                        orderStartDate.setText("Order Start Date: " + changeDateFormat(year + "-" + month + "-" + day));
+                        orderStartDate.setText("Order Start Date: " + Utility.getInstance().changeDateFormat(year + "-" + month + "-" + day));
                         mResponse.setOrderStartDate(year + "-" + month + "-" + day);
                         dialog.cancel();
 
                     }
 
                 }).show();
-    }
-
-    public void showPreferredTimeDialog(final EditText editText, final int index) {
-
-        if (mProductWeekSchedule.get(index).getIsSelected().equalsIgnoreCase("0")) {
-            showMessageDialog("Please Turn on the deliver schedule for this day");
-            return;
-        }
-        int selectedIndex = -1;
-        final String[] values = new String[preferredTimeList.size()];
-        for (int i = 0; i < preferredTimeList.size(); i++) {
-            values[i] = preferredTimeList.get(i).getPreferred_time_name();
-        }
-
-
-        String preferredTimeName = "";
-        if (mProductWeekSchedule.size() > 0)
-            preferredTimeName = preferredTimeId.get(mProductWeekSchedule.get(index).getPreferredTime());
-
-        Log.i(TAG, "showPreferredTimeDialog: HasMap = " + preferredTimeName);
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].equalsIgnoreCase(preferredTimeName)) {
-                selectedIndex = i;
-                break;
-            }
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Select Preferred Timings")
-                .setSingleChoiceItems(values, selectedIndex, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        // TODO Auto-generated method stub
-
-                        // editText.setText(values[arg1]);
-
-                        selectedIndexReferredTime = arg1;
-//                        for (int i = 0; i < preferredTimeList.size(); i++) {
-//                            if (preferredTimeList.get(i).getPreferred_time_name().equalsIgnoreCase(values[arg1])) {
-//                                mProductWeekSchedule.get(index).setPreferredTime(preferredTimeList.get(i).getPreferred_time_id());
-//                                Log.i(TAG, "Selected: " + mProductWeekSchedule.get(index).getPreferredTime());
-//                                break;
-//                            }
-//                        }
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        editText.setText(values[selectedIndexReferredTime]);
-
-                        for (int i = 0; i < preferredTimeList.size(); i++) {
-                            if (preferredTimeList.get(i).getPreferred_time_name().equalsIgnoreCase(values[selectedIndexReferredTime])) {
-                                mProductWeekSchedule.get(index).setPreferredTime(preferredTimeList.get(i).getPreferred_time_id());
-                                Log.i(TAG, "Selected: " + mProductWeekSchedule.get(index).getPreferredTime());
-                                break;
-                            }
-                        }
-
-                        if(autoUpdateUI == 0){
-
-                            autoUpdateUI = 1;
-                            autoUpdatePreferredTime();
-                        }
-
-
-//                        Log.i(TAG, "onClick: which in ok "+which);
-//                        editText.setText(values[which]);
-//
-//                        for (int i = 0; i < preferredTimeList.size(); i++) {
-//                            if (preferredTimeList.get(i).getPreferred_time_name().equalsIgnoreCase(values[i])) {
-//                                mProductWeekSchedule.get(index).setPreferredTime(preferredTimeList.get(i).getPreferred_time_id());
-//                                Log.i(TAG, "Selected: "+mProductWeekSchedule.get(index).getPreferredTime());
-//                                break;
-//                            }
-//                        }
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-
-        dialog.show();
-
-
-    }
-
-    public String changeDateFormat(String strDate) {
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("MMM d, yyyy");
-        Date date = null;
-        String str = null;
-        if (strDate.trim().length() > 0) {
-
-            try {
-                date = inputFormat.parse(strDate);
-                str = outputFormat.format(date);
-                orderStartDate.setText("Order Start Date: " + str);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return str;
-    }
-
-
-    public void autoUpdatePreferredTime(){
-
     }
 
     public boolean isAnyDayOn() {
@@ -882,5 +770,13 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 
     public void setIsUpdate(int updatePlan) {
         isPlanUpdate = updatePlan;
+    }
+
+    public void setSelectedProductData(AllProductsRootResponseData data) {
+        mSelectedProductData = data;
+    }
+
+    public AllProductsRootResponseData getSelectedProductData() {
+        return mSelectedProductData;
     }
 }

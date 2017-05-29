@@ -28,6 +28,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         view.findViewById(R.id.ll_row_logout).setOnClickListener(this);
         view.findViewById(R.id.ll_profile_view).setOnClickListener(this);
+        view.findViewById(R.id.ll_row_change_password).setOnClickListener(this);
+
 
         view.findViewById(R.id.btn_back_settings).setOnClickListener(this);
 
@@ -37,6 +39,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
         switch (v.getId()) {
 
@@ -51,10 +54,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
             case  R.id.ll_profile_view:
                 ProfileViewFragment profileViewFragment = new ProfileViewFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 MyFragmentManager.getInstance().addFragment(profileViewFragment);
                 transaction.replace(R.id.fragment_container,profileViewFragment).commit();
 
+                break;
+
+            case R.id.ll_row_change_password:
+                ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+                MyFragmentManager.getInstance().addFragment(changePasswordFragment);
+                transaction.replace(R.id.fragment_container,changePasswordFragment).commit();
+                break;
 
             case R.id.btn_back_settings:
                 ((MainActivity)getActivity()).onBackPressed();

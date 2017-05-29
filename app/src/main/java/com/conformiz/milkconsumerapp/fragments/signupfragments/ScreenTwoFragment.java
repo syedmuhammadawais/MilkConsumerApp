@@ -1,5 +1,6 @@
 package com.conformiz.milkconsumerapp.fragments.signupfragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.conformiz.milkconsumerapp.R;
+import com.conformiz.milkconsumerapp.activities.SignupActivity;
 import com.conformiz.milkconsumerapp.models.Request.SignUpUserRootRequest;
 import com.conformiz.milkconsumerapp.models.response.SaveDataArrayResponse;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
@@ -34,6 +36,9 @@ public class ScreenTwoFragment extends Fragment implements View.OnClickListener,
     EditText phoneET;
     EditText usernameET;
     EditText passwordET;
+
+    private ProgressDialog mProgressDialog;
+
 
     public ScreenTwoFragment() {
 
@@ -109,18 +114,16 @@ public class ScreenTwoFragment extends Fragment implements View.OnClickListener,
                     if (TextUtils.isEmpty(phoneET.getText().toString().trim())) {
                         phoneET.setError("Please Enter Phone");
                         isValidate = false;
-                    } else if (phoneET.getText().toString().length() < 11) {
+                    } else if (phoneET.getText().toString().length() < 10) {
                         isValidate = false;
-                        phoneET.setError("Contact Number must have a length of 11");
+                        phoneET.setError("Contact Number must have a length of 10");
                     } else {
-                        String ph = phoneET.getText().toString().substring(0, 2);
-                        if (!ph.equals("03")) {
+                        String ph = phoneET.getText().toString().substring(0, 1);
+                        if (!ph.equals("3")) {
                             isValidate = false;
                             phoneET.setError("Mobile Number not valid (Must start with 03)");
                         } else isValidate = true;
                     }
-
-
                 }
                 break;
 
@@ -159,31 +162,40 @@ public class ScreenTwoFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onPreExecute() {
-
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage("Verifying Username...");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
     }
 
     @Override
     public void onPostExecute(Object result) {
-
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
         if (result != null) {
             if (result instanceof SaveDataArrayResponse) {
-                if (((SaveDataArrayResponse) result).getSuccess()) {
-                    Log.i("else save Data response", "onPostExecute: not instacn TRUE");
 
+                SaveDataArrayResponse response = (SaveDataArrayResponse) result;
+
+                if (response.getSuccess()) {
                     isValidate = true;
                     Toast.makeText(getActivity(), "Username Available", Toast.LENGTH_SHORT).show();
-                    // usernameET.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.primary_light));
+                    usernameET.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick_circle_green, 0);
                 } else {
 
                     isValidate = false;
-                    usernameET.setError("Username Already Exist");
-                    //  usernameET.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.light_red));
-                    Toast.makeText(getActivity(), "Username already exist please try another Username", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), ""+response.getMessage(), Toast.LENGTH_SHORT).show();
+                    usernameET.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cross_circle_red, 0);
+                   // usernameET.setError("Username already exist please try another Username");
                 }
             } else {
                 Log.i("else save Data response", "onPostExecute: not instacn");
             }
-        }else {Log.i("NULL", "onPostExecute: not instacn");}
+        } else {
+            Toast.makeText(getActivity(), "Server Error ", Toast.LENGTH_SHORT).show();
+            Log.i("NULL", "onPostExecute: not instacn");
+        }
     }
 
     @Override
@@ -193,14 +205,8 @@ public class ScreenTwoFragment extends Fragment implements View.OnClickListener,
 
     public void addDataToRequestObject(SignUpUserRootRequest request) {
 
-//        ((SignupActivity)getActivity()).signUpRequest.setEmail(emailET.getText().toString());
-//        ((SignupActivity)getActivity()).signUpRequest.setResidence_phone_no(phoneET.getText().toString());
-//        ((SignupActivity)getActivity()).signUpRequest.setUserName(usernameET.getText().toString());
-//        ((SignupActivity)getActivity()).signUpRequest.setPassword(passwordET.getText().toString());
-//
-
         request.setEmail(emailET.getText().toString());
-        request.setCell_no_1( phoneET.getText().toString().substring(1, phoneET.getText().toString().length()));
+        request.setCell_no_1("+92" + phoneET.getText().toString());
         request.setUserName(usernameET.getText().toString());
         request.setPassword(passwordET.getText().toString());
 

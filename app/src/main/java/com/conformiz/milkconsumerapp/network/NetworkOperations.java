@@ -7,6 +7,7 @@ import com.conformiz.milkconsumerapp.models.response.AllProductsRootResponse;
 import com.conformiz.milkconsumerapp.models.response.ClientPlansRootResponse;
 import com.conformiz.milkconsumerapp.models.response.ComplaintsReasonsRootResponse;
 import com.conformiz.milkconsumerapp.models.response.PreferredTimeListRootResponse;
+import com.conformiz.milkconsumerapp.models.response.ViewCustomerComplaintsRootResponse;
 import com.conformiz.milkconsumerapp.models.response.ZoneListRootResponse;
 import com.conformiz.milkconsumerapp.models.response.questions.QuestionsRootResponse;
 import com.conformiz.milkconsumerapp.models.response.teachersdata.TeachersDataRootResponse;
@@ -33,9 +34,48 @@ public class NetworkOperations implements Constants {
     }
 
 
-    public void getProductsList(Context pContext, INetworkListener<AllProductsRootResponse> pNetworkListener) {
+    public void
 
-        IRequest request = new GetRequest(pContext, ACTION_GET_ALL_PRODUCT, null);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    getProductsList(Context pContext, INetworkListener<AllProductsRootResponse> pNetworkListener) {
+
+        IRequest request = new GetRequest(pContext, ACTION_POST_ALL_PRODUCT, null);
         NetworkThread<AllProductsRootResponse> networkThread = new NetworkThread<AllProductsRootResponse>(pContext, AllProductsRootResponse.class, pNetworkListener);
         networkThread.execute(request);
     }
@@ -56,6 +96,17 @@ public class NetworkOperations implements Constants {
 
 
 
+    public void getClientComplaintsViewList(Context pContext, INetworkListener<ViewCustomerComplaintsRootResponse> pNetworkListener) {
+
+        IRequest request = new GetRequest(pContext, ACTION_GET_CUSTOMER_COMPLAINTS, null);
+        NetworkThread<ViewCustomerComplaintsRootResponse> networkThread = new NetworkThread<ViewCustomerComplaintsRootResponse>(pContext, ViewCustomerComplaintsRootResponse.class, pNetworkListener);
+        networkThread.execute(request);
+
+    }
+
+
+
+
 
     public void getClientPlansList(Context pContext, INetworkListener<ClientPlansRootResponse> pNetworkListener) {
 
@@ -64,6 +115,7 @@ public class NetworkOperations implements Constants {
         networkThread.execute(request);
 
     }
+
 
     public void getComplaintsReasons(Context pContext, INetworkListener<ComplaintsReasonsRootResponse> pNetworkListener){
 

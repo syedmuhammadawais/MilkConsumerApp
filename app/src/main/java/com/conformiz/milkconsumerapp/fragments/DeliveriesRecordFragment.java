@@ -188,12 +188,9 @@ public class DeliveriesRecordFragment extends Fragment implements INetworkListen
 
             DeliveriesRecordRootResponse response = (DeliveriesRecordRootResponse) result;
             if (response.getSuccess()) {
-
                 mData.clear();
-
                 if (response.getData().size() == 0) {
-                    mData.clear();
-                    mRecordAdapter.notifyDataSetChanged();
+                    mRecordAdapter.addDataToPlansList(mData);
                     Toast.makeText(getActivity(), "No Deliveries Found for this Month", Toast.LENGTH_SHORT).show();
                 } else {
                     mData.addAll(response.getData());

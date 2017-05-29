@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/product_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <RelativeLayout
+
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:paddingLeft="5dp"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/btn_back_plan_selection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/btn_back_design"
+                    android:layout_alignParentLeft="true" />
+
+                <TextView
+                    android:paddingRight="16dp"
+                    android:id="@+id/tv_weekly_product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Plan Selection"
+                    android:textColor="@color/bgblue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_login_bg_yellow_round"
+                    android:padding="5dp"
+                    android:text="One Time Order"
+                    android:textAllCaps="false" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:padding="25dp"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/btn_update_weekly_plan"
+            android:textSize="16sp"
+            android:textColor="@color/app_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/btn_login_bg_yellow_round"
+            android:padding="5dp"
+            android:text="Update Weekly Plan Schedule"
+            android:textAllCaps="false" />
+
+
+        <Button
+            android:id="@+id/btn_create_one_time_order"
+            android:textSize="16sp"
+            android:textColor="@color/app_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/btn_login_bg_yellow_round"
+            android:padding="5dp"
+            android:text="Create One Time Order"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:text="* One time order will not effect your regular deliveries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_pause_deliveries"
+            android:textSize="16sp"
+            android:textColor="@color/app_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/btn_login_bg_yellow_round"
+            android:padding="5dp"
+            android:text="Halt Deliveries For Few Days"
+            android:textAllCaps="false" />
+
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:text="* Your regular deliveries will be resumed after this"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

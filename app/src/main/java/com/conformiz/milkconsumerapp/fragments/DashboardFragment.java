@@ -1,12 +1,16 @@
 package com.conformiz.milkconsumerapp.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.conformiz.milkconsumerapp.R;
@@ -25,6 +29,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
 
     OnItemClick mClick;
 
+    ImageView complaintsRL, deliveredRL, manageOrderRL, settingRL, paymentsRL, howToPayIV;
+
     public DashboardFragment() {
     }
 
@@ -37,13 +43,40 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        //((TextView)getActivity().findViewById(R.id.tv_screen_header)).setText("Main Menu");
-        view.findViewById(R.id.btn_back_main_menu);
-        view.findViewById(R.id.rl_complaints).setOnClickListener(this);
-        view.findViewById(R.id.rl_deliveries_history).setOnClickListener(this);
-        view.findViewById(R.id.rl_manage_order).setOnClickListener(this);
-        view.findViewById(R.id.rl_settings).setOnClickListener(this);
-        view.findViewById(R.id.rl_payments).setOnClickListener(this);
+
+        //view.findViewById(R.id.btn_back_main_menu);
+        complaintsRL  = (ImageView) view.findViewById(R.id.iv_complaints);
+        deliveredRL   = (ImageView) view.findViewById(R.id.iv_deliveries_history);
+        manageOrderRL = (ImageView) view.findViewById(R.id.iv_manager_order);
+        settingRL     = (ImageView) view.findViewById(R.id.iv_settings);
+        paymentsRL    = (ImageView) view.findViewById(R.id.iv_payments);
+        howToPayIV    = (ImageView) view.findViewById(R.id.iv_how_to_pay);
+
+        complaintsRL.setOnClickListener(this);
+        deliveredRL.setOnClickListener(this);
+        manageOrderRL.setOnClickListener(this);
+        settingRL.setOnClickListener(this);
+        paymentsRL.setOnClickListener(this);
+        howToPayIV.setOnClickListener(this);
+
+
+        Utility.getInstance().imageViewClickEffect(complaintsRL,R.color.app_brown_light);
+        Utility.getInstance().imageViewClickEffect(deliveredRL,R.color.app_brown_light);
+        Utility.getInstance().imageViewClickEffect(manageOrderRL,R.color.app_brown_light);
+        Utility.getInstance().imageViewClickEffect(settingRL,R.color.app_brown_light);
+        Utility.getInstance().imageViewClickEffect(paymentsRL,R.color.app_brown_light);
+        Utility.getInstance().imageViewClickEffect(howToPayIV,R.color.app_brown_light);
+
+
+        String label = "Powered By <font color=#FFB30C>Conformiz</font>";
+        TextView poweredBy = (TextView) view.findViewById(R.id.tv_powered_by);
+        poweredBy.setOnClickListener(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            poweredBy.setText(Html.fromHtml(label, Html.FROM_HTML_OPTION_USE_CSS_COLORS));
+        } else {
+            poweredBy.setText(Html.fromHtml(label));
+        }
 
 
 //        if (SharedPreferenceUtil.getInstance(getActivity()).getEnrolled()) {
@@ -95,7 +128,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         switch (v.getId()) {
 
             case R.id.btn_back_main_menu:
-                ((MainActivity)getActivity()).onBackPressed();
+                ((MainActivity) getActivity()).onBackPressed();
+                break;
+
+            case R.id.tv_powered_by:
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://conformiz.com"));
+                startActivity(intent);
                 break;
 //            case R.id.rl_dashboard_messages:
 //

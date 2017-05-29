@@ -5,6 +5,7 @@ public class AllProductsRootResponseData implements java.io.Serializable {
     private String price;
     private String product_id;
     private String product_name;
+    private String is_selected;
 
     public String getUnit() {
         return this.unit;
@@ -36,5 +37,13 @@ public class AllProductsRootResponseData implements java.io.Serializable {
 
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
+    }
+
+    public String getIs_selected() {
+        return is_selected;
+    }
+
+    public void setIs_selected(String is_selected) {
+        this.is_selected = is_selected;
     }
 }

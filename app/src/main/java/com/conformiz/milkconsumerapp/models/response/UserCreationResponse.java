@@ -1,12 +1,14 @@
 package com.conformiz.milkconsumerapp.models.response;
 
+import java.util.ArrayList;
+
 public class UserCreationResponse implements java.io.Serializable {
     private static final long serialVersionUID = 8001644914174909033L;
     private int code;
-    private UserCreationResponseData data;
     private boolean success;
     private boolean alreadyExists;
     private String message;
+    private ArrayList<SaveDataArrayResponseData> data;
 
     public int getCode() {
         return this.code;
@@ -16,11 +18,11 @@ public class UserCreationResponse implements java.io.Serializable {
         this.code = code;
     }
 
-    public UserCreationResponseData getData() {
+    public ArrayList<SaveDataArrayResponseData> getData() {
         return this.data;
     }
 
-    public void setData(UserCreationResponseData data) {
+    public void setData(ArrayList<SaveDataArrayResponseData> data) {
         this.data = data;
     }
 

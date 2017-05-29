@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@drawable/product_bg"
     android:padding="16dp">
 
 
@@ -42,5 +44,16 @@
         android:padding="14dp"
         android:textColorHint="@color/colorAccent" />
 
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/et_enter_code_sign_up"
+        android:id="@+id/tv_fs4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="Please allow up to a minute for your SMS to arrive"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
 </RelativeLayout>

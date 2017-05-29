@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_image"
         android:orientation="vertical"
-        android:weightSum="3">
+        android:weightSum="3"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.design.widget.AppBarLayout
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-            <android.support.v7.widget.Toolbar
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/white"
@@ -27,7 +27,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:visibility="invisible"
+                        android:paddingLeft="5dp"
                         android:id="@+id/btn_back_main_menu"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -35,7 +35,8 @@
                         android:paddingBottom="16dp"
                         android:paddingRight="16dp"
                         android:paddingTop="16dp"
-                        android:src="@drawable/btn_back_design" />
+                        android:src="@drawable/btn_back_design"
+                        android:visibility="invisible" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -46,35 +47,36 @@
                         android:textSize="22sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
-            </android.support.v7.widget.Toolbar>
+            </LinearLayout>
         </android.support.design.widget.AppBarLayout>
+
         <RelativeLayout
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
                 android:shadowColor="@color/app_black"
-                android:shadowRadius="1.5"
                 android:shadowDx="1"
                 android:shadowDy="1"
-                android:textStyle="bold"
-                android:layout_centerInParent="true"
-                android:textSize="30sp"
-                android:gravity="center_horizontal"
+                android:shadowRadius="1.5"
                 android:text="Taza Farms"
                 android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
 
             <ImageView
-                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:src="@drawable/milk_seller_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:visibility="gone" />
         </RelativeLayout>
 
         <LinearLayout
@@ -161,12 +163,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
             android:layout_marginTop="20dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <RelativeLayout
                 android:id="@+id/rl_complaints"
@@ -217,8 +217,52 @@
             </RelativeLayout>
 
 
+            <RelativeLayout
+                android:id="@+id/rl_how_to_pay"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/iv_how_to_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/how_to_pay" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_how_to_pay"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:text="How to Pay"
+                    android:textColor="@color/white" />
+
+            </RelativeLayout>
+
+
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="2">
+
+
+            <TextView
+                android:id="@+id/tv_powered_by"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/powered_by_conformiz"
+                android:textColor="@color/app_black"
+                android:textSize="16sp" />
+        </LinearLayout>
 
     </LinearLayout>
 </layout>

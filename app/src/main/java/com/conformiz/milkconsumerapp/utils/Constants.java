@@ -4,12 +4,13 @@ package com.conformiz.milkconsumerapp.utils;
 public interface Constants {
 
 
+  //  String URL_BASE_URL = "http://192.168.0.107/milk/api/";
     String URL_BASE_URL = "http://tazafarms.conformiz.com/index.php/api/";
     String KEY_PREF_NAME = "milk_consumer";
     String KEY_SECRET = "encrypted_secret";
     String KEY_ACCESS = "access_id";
 
-    String ACTION_GET_ALL_PRODUCT = "getAllProduct";
+    String ACTION_POST_ALL_PRODUCT = "getAllProduct";
     String ACTION_GET_TEACHERS_LIST = "getTeacherList";
     String ACTION_GET_PREFERRED_TIME_LIST = "getPreferredTimeList";
 
@@ -20,15 +21,38 @@ public interface Constants {
 
     String ACTION_GET_PROFILE_INFO = "getCustomerProfile";
     String ACTION_GET_RECOVER_PASSWORD = "customerForgetPassword";
+    String ACTION_GET_CUSTOMER_COMPLAINTS = "getCustomerComplains";
 
 
-    String ACTION_POST_SAVE_COMPLAINT = "saveComplain";
+
+    String ACTION_POST_SAVE_COMPLAINT = "createComplaints";
     String ACTION_POST_SAVE_UPDATE_WEEKLY_PLAN = "updateWeeklySchedual";
     String ACTION_POST_CREATE_SPECIAL_ORDER = "createSpecialOrder";
+    String ACTION_POST_CANCEL_SPECIAL_ORDER = "cancelSpecialOrder";
     String ACTION_POST_CUSTOMER_SIGN_UP = "customerSignUP";
     String ACTION_POST_CUSTOMER_AUTHENTICATION = "customerAuthentication";
     String ACTION_POST_DELIVERIES_BETWEEN_DATE_RANGE = "deliverybetweenDateRange";
     String ACTION_POST_CUSTOMER_ACCOUNT_BALANCE = "checkAccountBalnce";
+    String ACTION_POST_CHANGE_CUSTOMER_PASSWORD = "changeCustomerPassword";
+    String ACTION_POST_UPDATE_CUSTOMER_PROFILE = "UpdateCustomerProfile";
+
+    String ACTION_POST_PAUSE_REGULAR_ORDERS = "haltRegularOrders";
+    String ACTION_POST_CANCEL_REGULAR_ORDERS = "cancelRegularOrder";
+    String ACTION_POST_RESUME_REGULAR_ORDERS = "resumedRegularOrder";
+
+    String ACTION_POST_CANCEL_SPECIAL_ORDERS = "cancelSpecialOrder";
+
+
+
+
+
+
+    // Inter Pay URls
+    String INTERPAY_BASE_URL = "https://test.interpayafrica.com/interapi/";
+    String ACTION_POST_PROCESS_PAYMENT = "ProcessPayment";
+    String ACTION_POST_CONFIRM_PAYMENT = "confirmpayment";
+    String ACTION_POST_PAYMENT_COMPLETE = "paymentMethod";
+
 
 
 

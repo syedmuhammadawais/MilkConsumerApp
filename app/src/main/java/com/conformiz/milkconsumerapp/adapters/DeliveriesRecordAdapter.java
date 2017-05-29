@@ -11,7 +11,10 @@ import com.conformiz.milkconsumerapp.models.response.DeliveriesRecordRootRespons
 import com.conformiz.milkconsumerapp.models.response.DeliveriesRecordRootResponseData;
 import com.conformiz.milkconsumerapp.viewholders.DeliveriesRecordVH;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Fahad.Munir on 10-May-17.
@@ -23,8 +26,8 @@ public class DeliveriesRecordAdapter extends RecyclerView.Adapter<DeliveriesReco
     private OnItemClick mOnItemClick;
 
     public DeliveriesRecordAdapter(ArrayList<DeliveriesRecordRootResponseData> data, OnItemClick onItemClick) {
+        mData.clear();
         if (data != null && data.size() > 0) {
-            mData.clear();
             mData.addAll(data);
         }
         mOnItemClick = onItemClick;
@@ -32,8 +35,9 @@ public class DeliveriesRecordAdapter extends RecyclerView.Adapter<DeliveriesReco
     }
 
     public void addDataToPlansList(ArrayList<DeliveriesRecordRootResponseData> data){
+        mData.clear();
+
         if (data != null && data.size() > 0) {
-            mData.clear();
             mData.addAll(data);
         }
         notifyDataSetChanged();
@@ -51,7 +55,7 @@ public class DeliveriesRecordAdapter extends RecyclerView.Adapter<DeliveriesReco
         DeliveriesRecordRootResponseData item = mData.get(position);
 
         holder.getProductName().setText(item.getProduct_name());
-        holder.getProductDate().setText("Plan Date:  "+item.getDate());
+        holder.getProductDate().setText("Date:  "+changeDateFormat(item.getDate()));
         holder.getProductQuantity().setText("Quantity:  "+item.getQuantity()+" "+item.getUnit());
         holder.getProductPrice().setText("Price:  "+item.getAmount());
 
@@ -63,7 +67,23 @@ public class DeliveriesRecordAdapter extends RecyclerView.Adapter<DeliveriesReco
         });
     }
 
+    public String changeDateFormat(String strDate) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("MMM d, yyyy");
+        Date date = null;
+        String str = null;
+        if (strDate.trim().length() > 0) {
 
+            try {
+                date = inputFormat.parse(strDate);
+                str = outputFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return str;
+    }
     @Override
     public int getItemCount() {
         return (mData != null && mData.size() > 0) ? mData.size() : 0;

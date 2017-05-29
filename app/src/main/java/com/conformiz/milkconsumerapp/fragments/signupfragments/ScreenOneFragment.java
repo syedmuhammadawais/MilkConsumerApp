@@ -36,7 +36,7 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
     private EditText lastNameET;
     private EditText areaET;
     private EditText addressET;
-    private EditText floorET;
+   // private EditText floorET;
 
     private TextView spinnerLabelArea;
 
@@ -63,7 +63,7 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
         lastNameET = (EditText) view.findViewById(R.id.et_last_name_sign_up);
        // areaET = (EditText) view.findViewById(R.id.et_area_sign_up);
         addressET = (EditText) view.findViewById(R.id.et_address_sign_up);
-        floorET = (EditText) view.findViewById(R.id.et_floor_sign_up);
+       // floorET = (EditText) view.findViewById(R.id.et_floor_sign_up);
 
         spinnerLabelArea = (TextView) view.findViewById(R.id.sp_zone_label);
         spinnerLabelArea.setOnClickListener(this);
@@ -71,18 +71,19 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
         zoneListSP = (Spinner) view.findViewById(R.id.sp_zone_sign_up);
         spinnerAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, mZoneListData);
         zoneListSP.setAdapter(spinnerAdapter);
+        zoneListSP.setOnItemSelectedListener(this);
 
         firstNameET.setOnClickListener(this);
         lastNameET.setOnClickListener(this);
 //        areaET.setOnClickListener(this);
         addressET.setOnClickListener(this);
-        floorET.setOnClickListener(this);
+        //floorET.setOnClickListener(this);
 
         firstNameET.setOnFocusChangeListener(this);
         lastNameET.setOnFocusChangeListener(this);
      //   areaET.setOnFocusChangeListener(this);
         addressET.setOnFocusChangeListener(this);
-        floorET.setOnFocusChangeListener(this);
+       // floorET.setOnFocusChangeListener(this);
 
         NetworkOperations.getInstance().getZoneList(getActivity(),this);
         return view;
@@ -113,12 +114,6 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-
-        firstNameET.setOnFocusChangeListener(this);
-        lastNameET.setOnFocusChangeListener(this);
-      //  areaET.setOnFocusChangeListener(this);
-        addressET.setOnFocusChangeListener(this);
-        floorET.setOnFocusChangeListener(this);
 
         switch (v.getId()) {
 
@@ -169,15 +164,15 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.et_floor_sign_up:
-                if (!hasFocus) {
-                    if (TextUtils.isEmpty(floorET.getText().toString().trim())) {
-                        floorET.setError("Please Enter Address");
-
-                        isValidate = false;
-                    } else {
-                        isValidate = true;
-                    }
-                }
+//                if (!hasFocus) {
+//                    if (TextUtils.isEmpty(floorET.getText().toString().trim())) {
+//                      //  floorET.setError("Please Enter Address");
+//
+//                       // isValidate = false;
+//                    } else {
+//                      //  isValidate = true;
+//                    }
+//                }
                 break;
 
         }
@@ -188,8 +183,9 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
 
         request.setFullName(firstNameET.getText().toString() + " " + lastNameET.getText().toString());
         request.setFather_or_husband_name(lastNameET.getText().toString());
-        request.setAddress(addressET.getText().toString() + " " + floorET.getText().toString());
-        request.setZone_id(mZoneListData.size()> 0? mZoneListData.get(selectedZoneId).getZone_id(): "");
+       // request.setAddress(addressET.getText().toString() + " " + floorET.getText().toString());
+        request.setAddress(addressET.getText().toString()+"");
+        request.setZone_id(selectedZoneId + "");
 
 
         request.setCell_no_2("");
@@ -243,7 +239,7 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        selectedZoneId = position;
+        selectedZoneId = Integer.parseInt(mZoneListData.get(position).getZone_id());
 
     }
 
@@ -260,9 +256,11 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
             isValidate = false;
         } else if(TextUtils.isEmpty(addressET.getText().toString())){
             isValidate = false;
-        }else if(TextUtils.isEmpty(floorET.getText().toString())){
-            isValidate = false;
-        }else if(mZoneListData.size() == 0){
+        }
+       // else if(TextUtils.isEmpty(floorET.getText().toString())){
+           // isValidate = false;
+       // }
+        else if(mZoneListData.size() == 0){
             isValidate = false;
         } else isValidate = true;
 

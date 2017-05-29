@@ -35,6 +35,32 @@ public class SharedPreferenceUtil implements Constants {
     }
 
 
+
+    public void saveClientFullName(String id){
+        mSharedPreferences.edit().putString("fullname",id).commit();
+    }
+
+    public String getClientFullName(){return mSharedPreferences.getString("fullname","");}
+
+
+    public void saveClientEmail(String id){
+        mSharedPreferences.edit().putString("email",id).commit();
+    }
+
+    public String getClientEmail(){return mSharedPreferences.getString("email","");}
+
+
+    public void saveClientContact(String id){
+        mSharedPreferences.edit().putString("cell_no_1",id).commit();
+    }
+
+    public String getClientContact(){return mSharedPreferences.getString("cell_no_1","");}
+
+
+
+
+
+
     public void saveKeepSignInValue(boolean saveSelect){
 
         mSharedPreferences.edit().putBoolean(KEEP_ME_SIGN,saveSelect).commit();
@@ -43,6 +69,9 @@ public class SharedPreferenceUtil implements Constants {
     public boolean getKeepSignInValue(){
        return mSharedPreferences.getBoolean(KEEP_ME_SIGN,false);
     }
+
+
+
 //    public SecurityKeys getSecurityKeys() {
 //        SecurityKeys keys = new SecurityKeys();
 //        keys.setSecretKey(mSharedPreferences.getString(KEY_SECRET, null));

@@ -12,7 +12,7 @@
         android:layout_marginBottom="10dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/white"
@@ -23,6 +23,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:paddingLeft="5dp"
                     android:id="@+id/btn_back_profile_view"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -43,7 +44,6 @@
 
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/btn_profile_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                     android:src="@drawable/edit_profile" />
 
             </RelativeLayout>
-        </android.support.v7.widget.Toolbar>
+        </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
@@ -111,7 +111,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.70"
                     android:gravity="center_vertical"
-                    android:text="waleed.bashir@conformiz.com"
+                    android:text=" Email Address"
                     android:textColor="@color/app_black"
                     android:textSize="16sp" />
 
@@ -141,7 +141,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.70"
                     android:gravity="center_vertical"
-                    android:text="35202-8812369-7"
+                    android:text=" CNIC Number"
                     android:textColor="@color/app_black"
                     android:textSize="16sp" />
 
@@ -172,7 +172,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.70"
                     android:gravity="center_vertical"
-                    android:text="04214235879861"
+                    android:text=" Phone"
                     android:textColor="@color/app_black"
                     android:textSize="16sp" />
 
@@ -202,7 +202,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.70"
                     android:gravity="center_vertical"
-                    android:text="250 Shadman near cresent\nSchool"
+                    android:text=" Address"
                     android:textColor="@color/app_black"
                     android:textSize="16sp" />
 

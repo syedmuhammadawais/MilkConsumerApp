@@ -16,28 +16,35 @@
         android:weightSum="5"
         tools:context="com.conformiz.milkconsumerapp.activities.SignupActivity">
 
-
         <LinearLayout
+            android:gravity="center_vertical"
             android:id="@+id/ll_as_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.1"
             android:orientation="vertical"
             android:weightSum="2">
 
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center_vertical">
+                >
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:shadowColor="@color/app_black"
+                    android:shadowRadius="1.5"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:textStyle="bold"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/milk_seller_heading" />
+                    android:textSize="30sp"
+                    android:gravity="center_horizontal"
+                    android:text="Taza Farms"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
 
@@ -49,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_as_heading"
             android:layout_centerHorizontal="true"
-            android:layout_weight="0.5"
+            android:layout_weight="0.1"
             android:orientation="horizontal"
             android:weightSum="3">
 
@@ -134,22 +141,27 @@
         </LinearLayout>
 
         <FrameLayout
+            android:layout_gravity="center"
             android:id="@+id/sign_up_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_above="@+id/ll_back_next"
-            android:layout_below="@+id/ll_steps"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
             android:layout_marginTop="14dp"
-            android:layout_weight="3"></FrameLayout>
+            android:layout_weight="3.9">
+
+
+            <!--<TextView-->
+                <!--android:gravity="center"-->
+                <!--android:text="This is text"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
+
+        </FrameLayout>
 
         <LinearLayout
+            android:layout_weight="0.9"
             android:id="@+id/ll_back_next"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_weight="1"
+            android:layout_height="0dp"
             android:orientation="horizontal">
 
 
@@ -165,7 +177,6 @@
                 android:textAllCaps="false"
                 android:textColor="@color/app_black"
                 android:textSize="22sp" />
-
 
             <Button
                 android:id="@+id/btn_next"

@@ -12,12 +12,13 @@ import android.widget.Toast;
 
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.databinding.ActivitySignupBinding;
-import com.conformiz.milkconsumerapp.fragments.signupfragments.ScreenTwoFragment;
-import com.conformiz.milkconsumerapp.fragments.signupfragments.ScreenThreeFragment;
 import com.conformiz.milkconsumerapp.fragments.signupfragments.ScreenOneFragment;
+import com.conformiz.milkconsumerapp.fragments.signupfragments.ScreenThreeFragment;
+import com.conformiz.milkconsumerapp.fragments.signupfragments.ScreenTwoFragment;
 import com.conformiz.milkconsumerapp.models.Request.SignUpUserRootRequest;
-import com.conformiz.milkconsumerapp.models.response.SaveDataResponse;
-import com.conformiz.milkconsumerapp.models.response.UserCreationResponse;
+import com.conformiz.milkconsumerapp.models.SaveDataObjectResponse;
+import com.conformiz.milkconsumerapp.models.response.SaveDataArrayResponse;
+import com.conformiz.milkconsumerapp.models.response.UserCreationDataObjectResponse;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;
@@ -39,6 +40,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     public SignUpUserRootRequest signUpRequest = new SignUpUserRootRequest();
 
     public boolean isValidate = false;
+    public String dialogMsg = "";
 
     private int fragmentNo = 1; // default show fragment Step 1
 
@@ -52,8 +54,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         binding.btnNext.setOnClickListener(this);
         binding.btnBack.setOnClickListener(this);
 
-        Utility.buttonEffect(binding.btnNext);
-        Utility.buttonEffect(binding.btnBack);
+        Utility.getInstance().buttonEffect(binding.btnNext, R.color.app_brown_light);
+        Utility.getInstance().buttonEffect(binding.btnBack, R.color.app_brown_light);
 
         screenOneFragment = new ScreenOneFragment();
         screenTwoFragment = new ScreenTwoFragment();
@@ -71,22 +73,17 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
 
             case R.id.btn_next:
-                boolean isFragmentValidated = false;
                 if (fragmentNo == 1 && screenOneFragment.isValidate && screenOneFragment.checkValidation()) {
-
                     // Validate on Next button press so, user will go to next fragment if current fragment validation is successful for all fields
                     screenOneFragment.addDataToRequestObject(signUpRequest);
-                    isFragmentValidated = true;
-
                     fragmentNo++;
                     updateFragment(fragmentNo);
 
                 } else if (fragmentNo == 2 && screenTwoFragment.isValidate && screenTwoFragment.checkValidation()) {
-                    // Validate on Next button press so, user will go to next fragment if current fragment validation is successful for all fields
-                    isFragmentValidated = true;
-                    screenTwoFragment.addDataToRequestObject(signUpRequest);
-                    NetworkOperations.getInstance().postData(SignupActivity.this, Constants.ACTION_POST_CUSTOMER_SIGN_UP, signUpRequest, this, UserCreationResponse.class);
 
+                    screenTwoFragment.addDataToRequestObject(signUpRequest);
+                    dialogMsg = "Creating user...";
+                    NetworkOperations.getInstance().postData(SignupActivity.this, Constants.ACTION_POST_CUSTOMER_SIGN_UP, signUpRequest, this, UserCreationDataObjectResponse.class);
 
                 } else if (fragmentNo == 3 && screenThreeFragment.isValidationTrue()) {
 
@@ -94,16 +91,16 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     try {
                         requestAuthenticationCode.put("client_id", SharedPreferenceUtil.getInstance(SignupActivity.this).getClientId());
                         requestAuthenticationCode.put("code", screenThreeFragment.getAuthCode());
+                        dialogMsg = "Verifying Code...";
                         NetworkOperations.getInstance().postData(SignupActivity.this,
                                 Constants.ACTION_POST_CUSTOMER_AUTHENTICATION,
                                 requestAuthenticationCode,
                                 this,
-                                SaveDataResponse.class);
+                                SaveDataObjectResponse.class);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }  else {
-                    isFragmentValidated = false;
+                } else {
                     Toast.makeText(SignupActivity.this, "Please Update Empty Fields or Fields With Errors", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -167,7 +164,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             case 3:
                 binding.ivStep3.setImageResource(R.drawable.step3_white);
                 binding.btnBack.setVisibility(View.GONE);
-                binding.btnNext.setText("Enter");
+                binding.btnNext.setText("Submit");
                 break;
 
 
@@ -176,16 +173,16 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onBackPressed() {
-        if(fragmentNo == 3){
+        if (fragmentNo == 3) {
             showMessageDialog("Are you sure to close the SignUp Process?");
         } else
-        onClick(findViewById(R.id.btn_back));
+            onClick(findViewById(R.id.btn_back));
     }
 
     @Override
     public void onPreExecute() {
         mProgressDialog = new ProgressDialog(SignupActivity.this);
-        mProgressDialog.setMessage("Creating User....");
+        mProgressDialog.setMessage(dialogMsg);
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
     }
@@ -196,25 +193,58 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             mProgressDialog.dismiss();
         }
 
-        if (result instanceof UserCreationResponse && ((UserCreationResponse) result).getSuccess()) {
-            Toast.makeText(SignupActivity.this, "Verification Code Sent Successfully", Toast.LENGTH_SHORT).show();
-            SharedPreferenceUtil.getInstance(SignupActivity.this).saveClientId(((UserCreationResponse) result).getData().getClient_id());
-            fragmentNo++;
-            updateFragment(fragmentNo);
-        }else {
-            Toast.makeText(SignupActivity.this, "Server Error Found" , Toast.LENGTH_SHORT).show();
+//        if (result instanceof UserCreationResponse && ((UserCreationResponse) result).getSuccess()) {
+//            Toast.makeText(SignupActivity.this, "", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SignupActivity.this, ""+((UserCreationResponse) result).getMessage(), Toast.LENGTH_SHORT).show();
+//            fragmentNo++;
+//            updateFragment(fragmentNo);
+//        } else
 
-        }
+        if (result != null) {
+            if (result instanceof UserCreationDataObjectResponse) {
 
-        if (result instanceof SaveDataResponse) {
-            SaveDataResponse response = (SaveDataResponse) result;
-            if (response.getSuccess()) {
-                Toast.makeText(SignupActivity.this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                Toast.makeText(SignupActivity.this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                UserCreationDataObjectResponse response = (UserCreationDataObjectResponse) result;
+                if (response.getSuccess()) {
+                    SharedPreferenceUtil.getInstance(SignupActivity.this).saveClientId(response.getData().getClient_id());
+                    fragmentNo++;
+                    updateFragment(fragmentNo);
+                    Toast.makeText(SignupActivity.this, "Verification Code Sent Successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SignupActivity.this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+
             }
+
+            if (result instanceof SaveDataObjectResponse) {
+                SaveDataObjectResponse response = (SaveDataObjectResponse) result;
+                if (response.getSuccess()) {
+                    Toast.makeText(SignupActivity.this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(SignupActivity.this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+            // Dirty Check isn't? So do fight with WebService developer to make the things right..
+            if (result instanceof SaveDataArrayResponse) {
+                SaveDataArrayResponse response = (SaveDataArrayResponse) result;
+                if (response.getSuccess()) {
+                    Toast.makeText(SignupActivity.this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(SignupActivity.this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+        } else {
+
+            Toast.makeText(SignupActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
         }
+
     }
 
     @Override
