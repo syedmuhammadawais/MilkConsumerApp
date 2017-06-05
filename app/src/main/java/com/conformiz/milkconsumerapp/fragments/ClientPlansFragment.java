@@ -175,6 +175,9 @@ public class ClientPlansFragment extends Fragment implements OnItemClick, View.O
                     mData.clear();
                     mData.addAll(productsRootResponse.getData());
                     mClientPlanListAdapter.addDataToPlansList(mData);
+                } else {
+                    showMessageDialog("No Plans Created Yet");
+                    Toast.makeText(getActivity(),"No Plans Created Yet",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -286,5 +289,23 @@ public class ClientPlansFragment extends Fragment implements OnItemClick, View.O
 ///// grpname is a array where data is stored...
 
 
+    }
+
+    public void showMessageDialog(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("" + msg)
+                .setIcon(R.drawable.product_info)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.cancel();
+                        getActivity().onBackPressed();
+
+
+                    }
+                });
+
+        builder.show();
     }
 }

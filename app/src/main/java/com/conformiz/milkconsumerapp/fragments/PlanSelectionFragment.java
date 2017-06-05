@@ -61,9 +61,7 @@ public class PlanSelectionFragment extends Fragment implements View.OnClickListe
                 MyFragmentManager.getInstance().addFragment(productScheduleFragment);
                 transaction.replace(R.id.fragment_container, productScheduleFragment);
                 transaction.commit();
-
                 break;
-
 
             case R.id.btn_create_one_time_order:
                 SpecialOrderFragment specialOrderFragment = new SpecialOrderFragment();
@@ -72,16 +70,12 @@ public class PlanSelectionFragment extends Fragment implements View.OnClickListe
                 transaction.replace(R.id.fragment_container, specialOrderFragment).commit();
                 break;
 
-
             case R.id.btn_pause_deliveries:
-
                 PauseDeliveriesFragment pauseDeliveriesFragment = new PauseDeliveriesFragment();
                 pauseDeliveriesFragment.setSelectedProductData(mSelectedProductData);
                 MyFragmentManager.getInstance().addFragment(pauseDeliveriesFragment);
                 transaction.replace(R.id.fragment_container,pauseDeliveriesFragment).commit();
-
                 break;
-
 
             case R.id.btn_back_plan_selection:
                 getActivity().onBackPressed();

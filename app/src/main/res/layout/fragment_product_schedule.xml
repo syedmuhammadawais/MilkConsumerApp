@@ -132,7 +132,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Rs 0000"
+                android:text="0 Rs"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 

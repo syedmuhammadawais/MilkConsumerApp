@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +48,7 @@ import it.beppi.tristatetogglebutton_library.TriStateToggleButton;
  * Created by Fahad.Munir on 17-Apr-17.
  */
 
-public class ProductScheduleFragment extends Fragment implements View.OnClickListener, View.OnFocusChangeListener, INetworkListener {
+public class ProductScheduleFragment extends Fragment implements View.OnClickListener, View.OnFocusChangeListener, INetworkListener, TextWatcher {
 
     String TAG = "ProductSchedule ";
 
@@ -56,12 +58,13 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 
     // 0 for new 1 for update
     int isPlanUpdate = 0;
+    int isPlanResetToZero = 0;
 
     TriStateToggleButton tb_Monday, tb_Tuesday, tb_Wednesday, tb_Thursday, tb_Friday, tb_Saturday, tb_Sunday;
     //   EditText time_et_monday, time_et_tuesday, time_et_wednesday, time_et_thursday, time_et_friday, time_et_saturday, time_et_sunday;
     EditText quantity_et_monday, quantity_et_tuesday, quantity_et_wednesday, quantity_et_thursday, quantity_et_friday, quantity_et_saturday, quantity_et_sunday;
 
-    TextView orderStartDate;
+    TextView orderStartDate, estCurMonthBill;
 
     ArrayList<ProductWeeklyScheduleRootResponseData> mProductWeekSchedule = new ArrayList<>();
     ArrayList<PreferredTimeListRootResponseData> preferredTimeList = new ArrayList<>();
@@ -71,10 +74,11 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product_schedule, container, false);
+        final View view = inflater.inflate(R.layout.fragment_product_schedule, container, false);
 
         ((TextView) view.findViewById(R.id.tv_weekly_product_name)).setText(mSelectedProductData.getProduct_name());
         ((TextView) view.findViewById(R.id.tv_rate_ps)).setText("Rs " + mSelectedProductData.getPrice() + " per " + mSelectedProductData.getUnit());
+        estCurMonthBill = (TextView) view.findViewById(R.id.tv_month_bill_repeat);
 
         if (mSelectedProductData.getPrice().trim().length() > 0) {
             ((TextView) view.findViewById(R.id.tv_month_bill_repeat)).setText("Rs " + Integer.parseInt(mSelectedProductData.getPrice()) * 30);
@@ -92,6 +96,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         Utility.getInstance().buttonEffect(view.findViewById(R.id.btn_fps_save_plan), R.color.app_brown_light);
 
         String productUnit = mSelectedProductData.getUnit();
+
         ((TextView) view.findViewById(R.id.tv_unit_monday_0)).setText(productUnit);
         ((TextView) view.findViewById(R.id.tv_unit_tuesday_1)).setText(productUnit);
         ((TextView) view.findViewById(R.id.tv_unit_wednesday_2)).setText(productUnit);
@@ -107,6 +112,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
             @Override
             public void onToggle(TriStateToggleButton.ToggleStatus toggleStatus, boolean b, int i) {
 
+                Log.i(TAG, "onToggle: monday toggle changed");
                 switch (i) {
                     case 0:
                         mProductWeekSchedule.get(0).setIsSelected("0");
@@ -241,6 +247,14 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         quantity_et_saturday.setOnFocusChangeListener(this);
         quantity_et_sunday.setOnFocusChangeListener(this);
 
+        quantity_et_monday.addTextChangedListener(this);
+        quantity_et_tuesday.addTextChangedListener(this);
+        quantity_et_wednesday.addTextChangedListener(this);
+        quantity_et_thursday.addTextChangedListener(this);
+        quantity_et_friday.addTextChangedListener(this);
+        quantity_et_saturday.addTextChangedListener(this);
+        quantity_et_sunday.addTextChangedListener(this);
+
 
         NetworkOperations.getInstance().getPreferredTimeList(getActivity(), new INetworkListener<PreferredTimeListRootResponse>() {
             @Override
@@ -274,7 +288,6 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
             }
         });
 
-
         return view;
     }
 
@@ -305,8 +318,6 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 //                specialOrderFragment.setProductUnit(mProductUnit);
 //                specialOrderFragment.setProductName(mProductName);
                 specialOrderFragment.setSelectedProductData(mSelectedProductData);
-
-
                 MyFragmentManager.getInstance().addFragment(specialOrderFragment);
                 transaction.replace(R.id.fragment_container, specialOrderFragment).commit();
                 break;
@@ -318,7 +329,6 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 
 
             case R.id.btn_fps_save_plan:
-
                 //checkValuesAreNotSelectedOrZero();
                 boolean savePlan = true;
                 Log.i(TAG, "onClick: isAnyDayOn() " + isAnyDayOn());
@@ -327,22 +337,22 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                     Log.i(TAG, "onClick: in true ");
                     updateAllElements(1);
                     if (checkValuesAreNotSelectedOrZero()) {
-                        showMessageDialogWithValues("Please Update Values for Time or quantity for selected day(s)");
+                        showMessageDialogWithValues("Please update quantity value for selected day(s)");
                         savePlan = false;
                     } else {
                         savePlan = true;
                     }
 
                 } else {
-                    showMessageDialog("Please Select schedule for one day before save plan");
-                    savePlan = false;
+                    if (isPlanResetToZero == 1) {
+                        showMessageDialogForReset("This product schedule will be removed");
+                        savePlan = false;
+                    } else {
+                        showMessageDialog("Please select schedule for one day before saving");
+                        savePlan = false;
+                    }
                 }
 
-//                if (checkValuesAreNotSelectedOrZero()) {
-//                    showMessageDialogWithValues("Preferred time not selected or quantity is '0' will not be saved in plan ");
-//
-//                    savePlan = false;
-//                }
 
                 if (savePlan) {
                     Log.i(TAG, "onClick: save plan");
@@ -410,7 +420,6 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 //        mProductPrice = productPrice;
 //    }
 
-
     private void savePlan() {
         mResponse.getData().clear();
         updateAllElements(1);// 1 for update
@@ -457,6 +466,28 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                         String todaysDate = outputFormat.format(cal.getTime());
                         orderStartDate.setText("Order Start Date: " + todaysDate);
                     }
+
+                    Calendar cal = Calendar.getInstance();
+                    int estMonthBill = 0, no_of_days = 0, price = Integer.parseInt(mSelectedProductData.getPrice());
+                    for (int i = 0; i < mProductWeekSchedule.size(); i++) {
+                        if (mProductWeekSchedule.get(i).getIsSelected().equalsIgnoreCase("1")) {
+
+                            isPlanResetToZero = 1;
+                            Log.i(TAG, " Selected Day: " + mProductWeekSchedule.get(i).getDay_name());
+                            no_of_days = countWeekendDays(cal.get(Calendar.YEAR),
+                                    cal.get(Calendar.MONTH),
+                                    getCalenderDayValue(Integer.parseInt(mProductWeekSchedule.get(i).getFrequency_id())));
+                            Log.i(TAG, " DayOfWeek: " + mProductWeekSchedule.get(i).getDay_name() +
+                                    "  Occurs in Current Month: " + no_of_days + " year: " + cal.get(Calendar.YEAR) +
+                                    " Month: " + cal.get(Calendar.MONTH) +
+                                    " formula day: " + getCalenderDayValue(Integer.parseInt(mProductWeekSchedule.get(i).getFrequency_id()))
+                            );
+                            estMonthBill = estMonthBill + (price * Integer.parseInt(mProductWeekSchedule.get(i).getQuantity())) * no_of_days;
+                        }
+                    }
+
+
+                    estCurMonthBill.setText("" + estMonthBill + " Rs");
                     // 0 for display as it is values from get Api
                     updateAllElements(0);
                 }
@@ -652,14 +683,40 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("" + msg)
                 .setIcon(R.drawable.product_info)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
 
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void showMessageDialogForReset(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("" + msg)
+                .setIcon(R.drawable.product_info)
+                .setPositiveButton("Remove Plan", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.cancel();
+                        savePlan();
 
                     }
-                });
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
 
         builder.show();
     }
@@ -706,7 +763,9 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
 
-        switch (v.getId()) {
+        // change it back to v.get Id to resotre validation
+
+        switch (001) {
 
             case R.id.et_quantity_monday_0:
                 if (hasFocus) {
@@ -779,4 +838,208 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
     public AllProductsRootResponseData getSelectedProductData() {
         return mSelectedProductData;
     }
+
+    public int countWeekendDays(int year, int month, int selectedDay) {
+        Calendar calendar = Calendar.getInstance();
+        // Note that month is 0-based in calendar, bizarrely.
+        calendar.set(year, month, 1);
+        Log.i(TAG, "countWeekendDays: in " + (month) + " Test Month: " + calendar.get(Calendar.MONTH));
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        int count = 0;
+        for (int day = 1; day <= daysInMonth; day++) {
+            calendar.set(year, month, day);
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            if (dayOfWeek == selectedDay) {
+                count++;
+                // Or do whatever you need to with the result.
+            }
+
+//            if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY) {
+//                count++;
+//                // Or do whatever you need to with the result.
+//            }
+        }
+        return count;
+    }
+
+    public int getCalenderDayValue(int manualValue) {
+
+        int dayValueForCalender = 0;
+        switch (manualValue) {
+
+            case 1:
+                dayValueForCalender = Calendar.MONDAY;
+                break;
+
+            case 2:
+                dayValueForCalender = Calendar.TUESDAY;
+                break;
+
+            case 3:
+                dayValueForCalender = Calendar.WEDNESDAY;
+                break;
+
+            case 4:
+                dayValueForCalender = Calendar.THURSDAY;
+                break;
+
+            case 5:
+                dayValueForCalender = Calendar.FRIDAY;
+                break;
+
+            case 6:
+                dayValueForCalender = Calendar.SATURDAY;
+                break;
+
+            case 7:
+                dayValueForCalender = Calendar.SUNDAY;
+                break;
+
+        }
+
+        return dayValueForCalender;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        Log.i(TAG, "beforeTextChanged: ");
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        Log.i(TAG, "onTextChanged: ");
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+
+        if (s == quantity_et_monday.getEditableText()) {
+            Log.i(TAG, "afterTextChanged: Monday = "+s.toString());
+
+
+            if ( s.length() > 0 && !(s.toString().equals("0"))) {
+                tb_Monday.setToggleStatus(2, true);
+                updateToggleTimeQuantity(0,tb_Monday,quantity_et_monday,1);
+            } else {
+                Log.i(TAG, "afterTextChanged: else monday toggle");
+                tb_Monday.setToggleStatus(0, true);
+                updateToggleTimeQuantity(0,tb_Monday,quantity_et_monday,1);
+            }
+
+        } else if (s == quantity_et_tuesday.getEditableText()) {
+
+            Log.i(TAG, "afterTextChanged: Tuesday");
+            if ( s.length() > 0 && !(s.toString().equals("0"))) {
+                tb_Tuesday.setToggleStatus(2, true);
+                updateToggleTimeQuantity(1,tb_Tuesday,quantity_et_tuesday,1);
+
+            } else {
+                tb_Tuesday.setToggleStatus(0, true);
+                updateToggleTimeQuantity(1,tb_Tuesday,quantity_et_tuesday,1);
+
+            }
+
+        } else if (s == quantity_et_wednesday.getEditableText()) {
+
+            Log.i(TAG, "afterTextChanged: Wednesday");
+            if ( s.length() > 0 && !(s.toString().equals("0"))) {
+                tb_Wednesday.setToggleStatus(2, true);
+                updateToggleTimeQuantity(2,tb_Wednesday,quantity_et_wednesday,1);
+
+            } else {
+                tb_Wednesday.setToggleStatus(0, true);
+                updateToggleTimeQuantity(2,tb_Wednesday,quantity_et_wednesday,1);
+
+            }
+
+        } else if (s == quantity_et_thursday.getEditableText()) {
+            Log.i(TAG, "afterTextChanged: Thursday");
+
+            if ( s.length() > 0 && !(s.toString().equals("0"))) {
+                tb_Thursday.setToggleStatus(2, true);
+                updateToggleTimeQuantity(3,tb_Thursday,quantity_et_thursday,1);
+
+            } else {
+                tb_Thursday.setToggleStatus(0, true);
+                updateToggleTimeQuantity(3,tb_Thursday,quantity_et_thursday,1);
+
+            }
+
+        } else if (s == quantity_et_friday.getEditableText()) {
+            Log.i(TAG, "afterTextChanged: Friday");
+
+            if ( s.length() > 0 && !(s.toString().equals("0"))) {
+                tb_Friday.setToggleStatus(2, true);
+                updateToggleTimeQuantity(4,tb_Friday,quantity_et_friday,1);
+
+            } else {
+                tb_Friday.setToggleStatus(0, true);
+                updateToggleTimeQuantity(4,tb_Friday,quantity_et_friday,1);
+
+            }
+
+        } else if (s == quantity_et_saturday.getEditableText()) {
+            Log.i(TAG, "afterTextChanged: Saturday");
+
+            if ( s.length() > 0 && !(s.toString().equals("0"))) {
+                tb_Saturday.setToggleStatus(2, true);
+                updateToggleTimeQuantity(5,tb_Saturday,quantity_et_saturday,1);
+
+            } else {
+                tb_Saturday.setToggleStatus(0, true);
+                updateToggleTimeQuantity(5,tb_Saturday,quantity_et_saturday,1);
+
+            }
+
+        } else if (s == quantity_et_sunday.getEditableText()) {
+            Log.i(TAG, "afterTextChanged: Sunday");
+
+            if ( s.length() > 0 && !(s.toString().equals("0"))) {
+                tb_Sunday.setToggleStatus(2, true);
+                updateToggleTimeQuantity(6,tb_Sunday,quantity_et_sunday,1);
+
+            } else {
+                tb_Sunday.setToggleStatus(0, true);
+                updateToggleTimeQuantity(6,tb_Sunday,quantity_et_sunday,1);
+            }
+        }
+
+//
+        Calendar cal = Calendar.getInstance();
+        int estMonthBill = 0, no_of_days = 0, price = Integer.parseInt(mSelectedProductData.getPrice());
+        for (int i = 0; i < mProductWeekSchedule.size(); i++) {
+            if (mProductWeekSchedule.get(i).getIsSelected().equalsIgnoreCase("1")) {
+
+                synchronized (this) {
+                    try {
+                       // updateAllElements(1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                Log.i(TAG, " Selected Day: " + mProductWeekSchedule.get(i).getDay_name());
+                no_of_days = countWeekendDays(cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH),
+                        getCalenderDayValue(Integer.parseInt(mProductWeekSchedule.get(i).getFrequency_id())));
+
+                Log.i(TAG, " DayOfWeek: " + mProductWeekSchedule.get(i).getDay_name() +
+                        "  Occurs in Current Month: " + no_of_days + " year: " + cal.get(Calendar.YEAR) +
+                        " Month: " + cal.get(Calendar.MONTH) +
+                        " formula day: " + getCalenderDayValue(Integer.parseInt(mProductWeekSchedule.get(i).getFrequency_id()))
+                );
+
+                Log.i(TAG, "afterTextChanged: quantity update: " + mProductWeekSchedule.get(i).getQuantity());
+                estMonthBill = estMonthBill + (price * Integer.parseInt(mProductWeekSchedule.get(i).getQuantity())) * no_of_days;
+            }
+        }
+
+        Log.i(TAG, "afterTextChanged: " + estMonthBill);
+        estCurMonthBill.setText("" + estMonthBill + " Rs");
+        // 0 for display as it is values from get Api
+    }
+
+
 }

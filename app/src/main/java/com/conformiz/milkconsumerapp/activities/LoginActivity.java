@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -147,7 +146,8 @@ public class LoginActivity extends AppCompatActivity implements
                 Toast.makeText(LoginActivity.this, response.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(LoginActivity.this, "Problem Found Could'nt login", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(LoginActivity.this, "Problem Found Could'nt login", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Invalid Username Password", Toast.LENGTH_SHORT).show();
 
         }
 

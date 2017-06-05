@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
     <android.support.design.widget.AppBarLayout
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/toolbar"
@@ -24,12 +25,12 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:paddingLeft="5dp"
                     android:id="@+id/iv_toolbar_back"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:paddingBottom="16dp"
+                    android:paddingLeft="5dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/btn_back_design" />
@@ -47,14 +48,13 @@
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-<FrameLayout
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fragment_container"
-    tools:context=".activities.MainActivity">
-</FrameLayout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".activities.MainActivity">
+    </FrameLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
