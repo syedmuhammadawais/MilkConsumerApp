@@ -80,11 +80,11 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         ((TextView) view.findViewById(R.id.tv_rate_ps)).setText("Rs " + mSelectedProductData.getPrice() + " per " + mSelectedProductData.getUnit());
         estCurMonthBill = (TextView) view.findViewById(R.id.tv_month_bill_repeat);
 
-        if (mSelectedProductData.getPrice().trim().length() > 0) {
-            ((TextView) view.findViewById(R.id.tv_month_bill_repeat)).setText("Rs " + Integer.parseInt(mSelectedProductData.getPrice()) * 30);
-        } else {
-            ((TextView) view.findViewById(R.id.tv_month_bill_repeat)).setText("Rs " + mSelectedProductData.getPrice());
-        }
+//        if (mSelectedProductData.getPrice().trim().length() > 0) {
+//            ((TextView) view.findViewById(R.id.tv_month_bill_repeat)).setText("Rs " + Integer.parseInt(mSelectedProductData.getPrice()));
+//        } else {
+//            ((TextView) view.findViewById(R.id.tv_month_bill_repeat)).setText("Rs " + mSelectedProductData.getPrice());
+//        }
 
         orderStartDate = (TextView) view.findViewById(R.id.et_start_date);
         orderStartDate.setOnClickListener(this);
