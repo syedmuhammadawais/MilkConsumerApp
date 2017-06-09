@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/product_bg"
+    android:padding="16dp">
+
+
+    <!--<TextView-->
+    <!--android:layout_above="@+id/tv_fs3"-->
+    <!--android:textSize="20sp"-->
+    <!--android:gravity="center"-->
+    <!--android:id="@+id/tv_fs0"-->
+    <!--android:layout_marginTop="50dp"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:text="@string/check_email_sms"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+
+
+
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tv_heading_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/app_black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1.5"
+            android:text="Taza Farms"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/ll_phone"
+            android:layout_alignStart="@+id/ll_phone" />
+
+
+
+
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:id="@+id/ll_phone"
+        android:weightSum="1"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:background="@drawable/login_user_pass_et_bg_round"
+            android:layout_gravity="top"
+            android:gravity="center"
+            android:text="+92"
+            android:textSize="16sp"
+            android:layout_weight="0.25"
+            android:layout_marginRight="5dp"
+            android:padding="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_phone_register_code"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:layout_weight="0.75"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/login_user_pass_et_bg_round"
+            android:hint="3xxxxxxxxx"
+            android:inputType="number"
+            android:padding="14dp"
+            android:textColorHint="@color/colorAccent" />
+
+    </LinearLayout>
+
+    <EditText
+        android:layout_below="@+id/ll_phone"
+        android:id="@+id/et_enter_code_register_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_user_pass_et_bg_round"
+        android:gravity="center"
+        android:hint="Enter Code"
+        android:inputType="text"
+        android:layout_marginBottom="10dp"
+        android:padding="14dp"
+        android:textColorHint="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/btn_submit_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_enter_code_register_code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_login_bg_yellow_round"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/app_black"
+        android:textSize="18sp" />
+
+</RelativeLayout>

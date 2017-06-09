@@ -207,6 +207,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 if (response.getSuccess()) {
                     SharedPreferenceUtil.getInstance(SignupActivity.this).saveClientId(response.getData().getClient_id());
                     fragmentNo++;
+                    screenThreeFragment.setPhoneNumber(screenTwoFragment.phoneET.getText().toString());
                     updateFragment(fragmentNo);
                     Toast.makeText(SignupActivity.this, "Verification Code Sent Successfully", Toast.LENGTH_SHORT).show();
                 } else {

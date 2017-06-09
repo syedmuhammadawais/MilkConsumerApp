@@ -43,9 +43,26 @@
         android:padding="14dp"
         android:textColorHint="@color/colorAccent" />
 
-    <TextView
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_resend_code"
+        android:gravity="center"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/et_enter_code_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_login_bg_yellow_round"
+        android:text="Resend Code"
+        android:textAllCaps="false"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/app_black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/btn_resend_code"
         android:id="@+id/tv_fs4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -3,7 +3,6 @@ package com.conformiz.milkconsumerapp.fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -125,25 +124,28 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
 
         switch (id) {
             case ON_CLICK_PRODUCT:
-                String clientId = SharedPreferenceUtil.getInstance(getActivity()).getClientId();
-//                String productId = productsDataList.get(pPosition).getProduct_id();
-//                String productUnit = productsDataList.get(pPosition).getUnit();
-//                String productName = productsDataList.get(pPosition).getProduct_name();
-//                String productPrice = productsDataList.get(pPosition).getPrice();
 
-                    if(productsDataList.get(pPosition).getIs_selected().equalsIgnoreCase("0")) {
+                    if(productsDataList.get(pPosition).getOrder_type().equalsIgnoreCase("1")){
+
+                        SpecialOrderFragment specialOrderFragment = new SpecialOrderFragment();
+                        specialOrderFragment.setSelectedProductData(productsDataList.get(pPosition));
+
+                        MyFragmentManager.getInstance().addFragment(specialOrderFragment);
+                        transaction.replace(R.id.fragment_container, specialOrderFragment).commit();
+
+                    } else if(productsDataList.get(pPosition).getIs_selected().equalsIgnoreCase("0")) {
+
                         ProductScheduleFragment productScheduleFragment = new ProductScheduleFragment();
                         productScheduleFragment.setSelectedProductData(productsDataList.get(pPosition));
-//                    productScheduleFragment.setProductId(productId);
-//                    productScheduleFragment.setProductUnit(productUnit);
-//                    productScheduleFragment.setProductName(productName);
-//                    productScheduleFragment.setProductPrice(productPrice);
 
                         MyFragmentManager.getInstance().addFragment(productScheduleFragment);
                         transaction.replace(R.id.fragment_container, productScheduleFragment).commit();
+
                     } else{
+
                         PlanSelectionFragment planSelectionFragment = new PlanSelectionFragment();
                         planSelectionFragment.setSelectedProductData(productsDataList.get(pPosition));
+
                         MyFragmentManager.getInstance().addFragment(planSelectionFragment);
                         transaction.replace(R.id.fragment_container,planSelectionFragment).commit();
                     }
@@ -177,7 +179,7 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle("Product Info: " + productsDataList.get(position).getProduct_name());
         alertDialog.setIcon(R.drawable.product_info);
-        alertDialog.setMessage("Measured in Ltr: 1\nPrice: " + productsDataList.get(position).getPrice());
+        alertDialog.setMessage("Measured in "+productsDataList.get(position).getUnit()+": 1\nPrice: " + productsDataList.get(position).getPrice());
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

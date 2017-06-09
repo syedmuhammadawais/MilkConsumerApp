@@ -474,6 +474,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 
                             isPlanResetToZero = 1;
                             Log.i(TAG, " Selected Day: " + mProductWeekSchedule.get(i).getDay_name());
+
                             no_of_days = countWeekendDays(cal.get(Calendar.YEAR),
                                     cal.get(Calendar.MONTH),
                                     getCalenderDayValue(Integer.parseInt(mProductWeekSchedule.get(i).getFrequency_id())));
@@ -1032,7 +1033,11 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                 );
 
                 Log.i(TAG, "afterTextChanged: quantity update: " + mProductWeekSchedule.get(i).getQuantity());
-                estMonthBill = estMonthBill + (price * Integer.parseInt(mProductWeekSchedule.get(i).getQuantity())) * no_of_days;
+                try {
+                    estMonthBill = estMonthBill + (price * Integer.parseInt(mProductWeekSchedule.get(i).getQuantity())) * no_of_days;
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.conformiz.milkconsumerapp.R;
-import com.conformiz.milkconsumerapp.activities.SignupActivity;
 import com.conformiz.milkconsumerapp.models.Request.SignUpUserRootRequest;
 import com.conformiz.milkconsumerapp.models.response.SaveDataArrayResponse;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
@@ -33,9 +32,10 @@ public class ScreenTwoFragment extends Fragment implements View.OnClickListener,
     public boolean isValidate = false;
 
     EditText emailET;
-    EditText phoneET;
     EditText usernameET;
     EditText passwordET;
+
+    public EditText phoneET;
 
     private ProgressDialog mProgressDialog;
 
@@ -121,7 +121,7 @@ public class ScreenTwoFragment extends Fragment implements View.OnClickListener,
                         String ph = phoneET.getText().toString().substring(0, 1);
                         if (!ph.equals("3")) {
                             isValidate = false;
-                            phoneET.setError("Mobile Number not valid (Must start with 03)");
+                            phoneET.setError("Mobile Number not valid (Must start with 3)");
                         } else isValidate = true;
                     }
                 }
@@ -190,7 +190,7 @@ public class ScreenTwoFragment extends Fragment implements View.OnClickListener,
                    // usernameET.setError("Username already exist please try another Username");
                 }
             } else {
-                Log.i("else save Data response", "onPostExecute: not instacn");
+                Log.i("else save Data response", "onPostExecute: not instan");
             }
         } else {
             Toast.makeText(getActivity(), "Server Error ", Toast.LENGTH_SHORT).show();

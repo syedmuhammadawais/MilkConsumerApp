@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/activity_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_image"
-        android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -18,10 +18,12 @@
         tools:context="com.conformiz.milkconsumerapp.activities.LoginActivity">
 
         <LinearLayout
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_above="@+id/ll_user_pass_login"
-            android:layout_weight="0.5"
             android:orientation="vertical"
             android:weightSum="2">
 
@@ -44,10 +46,9 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:layout_weight="3.75"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3.25">
-
+            android:layout_height="0dp">
             <LinearLayout
                 android:id="@+id/ll_user_pass_login"
                 android:layout_width="match_parent"
@@ -120,56 +121,61 @@
                 </RelativeLayout>
 
             </LinearLayout>
+            <Button
+                android:id="@+id/btn_resend_code_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/ll_user_pass_login"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/btn_login_bg_yellow_round"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Already Have a Code?"
+                android:textAllCaps="false"
+                android:textColor="@color/app_black"
+                android:textSize="18sp" />
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/btn_resend_code_login"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_above="@+id/tv_forget_password"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/btn_login_bg_yellow_round"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="Already Have a Code?"
-            android:textAllCaps="false"
-            android:textColor="@color/app_black"
-            android:textSize="18sp" />
 
         <TextView
-
+            android:gravity="center_vertical"
+            android:layout_gravity="center"
             android:id="@+id/tv_forget_password"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_weight="0.25"
             android:layout_above="@+id/btn_sign_up"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
             android:layout_marginBottom="10dp"
-            android:layout_weight="0.25"
             android:text="Forgot Your Username/Password?"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent"
             android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/btn_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
+
+        <RelativeLayout
             android:layout_weight="0.5"
-            android:background="@drawable/btn_sign_up_round_blue"
-            android:text="Sign Up"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <Button
+                android:layout_alignParentBottom="true"
+                android:id="@+id/btn_sign_up"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_sign_up_round_blue"
+                android:text="Sign Up"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+        </RelativeLayout>
 
 
     </LinearLayout>
+
 </layout>

@@ -6,6 +6,8 @@ public class AllProductsRootResponseData implements java.io.Serializable {
     private String product_id;
     private String product_name;
     private String is_selected;
+    private String order_type;
+
 
     public String getUnit() {
         return this.unit;
@@ -45,5 +47,13 @@ public class AllProductsRootResponseData implements java.io.Serializable {
 
     public void setIs_selected(String is_selected) {
         this.is_selected = is_selected;
+    }
+
+    public String getOrder_type() {
+        return order_type;
+    }
+
+    public void setOrder_type(String order_type) {
+        this.order_type = order_type;
     }
 }

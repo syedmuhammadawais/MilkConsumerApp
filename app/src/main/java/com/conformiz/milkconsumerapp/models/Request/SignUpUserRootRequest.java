@@ -11,6 +11,8 @@ public class SignUpUserRootRequest implements java.io.Serializable {
     private String zone_id;
     private String password;
     private String cell_no_1;
+    private String date_of_birth;
+
 
 
     private String cell_no_2;
@@ -121,5 +123,13 @@ public class SignUpUserRootRequest implements java.io.Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    public void setDate_of_birth(String date_of_birth) {
+        this.date_of_birth = date_of_birth;
     }
 }

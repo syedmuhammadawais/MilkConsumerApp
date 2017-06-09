@@ -1,15 +1,19 @@
 package com.conformiz.milkconsumerapp.fragments.signupfragments;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +26,8 @@ import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by Fahad.Munir on 12-Apr-17.
@@ -38,17 +44,20 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
     private EditText addressET;
    // private EditText floorET;
 
-    private TextView spinnerLabelArea;
+    private TextView spinnerLabelArea, addDobTV;
 
     private ProgressDialog dialog;
+    private DatePickerDialog datePickerDialog;
+
 
     private Spinner zoneListSP;
     ArrayAdapter spinnerAdapter;
-    int selectedZoneId = 0;
 
     ArrayList<ZoneListRootResponseData> mZoneListData = new ArrayList<>();
 
+    int selectedZoneId = 0;
     public boolean isValidate = false;
+    String dateOfBirth = "";
 
     public ScreenOneFragment() {
 
@@ -63,8 +72,7 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
         lastNameET = (EditText) view.findViewById(R.id.et_last_name_sign_up);
        // areaET = (EditText) view.findViewById(R.id.et_area_sign_up);
         addressET = (EditText) view.findViewById(R.id.et_address_sign_up);
-       // floorET = (EditText) view.findViewById(R.id.et_floor_sign_up);
-
+        addDobTV = (TextView) view.findViewById(R.id.tv_dob_sign_up_label);
         spinnerLabelArea = (TextView) view.findViewById(R.id.sp_zone_label);
         spinnerLabelArea.setOnClickListener(this);
 
@@ -75,8 +83,9 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
 
         firstNameET.setOnClickListener(this);
         lastNameET.setOnClickListener(this);
-//        areaET.setOnClickListener(this);
+        addDobTV.setOnClickListener(this);
         addressET.setOnClickListener(this);
+        view.findViewById(R.id.tv_dob_sign_up_label).setOnClickListener(this);
         //floorET.setOnClickListener(this);
 
         firstNameET.setOnFocusChangeListener(this);
@@ -105,12 +114,13 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
 //            case R.id.et_area_sign_up:
 //                break;
 
-            case R.id.et_floor_sign_up:
+            case R.id.tv_dob_sign_up_label:
+            case R.id.tv_dob_sign_up:
+                alertDatePicker();
                 break;
 
         }
     }
-
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -186,6 +196,7 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
        // request.setAddress(addressET.getText().toString() + " " + floorET.getText().toString());
         request.setAddress(addressET.getText().toString()+"");
         request.setZone_id(selectedZoneId + "");
+        request.setDate_of_birth(dateOfBirth);
 
 
         request.setCell_no_2("");
@@ -235,7 +246,6 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
 
     }
 
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -243,12 +253,10 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
 
     }
 
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
     public boolean checkValidation(){
 
@@ -266,4 +274,41 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
 
         return isValidate;
     }
+
+    public void alertDatePicker() {
+
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.date_picker, null, false);
+        final Calendar c = Calendar.getInstance();
+        final DatePicker myDatePicker = (DatePicker) view.findViewById(R.id.myDatePicker);
+        myDatePicker.setCalendarViewShown(false);
+
+        if(dateOfBirth.trim().length()>0){
+
+            String yearMonthDay[] = dateOfBirth.split("-");
+            myDatePicker.updateDate(Integer.parseInt(yearMonthDay[0]),Integer.parseInt(yearMonthDay[2])-1,Integer.parseInt(yearMonthDay[1]));
+        }
+
+
+        // the alert dialog
+        new AlertDialog.Builder(getActivity()).setView(view)
+                .setTitle("Select Date")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        int month = myDatePicker.getMonth() + 1;
+                        c.set(Calendar.MONTH,month-1);
+                        int day = myDatePicker.getDayOfMonth();
+                        int year = myDatePicker.getYear();
+
+                        dateOfBirth = year+"-"+day+"-"+month;
+                        addDobTV.setText(day+"/"+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+                        +"/"+year);
+
+                    }
+
+                }).show();
+    }
+
+
 }

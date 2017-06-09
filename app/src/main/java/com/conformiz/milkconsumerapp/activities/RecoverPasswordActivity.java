@@ -4,19 +4,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.models.SaveDataObjectResponse;
-import com.conformiz.milkconsumerapp.models.response.SaveDataArrayResponse;
-import com.conformiz.milkconsumerapp.models.response.SaveDataResponse;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;
@@ -117,10 +113,10 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
                 } else{
                     Toast.makeText(RecoverPasswordActivity.this,""+response.getMessage(),Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(RecoverPasswordActivity.this,"Server Error",Toast.LENGTH_SHORT).show();
             }
-            if(result !=null  && result instanceof SaveDataArrayResponse){
-               showMessageDialog("This number is not registered");
-            }
+
 
 
             Log.i("change", "onPostExecute: ");
@@ -186,6 +182,7 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
                 dialog.cancel();
+                RecoverPasswordActivity.this.onBackPressed();
             }
         });
 

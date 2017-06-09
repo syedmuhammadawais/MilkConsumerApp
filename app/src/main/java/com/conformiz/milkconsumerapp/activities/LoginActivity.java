@@ -17,7 +17,6 @@ import com.conformiz.milkconsumerapp.network.NetworkOperations;
 import com.conformiz.milkconsumerapp.utils.Constants;
 import com.conformiz.milkconsumerapp.utils.SharedPreferenceUtil;
 import com.conformiz.milkconsumerapp.utils.Utility;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,12 +42,16 @@ public class LoginActivity extends AppCompatActivity implements
         bindView = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
         bindView.btnLogin.setOnClickListener(this);
-        Utility.getInstance().buttonEffect(bindView.btnLogin,R.color.app_brown_light);
-        Utility.getInstance().buttonEffect(bindView.btnSignUp,R.color.app_brown_light);
-
+        bindView.btnResendCodeLogin.setOnClickListener(this);
         bindView.btnSignUp.setOnClickListener(this);
         bindView.tvForgetPassword.setOnClickListener(this);
         bindView.tvRememberMe.setOnClickListener(this);
+
+        Utility.getInstance().buttonEffect(bindView.btnLogin, R.color.app_brown_light);
+        Utility.getInstance().buttonEffect(bindView.btnSignUp, R.color.app_brown_light);
+        Utility.getInstance().buttonEffect(bindView.btnResendCodeLogin, R.color.app_brown_light);
+
+
         bindView.tbRememberMe.setOnToggleChanged(this);
         bindView.etEnterUsername.setOnFocusChangeListener(this);
         bindView.etEnterPassword.setOnFocusChangeListener(this);
@@ -73,8 +76,6 @@ public class LoginActivity extends AppCompatActivity implements
             case R.id.btn_login:
                 if (isValidated()) {
                     JSONObject loginObj = new JSONObject();
-                    JsonObject g = new JsonObject();
-
                     try {
                         loginObj.put("userName", bindView.etEnterUsername.getText().toString());
                         loginObj.put("password", bindView.etEnterPassword.getText().toString());
@@ -94,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements
                 break;
 
             case R.id.tv_forget_password:
-                Intent recoverPasswordIntent = new Intent(LoginActivity.this,RecoverPasswordActivity.class);
+                Intent recoverPasswordIntent = new Intent(LoginActivity.this, RecoverPasswordActivity.class);
                 startActivity(recoverPasswordIntent);
                 break;
 
@@ -106,6 +107,11 @@ public class LoginActivity extends AppCompatActivity implements
                     bindView.tbRememberMe.setToggleStatus(0, true);
                     onToggle(bindView.tbRememberMe.getToggleStatus(), false, 0);
                 }
+                break;
+
+            case R.id.btn_resend_code_login:
+                Intent i = new Intent(LoginActivity.this, RegisterCodeActivity.class);
+                startActivity(i);
                 break;
         }
 
@@ -137,6 +143,11 @@ public class LoginActivity extends AppCompatActivity implements
                 SharedPreferenceUtil.getInstance(LoginActivity.this).saveClientEmail(response.getData().getEmail());
                 SharedPreferenceUtil.getInstance(LoginActivity.this).saveClientContact(response.getData().getCell_no_1());
 
+                if (!(bindView.tbRememberMe.getToggleStatus()).toString().equalsIgnoreCase("off")) {
+                    SharedPreferenceUtil.getInstance(LoginActivity.this).saveKeepSignInValue(true);
+                } else {
+                    SharedPreferenceUtil.getInstance(LoginActivity.this).saveKeepSignInValue(false);
+                }
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -146,7 +157,7 @@ public class LoginActivity extends AppCompatActivity implements
                 Toast.makeText(LoginActivity.this, response.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
         } else {
-          //  Toast.makeText(LoginActivity.this, "Problem Found Could'nt login", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(LoginActivity.this, "Problem Found Could'nt login", Toast.LENGTH_SHORT).show();
             Toast.makeText(LoginActivity.this, "Invalid Username Password", Toast.LENGTH_SHORT).show();
 
         }
@@ -195,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements
                 break;
 
             case 2:
-                SharedPreferenceUtil.getInstance(LoginActivity.this).saveKeepSignInValue(true);
+                // SharedPreferenceUtil.getInstance(LoginActivity.this).saveKeepSignInValue(true);
                 break;
         }
     }
