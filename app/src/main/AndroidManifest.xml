@@ -36,17 +36,20 @@
             </intent-filter>
         </activity>
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".activities.RecoverPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".activities.ActivityPaymentWebView"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:name=".activities.RegisterCodeActivity">
 

@@ -17,14 +17,17 @@
             android:background="@color/white"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <RelativeLayout
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
                     android:paddingLeft="5dp"
                     android:id="@+id/btn_back_complaints"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.25"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:paddingBottom="16dp"
@@ -33,30 +36,36 @@
                     android:src="@drawable/btn_back_design" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="Complaints"
+                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:textColor="@color/bgblue"
                     android:textSize="22sp"
+                    android:layout_marginRight="10dp"
                     android:textStyle="bold" />
                 <Button
                     android:id="@+id/btn_view_complaints"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.28"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/btn_login_bg_yellow_round"
                     android:padding="5dp"
-                    android:text="View Complaints"
+                    android:text="View All"
                     android:textAllCaps="false" />
 
 
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
     <LinearLayout

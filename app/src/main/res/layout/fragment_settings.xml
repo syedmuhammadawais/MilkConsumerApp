@@ -101,6 +101,29 @@
         </LinearLayout>
 
 
+        <!-- Manage SMS notifications-->
+        <LinearLayout
+            android:id="@+id/ll_row_manage_sms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/circle_round"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawableLeft="@drawable/btn_logout"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/sms_settings"
+                android:gravity="center_vertical"
+                android:text="Manage SMS Alerts"
+                android:textColor="@color/bgblue"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <!-- Logout -->
 
         <LinearLayout

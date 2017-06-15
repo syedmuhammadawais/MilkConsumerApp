@@ -55,6 +55,8 @@ public interface Constants {
 
     String CLIENT_ID = "client_id";
     String KEEP_ME_SIGN = "keep_me_sign";
+    String SHOW_CHECK_BOX = "show_check_box";
+
 
     int ON_CLICK_PRODUCT = 100;
     int ON_CLICK_PRODUCT_INFO = 200;
@@ -65,5 +67,7 @@ public interface Constants {
     public  String  UPDATE_WEEKLY_PLAN = "2";
     public  String ADD_SPECIAL_ORDER = "1";
     public  String ADD_NEW_WEEKLY_PLAN = "0";
+
+
 
 }

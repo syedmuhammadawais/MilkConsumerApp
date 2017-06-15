@@ -6,6 +6,7 @@
     android:background="@drawable/product_bg"
     android:orientation="vertical">
 
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +24,8 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/btn_back_how_to_pay"
+                    android:paddingLeft="5dp"
+                    android:id="@+id/btn_back_help"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
@@ -36,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="How To Pay"
+                    android:text="Help"
                     android:textColor="@color/bgblue"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -44,15 +46,47 @@
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
+
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <WebView
-        android:padding="10dp"
-        android:id="@+id/wv_how_to_pay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </WebView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/btn_help_how_to_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/login_user_pass_et_bg_round"
+                android:drawableRight="@drawable/help_arrow_36"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="How To Pay"
+                android:textAllCaps="false"
+                android:textColor="@color/bgblue"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_help_faqs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/help_arrow_36"
+                android:background="@drawable/login_user_pass_et_bg_round"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="FAQs"
+                android:textAllCaps="false"
+                android:textColor="@color/bgblue"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
     </ScrollView>
+
+
 </LinearLayout>

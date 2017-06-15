@@ -186,7 +186,7 @@ public class Utility {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        Log.i("Down", "onTouch: DOWN");
+//                        Log.i("Down", "onTouch: DOWN");
                         ImageView view = (ImageView) v;
                         //overlay is black with transparency of 0x77 (119)
                         view.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -194,7 +194,7 @@ public class Utility {
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
-                        Log.i("UP", "onTouch: UP");
+//                        Log.i("UP", "onTouch: UP");
                         ImageView view = (ImageView) v;
                         //clear the overlay
                         view.getDrawable().clearColorFilter();

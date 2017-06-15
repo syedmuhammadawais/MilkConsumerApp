@@ -88,7 +88,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/btn_login_bg_yellow_round"
             android:padding="5dp"
-            android:text="Update Weekly Plan Schedule"
+            android:text="Change Delivery Schedule"
             android:textAllCaps="false" />
 
 
@@ -102,7 +102,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/btn_login_bg_yellow_round"
             android:padding="5dp"
-            android:text="Create One Time Order"
+            android:text="Place One Time Order"
             android:textAllCaps="false" />
 
         <TextView
@@ -131,7 +131,7 @@
             android:textSize="16sp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/white"
-            android:text="* Your regular deliveries will be resumed after this"
+            android:text="* Your regular delivery will resume after this"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

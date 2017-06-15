@@ -27,12 +27,12 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:paddingLeft="5dp"
                         android:id="@+id/btn_back_main_menu"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
                         android:paddingBottom="16dp"
+                        android:paddingLeft="5dp"
                         android:paddingRight="16dp"
                         android:paddingTop="16dp"
                         android:src="@drawable/btn_back_design"
@@ -105,7 +105,7 @@
                     android:layout_below="@id/iv_manager_order"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
-                    android:text="Manage Order"
+                    android:text="Manage Orders"
                     android:textColor="@color/white" />
 
             </RelativeLayout>
@@ -236,9 +236,8 @@
                     android:layout_below="@id/iv_how_to_pay"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
-                    android:text="How to Pay"
+                    android:text="Help"
                     android:textColor="@color/white" />
-
             </RelativeLayout>
 
 
@@ -250,18 +249,55 @@
             android:layout_gravity="bottom"
             android:layout_weight="2">
 
-
-            <TextView
-                android:id="@+id/tv_powered_by"
-                android:layout_marginBottom="10dp"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="@string/powered_by_conformiz"
-                android:textColor="@color/app_black"
-                android:textSize="16sp" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_powered_by"
+                    android:layout_above="@+id/ll_visa_easypaisa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="@string/powered_by_conformiz"
+                    android:textColor="@color/app_black"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_visa_easypaisa"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_easypaisa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:src="@drawable/easypaisa" />
+
+                    <ImageView
+                        android:id="@+id/iv_visa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_below="@+id/tv_powered_by"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/visa" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>

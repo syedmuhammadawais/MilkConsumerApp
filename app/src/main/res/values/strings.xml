@@ -7,49 +7,10 @@
     </string>
     <string name="logout"><strong>Logout</strong></string>
     <string name="powered_by_conformiz"> Powered By Conformiz</string>
-    <string name="text_how_to_pay">
-   <html> <b>How To Pay</b>
-You can pay your bill through any of the following payment methods:
-Credit card
-<ul>
-    <li>Through direct transfer to our bank account</li>
-    <li>Using EasyPaisa Shop</li>
-    <li>Using EasyPaisa Mobile account</li>
-</ul>
-How to make payments using Credit Card
+    <string name="manage_order_instructions">
 
-Make sure your card is activated for online transaction
-Select EasyPaisa as your payment method during the payment process.
-Select pay with credit/debit card during the payment process. A new window opens, you have 10 minutes to complete the payment
-Input your card details and click on Confirm payment
-You will receive a confirmation SMS and email
-No fees will be charged if you make a payment with your credit/debit card on Taza Farms
-
-
-
-Is it safe to pay with credit/debit card on Taza Farms?
-Fraud detection and prevention are very important to us. We take all steps to ensure that transactions are genuine and that our customers’ details are completely secure. Online payments are monitored continuously for suspicious activity and some transactions are verified manually if we feel that it’s not authorized by the owner of the card.
-
-Through direct transfer to our bank account
-You can deposit your bill to our bank account with following details:
-
-Title of Account: Taza Farms
-Bank:
-Call us at 9999999999 after you deposit your bill.
-
-Using EasyPaisa Shop
-Select EasyPaisa as your payment method during the payment process.
-A random token number will be generated and displayed on your screen.
-Visit the nearest Easypaisa Shop and ask the agent to accept Easypay payment against your token number. You have 12 hours to make the payment.
-Once the payment has been processed successfully, you will receive a payment confirmation via SMS and email
-
-Using EasyPaisa Mobile Account
-Make sure your mobile account is sufficiently credited
-Select EasyPaisa as your payment method during the payment process.
-Input your mobile account details and confirm your payment by entering your 5 digits mobile account PIN on the message you will get on your phone
-You will receive a confirmation SMS and email
-</html>
     </string>
+
 
 
 </resources>

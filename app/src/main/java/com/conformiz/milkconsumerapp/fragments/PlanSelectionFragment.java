@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.mainfragmentmanager.MyFragmentManager;
@@ -33,6 +34,7 @@ public class PlanSelectionFragment extends Fragment implements View.OnClickListe
         createSpecialOrderBT = (Button) view.findViewById(R.id.btn_create_one_time_order);
         pauseDeliveriesBT = (Button) view.findViewById(R.id.btn_pause_deliveries);
 
+        ((TextView)view.findViewById(R.id.tv_weekly_product_name)).setText(mSelectedProductData.getProduct_name());
         view.findViewById(R.id.btn_back_plan_selection).setOnClickListener(this);
 
         createUpdateBT.setOnClickListener(this);
@@ -58,6 +60,7 @@ public class PlanSelectionFragment extends Fragment implements View.OnClickListe
                 ProductScheduleFragment productScheduleFragment = new ProductScheduleFragment();
                 productScheduleFragment.setSelectedProductData(mSelectedProductData);
                 productScheduleFragment.setIsUpdate(1); // 1 for update 0 for new
+
                 MyFragmentManager.getInstance().addFragment(productScheduleFragment);
                 transaction.replace(R.id.fragment_container, productScheduleFragment);
                 transaction.commit();

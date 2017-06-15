@@ -59,6 +59,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
     // 0 for new 1 for update
     int isPlanUpdate = 0;
     int isPlanResetToZero = 0;
+    boolean isNewOrder = false;
 
     TriStateToggleButton tb_Monday, tb_Tuesday, tb_Wednesday, tb_Thursday, tb_Friday, tb_Saturday, tb_Sunday;
     //   EditText time_et_monday, time_et_tuesday, time_et_wednesday, time_et_thursday, time_et_friday, time_et_saturday, time_et_sunday;
@@ -116,6 +117,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                 switch (i) {
                     case 0:
                         mProductWeekSchedule.get(0).setIsSelected("0");
+                        quantity_et_monday.setText("");
                         break;
                     case 2:
                         mProductWeekSchedule.get(0).setIsSelected("1");
@@ -131,6 +133,9 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                 switch (i) {
                     case 0:
                         mProductWeekSchedule.get(1).setIsSelected("0");
+                        quantity_et_tuesday.setText("");
+
+
                         break;
                     case 2:
                         mProductWeekSchedule.get(1).setIsSelected("1");
@@ -146,6 +151,8 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                 switch (i) {
                     case 0:
                         mProductWeekSchedule.get(2).setIsSelected("0");
+                        quantity_et_wednesday.setText("");
+
                         break;
                     case 2:
                         mProductWeekSchedule.get(2).setIsSelected("1");
@@ -161,6 +168,8 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                 switch (i) {
                     case 0:
                         mProductWeekSchedule.get(3).setIsSelected("0");
+                        quantity_et_thursday.setText("");
+
                         break;
                     case 2:
                         mProductWeekSchedule.get(3).setIsSelected("1");
@@ -176,6 +185,8 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                 switch (i) {
                     case 0:
                         mProductWeekSchedule.get(4).setIsSelected("0");
+                        quantity_et_friday.setText("");
+
                         break;
                     case 2:
                         mProductWeekSchedule.get(4).setIsSelected("1");
@@ -191,6 +202,8 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                 switch (i) {
                     case 0:
                         mProductWeekSchedule.get(5).setIsSelected("0");
+                        quantity_et_saturday.setText("");
+
                         break;
                     case 2:
                         mProductWeekSchedule.get(5).setIsSelected("1");
@@ -206,6 +219,8 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                 switch (i) {
                     case 0:
                         mProductWeekSchedule.get(6).setIsSelected("0");
+                        quantity_et_sunday.setText("");
+
                         break;
                     case 2:
                         mProductWeekSchedule.get(6).setIsSelected("1");
@@ -348,7 +363,7 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
                         showMessageDialogForReset("This product schedule will be removed");
                         savePlan = false;
                     } else {
-                        showMessageDialog("Please select schedule for one day before saving");
+                        showMessageDialog("Please select schedule for one day before saving","",false,R.drawable.product_info);
                         savePlan = false;
                     }
                 }
@@ -398,7 +413,6 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         }
     }
 
-
     public void setProductWeeklyData(ArrayList<ProductWeeklyScheduleRootResponseData> productWeekSchedule) {
         mProductWeekSchedule.clear();
         mProductWeekSchedule = productWeekSchedule;
@@ -426,7 +440,6 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         mResponse.setData(mProductWeekSchedule);
 
         Log.i(TAG, "onClick: Json = " + new Gson().toJson(mResponse));
-
         mResponse.setClientId(mClientId);
         mResponse.setProductId(mSelectedProductData.getProduct_id());
         NetworkOperations.getInstance().postData(getActivity(), Constants.ACTION_POST_SAVE_UPDATE_WEEKLY_PLAN, mResponse, this, SaveDataResponse.class);
@@ -501,7 +514,14 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 
                 if (saveDataResponse.getSuccess()) {
                     Toast.makeText(getActivity(), "Weekly Plan Created/Updated Successfully", Toast.LENGTH_SHORT).show();
-                    getActivity().onBackPressed();
+
+                    if(isNewOrder){
+                        String []splitDate = orderStartDate.getText().toString().split(":");
+                        showMessageDialog("Congratulations","Your delivery plan is successfully saved. \n" +
+                                "Your supply shall be started from "+splitDate[1],true,R.drawable.ok_dialog_icon_36);
+                    }else {
+                        getActivity().onBackPressed();
+                    }
                 } else {
                     Toast.makeText(getActivity(), "Could'nt Create/Update Weekly Plan", Toast.LENGTH_SHORT).show();
                 }
@@ -680,14 +700,18 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
         return showMsg;
     }
 
-    public void showMessageDialog(String msg) {
+    public void showMessageDialog(String title,String msg, final boolean allowGoBack, int iconDrawable) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("" + msg)
-                .setIcon(R.drawable.product_info)
+        builder.setMessage("" + msg)
+                .setTitle(title)
+                .setIcon(iconDrawable)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        if(allowGoBack){
+                            getActivity().onBackPressed();
+                        }
 
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -830,6 +854,10 @@ public class ProductScheduleFragment extends Fragment implements View.OnClickLis
 
     public void setIsUpdate(int updatePlan) {
         isPlanUpdate = updatePlan;
+    }
+
+    public void isIsNewOrder(boolean order){
+        isNewOrder = order;
     }
 
     public void setSelectedProductData(AllProductsRootResponseData data) {

@@ -1,10 +1,12 @@
 package com.conformiz.milkconsumerapp.fragments;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,7 +18,6 @@ import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.adapters.ViewComplaintsListAdapter;
 import com.conformiz.milkconsumerapp.callbacks.OnItemClick;
 import com.conformiz.milkconsumerapp.mainfragmentmanager.MyFragmentManager;
-import com.conformiz.milkconsumerapp.models.response.SaveDataArrayResponse;
 import com.conformiz.milkconsumerapp.models.response.ViewCustomerComplaintsRootResponse;
 import com.conformiz.milkconsumerapp.models.response.ViewCustomerComplaintsRootResponseData;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
@@ -86,10 +87,14 @@ public class ComplaintsViewFragment extends Fragment implements INetworkListener
             dialog.dismiss();
         }
 
-        if(result !=null && result.getSuccess()){
-            mData.clear();
-            mData.addAll(result.getData());
-            complaintsListAdapter.addDataToPlansList(mData);
+        if(result!=null) {
+            if (result.getSuccess() && result.getData().size() > 0) {
+                mData.clear();
+                mData.addAll(result.getData());
+                complaintsListAdapter.addDataToPlansList(mData);
+            } else if (result.getData().size() <= 0) {
+                showMessageDialog("Currently there are no complaints registered");
+            }
         }
 
     }
@@ -119,4 +124,22 @@ public class ComplaintsViewFragment extends Fragment implements INetworkListener
                 break;
         }
     }
+
+    public void showMessageDialog(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("" + msg)
+                .setIcon(R.drawable.product_info)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.cancel();
+                        getActivity().onBackPressed();
+
+                    }
+                });
+
+        builder.show();
+    }
+
 }

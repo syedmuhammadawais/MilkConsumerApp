@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -62,7 +63,6 @@ public class DeliveriesRecordFragment extends Fragment implements INetworkListen
 
         monthTV = (TextView) view.findViewById(R.id.tv_show_month);
 
-
         final Date today = new Date();
         final Calendar calendar = Calendar.getInstance();
         calendar.setTime(today);
@@ -110,7 +110,7 @@ public class DeliveriesRecordFragment extends Fragment implements INetworkListen
                 JSONObject request = new JSONObject();
                 try {
                     request.put("client_id", SharedPreferenceUtil.getInstance(getActivity()).getClientId() + "");
-                    request.put("start_date", "" + "" + myp.getSelectedYear() + "-" + myp.getSelectedMonth() + "-01");
+                    request.put("start_date", "" + "" + myp.getSelectedYear() + "-" + (myp.getSelectedMonth()+1) + "-01");
                     request.put("end_date", "" + sdf.format(lastDayOfMonth));
 
                 } catch (JSONException e) {
@@ -191,7 +191,8 @@ public class DeliveriesRecordFragment extends Fragment implements INetworkListen
                 mData.clear();
                 if (response.getData().size() == 0) {
                     mRecordAdapter.addDataToPlansList(mData);
-                    Toast.makeText(getActivity(), "No Deliveries Found for this Month", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getActivity(), "No Deliveries Found for this Month", Toast.LENGTH_SHORT).show();
+                    showMessageDialog("No Deliveries Found for this Month");
                 } else {
                     mData.addAll(response.getData());
                     mRecordAdapter.addDataToPlansList(mData);
@@ -214,6 +215,20 @@ public class DeliveriesRecordFragment extends Fragment implements INetworkListen
     public void onClick(int pPosition, int id) {
 
         Log.i(TAG, "onClick: ");
+    }
+    public void showMessageDialog(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("" + msg)
+                .setIcon(R.drawable.product_info)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+
+                    }
+                });
+
+        builder.show();
     }
 
 }

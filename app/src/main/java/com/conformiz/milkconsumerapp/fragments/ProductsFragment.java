@@ -125,6 +125,7 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
         switch (id) {
             case ON_CLICK_PRODUCT:
 
+                   // 1 for special order specific product
                     if(productsDataList.get(pPosition).getOrder_type().equalsIgnoreCase("1")){
 
                         SpecialOrderFragment specialOrderFragment = new SpecialOrderFragment();
@@ -137,6 +138,9 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
 
                         ProductScheduleFragment productScheduleFragment = new ProductScheduleFragment();
                         productScheduleFragment.setSelectedProductData(productsDataList.get(pPosition));
+                        if(productsDataList.get(pPosition).getIs_selected().equalsIgnoreCase("0")){
+                            productScheduleFragment.isIsNewOrder(true);
+                        }
 
                         MyFragmentManager.getInstance().addFragment(productScheduleFragment);
                         transaction.replace(R.id.fragment_container, productScheduleFragment).commit();

@@ -2,12 +2,11 @@ package com.conformiz.milkconsumerapp.fragments.signupfragments;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +24,9 @@ import com.conformiz.milkconsumerapp.models.response.ZoneListRootResponseData;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
 import com.conformiz.milkconsumerapp.network.NetworkOperations;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Created by Fahad.Munir on 12-Apr-17.
@@ -57,7 +56,7 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
 
     int selectedZoneId = 0;
     public boolean isValidate = false;
-    String dateOfBirth = "";
+    String dateOfBirth = "", dobForTextView = "Add DOB:  Day/Month/Year ";
 
     public ScreenOneFragment() {
 
@@ -67,6 +66,8 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_screen_one, container, false);
+
+        Log.i("ScreenOneFragment", "onCreateView: "+dateOfBirth);
 
         firstNameET = (EditText) view.findViewById(R.id.et_first_name_sign_up);
         lastNameET = (EditText) view.findViewById(R.id.et_last_name_sign_up);
@@ -93,6 +94,8 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
      //   areaET.setOnFocusChangeListener(this);
         addressET.setOnFocusChangeListener(this);
        // floorET.setOnFocusChangeListener(this);
+
+        addDobTV.setText(dobForTextView+"");
 
         NetworkOperations.getInstance().getZoneList(getActivity(),this);
         return view;
@@ -188,7 +191,6 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-
     public void addDataToRequestObject(SignUpUserRootRequest request) {
 
         request.setFullName(firstNameET.getText().toString() + " " + lastNameET.getText().toString());
@@ -198,13 +200,11 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
         request.setZone_id(selectedZoneId + "");
         request.setDate_of_birth(dateOfBirth);
 
-
         request.setCell_no_2("");
         request.setArea("");
         request.setCnic("");
         request.setCity("");
         request.setResidence_phone_no("");
-
 
     }
 
@@ -262,16 +262,20 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
 
         if(TextUtils.isEmpty(firstNameET.getText().toString())){
             isValidate = false;
+            firstNameET.setError("Please Enter Name");
         } else if(TextUtils.isEmpty(addressET.getText().toString())){
             isValidate = false;
+            addressET.setError("Please Enter Address");
+        } else if(dateOfBirth.trim().length()<= 0){
+            addDobTV.setError("Select Date of Birth");
+            isValidate = false;
         }
-       // else if(TextUtils.isEmpty(floorET.getText().toString())){
-           // isValidate = false;
-       // }
         else if(mZoneListData.size() == 0){
             isValidate = false;
-        } else isValidate = true;
-
+        }
+        else {
+            isValidate = true;
+        }
         return isValidate;
     }
 
@@ -280,34 +284,59 @@ public class ScreenOneFragment extends Fragment implements View.OnClickListener,
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.date_picker, null, false);
         final Calendar c = Calendar.getInstance();
-        final DatePicker myDatePicker = (DatePicker) view.findViewById(R.id.myDatePicker);
-        myDatePicker.setCalendarViewShown(false);
+        DateFormatSymbols symbols = new DateFormatSymbols();
+        final String[] monthNames = symbols.getMonths();
+        DatePickerDialog myDatePicker = new  DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+//                int selectedMonth = myDatePicker.getDatePicker().getMonth() + 1;
+//                c.set(Calendar.MONTH,month-1);
+//                int day = myDatePicker.getDayOfMonth();
+//                int year = myDatePicker.getYear();
+
+                dateOfBirth = year+"-"+dayOfMonth+"-"+(month+1);
+                Log.i("indate set", "onDateSet: "+dateOfBirth);
+                dobForTextView = ""+dayOfMonth+"/"+monthNames[month]+"/"+year;
+                addDobTV.setText(dayOfMonth+"/"+monthNames[month]
+                        +"/"+year);
+            }
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+
+        //final DatePicker myDatePicker = (DatePicker) view.findViewById(R.id.myDatePicker);
+      //  final DatePicker myDatePicker = (DatePicker) view.findViewById(R.id.myDatePicker);
+        myDatePicker.getDatePicker().setCalendarViewShown(false);
 
         if(dateOfBirth.trim().length()>0){
 
+            Log.i("in if", "alertDatePicker: "+dateOfBirth);
             String yearMonthDay[] = dateOfBirth.split("-");
+
             myDatePicker.updateDate(Integer.parseInt(yearMonthDay[0]),Integer.parseInt(yearMonthDay[2])-1,Integer.parseInt(yearMonthDay[1]));
         }
 
 
+        myDatePicker.show();
+
         // the alert dialog
-        new AlertDialog.Builder(getActivity()).setView(view)
-                .setTitle("Select Date")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        int month = myDatePicker.getMonth() + 1;
-                        c.set(Calendar.MONTH,month-1);
-                        int day = myDatePicker.getDayOfMonth();
-                        int year = myDatePicker.getYear();
-
-                        dateOfBirth = year+"-"+day+"-"+month;
-                        addDobTV.setText(day+"/"+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
-                        +"/"+year);
-
-                    }
-
-                }).show();
+//        new AlertDialog.Builder(getActivity()).setView(view)
+//                .setTitle("Select Date")
+//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+////
+////                        int month = myDatePicker.getMonth() + 1;
+////                        c.set(Calendar.MONTH,month-1);
+////                        int day = myDatePicker.getDayOfMonth();
+////                        int year = myDatePicker.getYear();
+////
+////                        dateOfBirth = year+"-"+day+"-"+month;
+////                        dobForTextView = ""+day+"/"+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())+"/"+year;
+////                        addDobTV.setText(day+"/"+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+////                        +"/"+year);
+//
+//                    }
+//
+//                }).show();
     }
 
 

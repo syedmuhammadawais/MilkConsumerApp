@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/product_bg"
     android:orientation="vertical">
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -23,7 +23,8 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/btn_back_how_to_pay"
+                    android:paddingLeft="5dp"
+                    android:id="@+id/btn_back_faq"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
@@ -36,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="How To Pay"
+                    android:text="FAQs"
                     android:textColor="@color/bgblue"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -47,12 +48,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <WebView
-        android:padding="10dp"
-        android:id="@+id/wv_how_to_pay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <WebView
+            android:id="@+id/wv_faqs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </WebView>
+        </WebView>
     </ScrollView>
+
 </LinearLayout>

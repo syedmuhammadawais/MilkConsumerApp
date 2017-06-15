@@ -16,4 +16,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
+
+    <style name="CheckBoxTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#FFC107</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+
 </resources>

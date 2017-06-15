@@ -4,12 +4,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.callbacks.OnItemClick;
-import com.conformiz.milkconsumerapp.fragments.DashboardFragment;
 import com.conformiz.milkconsumerapp.fragments.ComplaintsFragment;
+import com.conformiz.milkconsumerapp.fragments.DashboardFragment;
 import com.conformiz.milkconsumerapp.fragments.DeliveriesRecordFragment;
-import com.conformiz.milkconsumerapp.fragments.HowToPayFragment;
+import com.conformiz.milkconsumerapp.fragments.HelpFragment;
 import com.conformiz.milkconsumerapp.fragments.ProductsFragment;
 import com.conformiz.milkconsumerapp.fragments.SettingsFragment;
 import com.conformiz.milkconsumerapp.fragments.paymentfragments.PaymentFragment;
@@ -134,9 +135,13 @@ public class MyFragmentManager implements Constants, OnItemClick {
             case R.id.rl_how_to_pay:
             case R.id.iv_how_to_pay:
                 Log.i(TAG, "onClick: on rl_settings  click");
-                HowToPayFragment howToPayFragment = new HowToPayFragment();
-                addFragment(howToPayFragment);
-                transaction.replace(R.id.fragment_container,howToPayFragment);
+//                HowToPayFragment howToPayFragment = new HowToPayFragment();
+//                addFragment(howToPayFragment);
+//                transaction.replace(R.id.fragment_container,howToPayFragment);
+
+                HelpFragment fagFragment = new HelpFragment();
+                addFragment(fagFragment);
+                transaction.replace(R.id.fragment_container,fagFragment);
                // ChangePasswordFragment changePassword = new ChangePasswordFragment();
                // addFragment(changePassword);
                // transaction.replace(R.id.fragment_container_dashboard, changePassword);

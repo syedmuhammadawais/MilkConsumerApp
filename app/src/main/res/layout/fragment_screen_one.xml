@@ -76,6 +76,7 @@
                 android:background="@drawable/login_user_pass_et_bg_round"
                 android:inputType="text"
                 android:maxLines="2"
+                android:textSize="17sp"
                 android:padding="14dp"
                 android:text="Add DOB:  Day/Month/Year "
                 android:textColor="@color/colorAccent" />

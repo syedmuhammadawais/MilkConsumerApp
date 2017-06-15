@@ -73,7 +73,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
 
             case R.id.btn_next:
-                if (fragmentNo == 1 && screenOneFragment.isValidate && screenOneFragment.checkValidation()) {
+                if (fragmentNo == 1 && screenOneFragment.checkValidation() && screenOneFragment.isValidate ) {
                     // Validate on Next button press so, user will go to next fragment if current fragment validation is successful for all fields
                     screenOneFragment.addDataToRequestObject(signUpRequest);
                     fragmentNo++;

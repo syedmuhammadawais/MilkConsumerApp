@@ -29,6 +29,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.ll_row_logout).setOnClickListener(this);
         view.findViewById(R.id.ll_profile_view).setOnClickListener(this);
         view.findViewById(R.id.ll_row_change_password).setOnClickListener(this);
+        view.findViewById(R.id.ll_row_manage_sms).setOnClickListener(this);
+
 
 
         view.findViewById(R.id.btn_back_settings).setOnClickListener(this);
@@ -65,9 +67,23 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 transaction.replace(R.id.fragment_container,changePasswordFragment).commit();
                 break;
 
+
+            case R.id.ll_row_manage_sms:
+                ManageSMSFragmnet manageSMSFragmnet = new ManageSMSFragmnet();
+                MyFragmentManager.getInstance().addFragment(manageSMSFragmnet);
+                transaction.replace(R.id.fragment_container,manageSMSFragmnet).commit();
+                break;
+
+
+
             case R.id.btn_back_settings:
                 ((MainActivity)getActivity()).onBackPressed();
                 break;
+
+
+
+
+
 
         }
 

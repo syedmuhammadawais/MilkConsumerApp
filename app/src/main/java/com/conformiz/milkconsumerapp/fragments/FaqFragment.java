@@ -11,30 +11,33 @@ import android.webkit.WebView;
 import com.conformiz.milkconsumerapp.R;
 
 /**
- * Created by Fahad.Munir on 24-May-17.
+ * Created by Fahad.Munir on 13-Jun-17.
  */
 
-public class HowToPayFragment extends Fragment implements View.OnClickListener {
+public class FaqFragment extends Fragment implements View.OnClickListener{
 
+    WebView myWebView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_how_to_pay,container,false);
-        view.findViewById(R.id.btn_back_how_to_pay).setOnClickListener(this);
+        View view = inflater.inflate(R.layout.fragment_faq,container,false);
 
-        WebView myWebView = (WebView)view.findViewById(R.id.wv_how_to_pay);
-        myWebView.loadUrl("file:///android_asset/how_to_pay.html");
+        myWebView = (WebView)view.findViewById(R.id.wv_faqs);
+        myWebView.loadUrl("file:///android_asset/faqs.html");
+
+        view.findViewById(R.id.btn_back_faq).setOnClickListener(this);
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_back_how_to_pay:
+
+        switch (v.getId()) {
+            case R.id.btn_back_faq:
                 getActivity().onBackPressed();
                 break;
-
         }
     }
 }
