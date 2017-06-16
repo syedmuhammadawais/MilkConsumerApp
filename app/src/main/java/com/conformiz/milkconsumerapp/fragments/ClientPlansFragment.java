@@ -203,7 +203,7 @@ public class ClientPlansFragment extends Fragment implements OnItemClick, View.O
             }
 
         } else {
-            Toast.makeText(getActivity(), "Could not found data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Could not found data Server Error", Toast.LENGTH_SHORT).show();
         }
 
 

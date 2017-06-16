@@ -107,7 +107,7 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
             }
 
         } else {
-            Toast.makeText(getActivity(), "Could not found data of null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Could not found data Server Error", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -125,34 +125,34 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
         switch (id) {
             case ON_CLICK_PRODUCT:
 
-                   // 1 for special order specific product
-                    if(productsDataList.get(pPosition).getOrder_type().equalsIgnoreCase("1")){
+                // 1 for special order specific product
+                if (productsDataList.get(pPosition).getOrder_type().equalsIgnoreCase("1")) {
 
-                        SpecialOrderFragment specialOrderFragment = new SpecialOrderFragment();
-                        specialOrderFragment.setSelectedProductData(productsDataList.get(pPosition));
+                    SpecialOrderFragment specialOrderFragment = new SpecialOrderFragment();
+                    specialOrderFragment.setSelectedProductData(productsDataList.get(pPosition));
 
-                        MyFragmentManager.getInstance().addFragment(specialOrderFragment);
-                        transaction.replace(R.id.fragment_container, specialOrderFragment).commit();
+                    MyFragmentManager.getInstance().addFragment(specialOrderFragment);
+                    transaction.replace(R.id.fragment_container, specialOrderFragment).commit();
 
-                    } else if(productsDataList.get(pPosition).getIs_selected().equalsIgnoreCase("0")) {
+                } else if (productsDataList.get(pPosition).getIs_selected().equalsIgnoreCase("0")) {
 
-                        ProductScheduleFragment productScheduleFragment = new ProductScheduleFragment();
-                        productScheduleFragment.setSelectedProductData(productsDataList.get(pPosition));
-                        if(productsDataList.get(pPosition).getIs_selected().equalsIgnoreCase("0")){
-                            productScheduleFragment.isIsNewOrder(true);
-                        }
-
-                        MyFragmentManager.getInstance().addFragment(productScheduleFragment);
-                        transaction.replace(R.id.fragment_container, productScheduleFragment).commit();
-
-                    } else{
-
-                        PlanSelectionFragment planSelectionFragment = new PlanSelectionFragment();
-                        planSelectionFragment.setSelectedProductData(productsDataList.get(pPosition));
-
-                        MyFragmentManager.getInstance().addFragment(planSelectionFragment);
-                        transaction.replace(R.id.fragment_container,planSelectionFragment).commit();
+                    ProductScheduleFragment productScheduleFragment = new ProductScheduleFragment();
+                    productScheduleFragment.setSelectedProductData(productsDataList.get(pPosition));
+                    if (productsDataList.get(pPosition).getIs_selected().equalsIgnoreCase("0")) {
+                        productScheduleFragment.isIsNewOrder(true);
                     }
+
+                    MyFragmentManager.getInstance().addFragment(productScheduleFragment);
+                    transaction.replace(R.id.fragment_container, productScheduleFragment).commit();
+
+                } else {
+
+                    PlanSelectionFragment planSelectionFragment = new PlanSelectionFragment();
+                    planSelectionFragment.setSelectedProductData(productsDataList.get(pPosition));
+
+                    MyFragmentManager.getInstance().addFragment(planSelectionFragment);
+                    transaction.replace(R.id.fragment_container, planSelectionFragment).commit();
+                }
 //                    if (intent.getStringExtra("selected_plan").equalsIgnoreCase(Constants.ADD_SPECIAL_ORDER + "")) {
 //
 //                        SpecialOrderFragment specialOrderFragment = new SpecialOrderFragment();
@@ -183,7 +183,7 @@ public class ProductsFragment extends Fragment implements INetworkListener, OnIt
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle("Product Info: " + productsDataList.get(position).getProduct_name());
         alertDialog.setIcon(R.drawable.product_info);
-        alertDialog.setMessage("Measured in "+productsDataList.get(position).getUnit()+": 1\nPrice: " + productsDataList.get(position).getPrice());
+        alertDialog.setMessage("Measured in " + productsDataList.get(position).getUnit() + ": 1\nPrice: " + productsDataList.get(position).getPrice());
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -245,7 +245,7 @@ public class SpecialOrderFragment extends Fragment implements View.OnClickListen
             }
 
         } else {
-            Toast.makeText(getActivity(), "Could not found data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Could not found data Server Error", Toast.LENGTH_SHORT).show();
         }
 
 

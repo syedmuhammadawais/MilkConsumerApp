@@ -110,7 +110,7 @@ public class ComplaintsFragment extends Fragment implements INetworkListener,
 
 
         } else {
-            Toast.makeText(getActivity(), "Could not found data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Could not found data Server Error", Toast.LENGTH_SHORT).show();
         }
     }
 

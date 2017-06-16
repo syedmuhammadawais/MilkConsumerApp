@@ -106,7 +106,6 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"
                 android:clickable="true"
-                app:tbDefaultStatus="on"
                 app:tbIsMidSelectable="false"
                 app:tbOnColor="@color/colorPrimaryDark" />
 
@@ -143,7 +142,6 @@
                 android:layout_marginRight="10dp"
                 android:clickable="true"
                 app:tbIsMidSelectable="false"
-                app:tbDefaultStatus="on"
                 app:tbOnColor="@color/colorPrimaryDark" />
 
 

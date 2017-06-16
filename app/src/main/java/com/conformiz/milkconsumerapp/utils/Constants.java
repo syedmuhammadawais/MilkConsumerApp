@@ -4,8 +4,8 @@ package com.conformiz.milkconsumerapp.utils;
 public interface Constants {
 
 
-    String URL_BASE_URL = "http://192.168.10.8/milk/api/";
-   // String URL_BASE_URL = "http://tazafarms.conformiz.com/index.php/api/";
+   // String URL_BASE_URL = "http://192.168.10.8/milk/api/";
+    String URL_BASE_URL = "http://tazafarms.conformiz.com/index.php/api/";
     String KEY_PREF_NAME = "milk_consumer";
     String KEY_SECRET = "encrypted_secret";
     String KEY_ACCESS = "access_id";
@@ -52,6 +52,9 @@ public interface Constants {
     String ACTION_POST_CHECK_USER_AVAILABLE = "checkClientAvailability";
     String ACTION_POST_LOGIN = "Login";
     String ACTION_POST_WEEKLY_SCHEDULE = "getWeeklySchedule";
+    String ACTION_POST_SMS_ALERT_SETTINGS = "MessageAlertPermission";
+    String ACTION_POST_SAVE_SMS_ALERT_SETTINGS = "saveMessageAlertPermission";
+
 
     String CLIENT_ID = "client_id";
     String KEEP_ME_SIGN = "keep_me_sign";
