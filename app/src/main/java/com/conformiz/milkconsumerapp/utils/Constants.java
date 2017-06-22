@@ -4,7 +4,7 @@ package com.conformiz.milkconsumerapp.utils;
 public interface Constants {
 
 
-   // String URL_BASE_URL = "http://192.168.10.8/milk/api/";
+    // String URL_BASE_URL = "http://192.168.10.8/milk/api/";
     String URL_BASE_URL = "http://tazafarms.conformiz.com/index.php/api/";
     String KEY_PREF_NAME = "milk_consumer";
     String KEY_SECRET = "encrypted_secret";
@@ -44,7 +44,7 @@ public interface Constants {
 
 
     // Inter Pay URls
-    String INTERPAY_BASE_URL = "https://test.interpayafrica.com/interapi/";
+    String INTERPAY_BASE_URL = "https://www.interpayafrica.com/interapi/";
     String ACTION_POST_PROCESS_PAYMENT = "ProcessPayment";
     String ACTION_POST_CONFIRM_PAYMENT = "confirmpayment";
     String ACTION_POST_PAYMENT_COMPLETE = "paymentMethod";
@@ -70,7 +70,5 @@ public interface Constants {
     public  String  UPDATE_WEEKLY_PLAN = "2";
     public  String ADD_SPECIAL_ORDER = "1";
     public  String ADD_NEW_WEEKLY_PLAN = "0";
-
-
 
 }

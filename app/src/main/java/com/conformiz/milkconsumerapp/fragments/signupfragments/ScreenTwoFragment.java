@@ -217,12 +217,16 @@ public class ScreenTwoFragment extends Fragment implements View.OnClickListener,
 
         if (TextUtils.isEmpty(emailET.getText().toString())) {
             isValidate = false;
+            emailET.setError("Please Enter Email");
         } else if (TextUtils.isEmpty(phoneET.getText().toString())) {
             isValidate = false;
+            phoneET.setError("Please Enter Phone Number");
         } else if (TextUtils.isEmpty(usernameET.getText().toString())) {
             isValidate = false;
+            usernameET.setError("Please Enter Username");
         } else if (TextUtils.isEmpty(passwordET.getText().toString())) {
             isValidate = false;
+            passwordET.setError("Please Enter Password");
         } else isValidate = true;
 
         return isValidate;

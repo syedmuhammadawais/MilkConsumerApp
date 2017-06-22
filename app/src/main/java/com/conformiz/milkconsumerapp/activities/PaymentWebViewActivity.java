@@ -1,5 +1,6 @@
 package com.conformiz.milkconsumerapp.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,15 +30,64 @@ import java.util.Set;
 
 import im.delight.android.webview.AdvancedWebView;
 
-public class ActivityPaymentWebView extends AppCompatActivity implements AdvancedWebView.Listener, INetworkListener<SaveDataArrayResponse> {
+public class PaymentWebViewActivity extends AppCompatActivity implements AdvancedWebView.Listener, INetworkListener<SaveDataArrayResponse> {
 
     private AdvancedWebView mWebView;
     private ProgressDialog dialog;
 
 
     String amountPaid = "";
+    private String callUrl = "";
+
 
     String TAG = "Web view";
+
+
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        View view = inflater.inflate(R.layout.activity_webview_payments, container,false);
+//        mWebView = (AdvancedWebView) view.findViewById(R.id.wv_payments);
+//        mWebView.setListener(getActivity(), this);
+//        dialog = new ProgressDialog(getActivity());
+//
+//        Log.i(TAG, "onCreateView: in ");
+//        if (Utility.getInstance().isOnline(getActivity())) {
+//
+//            if (getActivity().getIntent() != null) {
+//                Log.e("Loading URL: ", "" + Constants.INTERPAY_BASE_URL + Constants.ACTION_POST_CONFIRM_PAYMENT + "?Token=" + getActivity().getIntent().getStringExtra("token"));
+//                amountPaid = getActivity().getIntent().getStringExtra("amount_paid");
+//                //               mWebView.loadUrl("http://tazafarms.conformiz.com/site/confirmPayment?status_code=1&status_message=success&trans_ref_no=123&order_id=a1&signature=xyz");
+//
+//                try {
+//                    URLEncoder.encode(getActivity().getIntent().getStringExtra("token"), "UTF-8");
+//                    Log.i(TAG, "onCreate: Encode URL " + URLEncoder.encode(getActivity().getIntent().getStringExtra("token"), "UTF-8"));
+//
+//                    mWebView.loadUrl(Constants.INTERPAY_BASE_URL + Constants.ACTION_POST_CONFIRM_PAYMENT + "?Token=" + URLEncoder.encode(getActivity().getIntent().getStringExtra("token"), "UTF-8"));
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                Toast.makeText(getActivity(), "Could'nt Find Payment Process URL", Toast.LENGTH_SHORT).show();
+//            }
+//        } else {
+//            Toast.makeText(getActivity(), "Please Turn On Network", Toast.LENGTH_SHORT).show();
+//        }
+//
+//
+//        ((ImageView) view.findViewById(R.id.iv_webview_payments_back)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // onBackPressed();
+//
+//                getActivity().onBackPressed();
+//
+//            }
+//        });
+//
+//
+//        return view;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,29 +96,28 @@ public class ActivityPaymentWebView extends AppCompatActivity implements Advance
 
         mWebView = (AdvancedWebView) findViewById(R.id.wv_payments);
         mWebView.setListener(this, this);
-        dialog = new ProgressDialog(ActivityPaymentWebView.this);
+        dialog = new ProgressDialog(this);
 
-        if (Utility.getInstance().isOnline(ActivityPaymentWebView.this)) {
+        if (Utility.getInstance().isOnline(this)) {
 
             if (getIntent() != null) {
                 Log.e("Loading URL: ", "" + Constants.INTERPAY_BASE_URL + Constants.ACTION_POST_CONFIRM_PAYMENT + "?Token=" + getIntent().getStringExtra("token"));
                 amountPaid = getIntent().getStringExtra("amount_paid");
- //               mWebView.loadUrl("http://tazafarms.conformiz.com/site/confirmPayment?status_code=1&status_message=success&trans_ref_no=123&order_id=a1&signature=xyz");
-
+                //               mWebView.loadUrl("http://tazafarms.conformiz.com/site/confirmPayment?status_code=1&status_message=success&trans_ref_no=123&order_id=a1&signature=xyz");
 
                 try {
-                    URLEncoder.encode(getIntent().getStringExtra("token"),"UTF-8");
-                    Log.i(TAG, "onCreate: Encode URL "+URLEncoder.encode(getIntent().getStringExtra("token"),"UTF-8"));
+                    URLEncoder.encode(getIntent().getStringExtra("token"), "UTF-8");
+                    Log.i(TAG, "onCreate: Encode URL " + URLEncoder.encode(getIntent().getStringExtra("token"), "UTF-8"));
 
-                mWebView.loadUrl(Constants.INTERPAY_BASE_URL + Constants.ACTION_POST_CONFIRM_PAYMENT + "?Token=" + URLEncoder.encode(getIntent().getStringExtra("token"),"UTF-8"));
+                    mWebView.loadUrl(Constants.INTERPAY_BASE_URL + Constants.ACTION_POST_CONFIRM_PAYMENT + "?Token=" + URLEncoder.encode(getIntent().getStringExtra("token"), "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(ActivityPaymentWebView.this, "Could'nt Find Payment Process URL", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Could'nt Find Payment Process URL", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(ActivityPaymentWebView.this, "Please Turn On Network", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please Turn On Network", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -81,31 +130,30 @@ public class ActivityPaymentWebView extends AppCompatActivity implements Advance
     }
 
 
+    @SuppressLint("NewApi")
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         mWebView.onResume();
         // ...
     }
 
-
+    @SuppressLint("NewApi")
     @Override
-    protected void onPause() {
+    public void onPause() {
         mWebView.onPause();
         // ...
         super.onPause();
     }
 
-
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mWebView.onDestroy();
         // ...
         super.onDestroy();
     }
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         mWebView.onActivityResult(requestCode, resultCode, intent);
         // ...
@@ -142,15 +190,16 @@ public class ActivityPaymentWebView extends AppCompatActivity implements Advance
             dialog.dismiss();
         }
 
-        if (url.contains("confirmPayment")) {
+        if (url.contains("confirmPayment") && !callUrl.contains("confirmPayment")) {
 
+            callUrl = "confirmPayment";
             JSONObject request = new JSONObject();
             Uri myUrl = Uri.parse(url);
             Set<String> paramNames = myUrl.getQueryParameterNames();
+
             for (String key : paramNames) {
                 String value = myUrl.getQueryParameter(key);
                 Log.i(TAG, "onPageFinished: " + value + " = " + key);
-
 
                 try {
                     if (key.contains("status_code")) {
@@ -162,16 +211,17 @@ public class ActivityPaymentWebView extends AppCompatActivity implements Advance
                     }
 
                     request.put("amount_paid", amountPaid);
-                    request.put("client_id", SharedPreferenceUtil.getInstance(ActivityPaymentWebView.this).getClientId());
+                    request.put("client_id", SharedPreferenceUtil.getInstance(this).getClientId());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             mWebView.stopLoading();
-            NetworkOperations.getInstance().postData(ActivityPaymentWebView.this, Constants.ACTION_POST_PAYMENT_COMPLETE, request, this, SaveDataArrayResponse.class);
+            Log.i(TAG, "onPageFinished:");
+            NetworkOperations.getInstance().postData(this
+                    , Constants.ACTION_POST_PAYMENT_COMPLETE, request, this, SaveDataArrayResponse.class);
         }
 
     }
@@ -202,13 +252,18 @@ public class ActivityPaymentWebView extends AppCompatActivity implements Advance
     }
 
     public void showMessageDialog(String msg) {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ActivityPaymentWebView.this);
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle(msg).setCancelable(false);
         builder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
+                callUrl = "";
                 dialog.dismiss();
+
+//                ((MainActivity)getApplicationContext()).onBackPressed();
                 finish();
+//                MyFragmentManager.getInstance().popFragment();
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -221,7 +276,6 @@ public class ActivityPaymentWebView extends AppCompatActivity implements Advance
         android.app.AlertDialog alert = builder.create();
         alert.show();
     }
-
 
     @Override
     public void onPreExecute() {
@@ -241,7 +295,7 @@ public class ActivityPaymentWebView extends AppCompatActivity implements Advance
                 showMessageDialogOnPaymentProcess("Payment Processed Successfully");
             } else {
                 Log.i(TAG, "onPostExecute: payment not done");
-                showMessageDialogOnPaymentProcess("Payment Process Failed");
+                //  showMessageDialogOnPaymentProcess("Payment Process Failed");
 
                 // payment  not excepted
             }
@@ -255,13 +309,17 @@ public class ActivityPaymentWebView extends AppCompatActivity implements Advance
 
 
     public void showMessageDialogOnPaymentProcess(String msg) {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ActivityPaymentWebView.this);
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle(msg).setCancelable(false);
+        builder.setIcon(R.drawable.ok_dialog_icon_36);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
+                //onBackPressed();
                 dialog.dismiss();
                 finish();
+              //  getActivity().onBackPressed();
+                //  finish();
             }
         });
 //        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

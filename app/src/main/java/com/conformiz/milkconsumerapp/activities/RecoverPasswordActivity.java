@@ -35,7 +35,7 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
 
     private EditText emailOrPhoneET;
 
-   // private TextView emailOrPhoneTV;
+    // private TextView emailOrPhoneTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +44,15 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
 
         recoverPasswordBT = (Button) findViewById(R.id.btn_recover_password);
         emailOrPhoneET = (EditText) findViewById(R.id.et_email_forget_pass);
-      //  emailOrPhoneTV = (TextView) findViewById(R.id.tv_email_phone);
+        //  emailOrPhoneTV = (TextView) findViewById(R.id.tv_email_phone);
         emailOrPhoneET.setOnFocusChangeListener(this);
         recoverPasswordBT.setOnClickListener(this);
 
-        Utility.getInstance().buttonEffect(recoverPasswordBT,R.color.app_brown_light);
+        Utility.getInstance().buttonEffect(recoverPasswordBT, R.color.app_brown_light);
         findViewById(R.id.btn_back_recover_password).setOnClickListener(this);
 
 
-       // ((TriStateToggleButton) findViewById(R.id.tb_email_or_password)).setOnToggleChanged(this);
+        // ((TriStateToggleButton) findViewById(R.id.tb_email_or_password)).setOnToggleChanged(this);
 
     }
 
@@ -63,16 +63,16 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
 
             case R.id.btn_recover_password:
 
-                if(checkValidation()){
+                if (checkValidation()) {
 
                     JSONObject request = new JSONObject();
                     try {
-                        request.put("cell_no_1",emailOrPhoneET.getText().toString());
+                        request.put("cell_no_1", "+92"+emailOrPhoneET.getText().toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    NetworkOperations.getInstance().postData(RecoverPasswordActivity.this, Constants.ACTION_GET_RECOVER_PASSWORD,request,this, SaveDataObjectResponse.class);
+                    NetworkOperations.getInstance().postData(RecoverPasswordActivity.this, Constants.ACTION_GET_RECOVER_PASSWORD, request, this, SaveDataObjectResponse.class);
                 }
                 break;
 
@@ -106,17 +106,16 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
 
-            if(result !=null  && result instanceof SaveDataObjectResponse){
-                SaveDataObjectResponse response = (SaveDataObjectResponse)result;
-                if(response.getSuccess()){
-                    showMessageDialog(""+response.getMessage());
-                } else{
-                    Toast.makeText(RecoverPasswordActivity.this,""+response.getMessage(),Toast.LENGTH_SHORT).show();
+            if (result != null && result instanceof SaveDataObjectResponse) {
+                SaveDataObjectResponse response = (SaveDataObjectResponse) result;
+                if (response.getSuccess()) {
+                    showMessageDialog("" + response.getMessage());
+                } else {
+                    Toast.makeText(RecoverPasswordActivity.this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(RecoverPasswordActivity.this,"Server Error",Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecoverPasswordActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
             }
-
 
 
             Log.i("change", "onPostExecute: ");
@@ -135,41 +134,33 @@ public class RecoverPasswordActivity extends AppCompatActivity implements
             case 2:
                 emailOrPhoneET.setText("");
                 emailOrPhoneET.setHint("Phone: 03xx1234567");
-              //  emailOrPhoneTV.setText("Phone");
+                //  emailOrPhoneTV.setText("Phone");
                 break;
 
             case 0:
                 emailOrPhoneET.setText("");
                 emailOrPhoneET.setHint("Enter Email Address");
-             //   emailOrPhoneTV.setText("Email Address");
+                //   emailOrPhoneTV.setText("Email Address");
 
                 break;
 
         }
     }
 
-    public boolean checkValidation(){
-        if(TextUtils.isEmpty(emailOrPhoneET.getText().toString())){
+    public boolean checkValidation() {
+        if (TextUtils.isEmpty(emailOrPhoneET.getText().toString())) {
             isValidate = false;
             emailOrPhoneET.setError("Please Enter Your Phone");
-        } else if(emailOrPhoneET.getText().toString().length()>0){
+        } else if (emailOrPhoneET.getText().toString().length() < 10) {
+            emailOrPhoneET.setError("Phone number length should be 10 digits");
+            isValidate = false;
+        } else {
 
-
-            String str = emailOrPhoneET.getText().toString().substring(0,3);
-
-            Log.i("tag", "checkValidation: "+str);
-            if(str.equalsIgnoreCase("+92")){
-                isValidate = true;
-            }else {
-                emailOrPhoneET.setError("Please write phone number in the format of +923xxxxxxxxx");
+            String ph = emailOrPhoneET.getText().toString().substring(0, 1);
+            if (!ph.equals("3")) {
                 isValidate = false;
-
-            }
-
-        }
-
-        else {
-            isValidate = true;
+                emailOrPhoneET.setError("Mobile Number not valid (Must start with 3)");
+            } else isValidate = true;
         }
 
         return isValidate;

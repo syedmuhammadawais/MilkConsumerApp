@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.conformiz.milkconsumerapp.R;
-import com.conformiz.milkconsumerapp.activities.ActivityPaymentWebView;
+import com.conformiz.milkconsumerapp.activities.PaymentWebViewActivity;
+import com.conformiz.milkconsumerapp.callbacks.CallBackToCloseWindow;
 import com.conformiz.milkconsumerapp.models.response.CustomerBalanceRootResponse;
 import com.conformiz.milkconsumerapp.models.response.PaymentProcessResponse;
 import com.conformiz.milkconsumerapp.network.INetworkListener;
@@ -32,7 +34,7 @@ import java.util.Date;
  * Created by Fahad.Munir on 16-May-17.
  */
 
-public class PaymentFragment extends Fragment implements View.OnClickListener, INetworkListener {
+public class PaymentFragment extends Fragment implements View.OnClickListener, INetworkListener, CallBackToCloseWindow {
 
     ProgressDialog dialog;
     Button payNowToProceedBT;
@@ -40,7 +42,6 @@ public class PaymentFragment extends Fragment implements View.OnClickListener, I
     EditText amountET;
 
     String dialogMsg = "";
-
     Boolean isValidate = false;
 
     @Nullable
@@ -88,21 +89,31 @@ public class PaymentFragment extends Fragment implements View.OnClickListener, I
 
             if (response.getSuccess()) {
                 currentBalanceTV.setText(response.getData() + " Rupees");
-            } else{
-                Toast.makeText(getActivity(),"Current Balance Not Found",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Current Balance Not Found", Toast.LENGTH_SHORT).show();
             }
         }
 
-        if(result!= null && result instanceof PaymentProcessResponse){
-            PaymentProcessResponse response = (PaymentProcessResponse)result;
-            if(response.getStatus_code().equalsIgnoreCase("1")){
-                Intent intent = new Intent(getActivity(),ActivityPaymentWebView.class);
+
+        // Edit this program
+        if (result != null && result instanceof PaymentProcessResponse) {
+            PaymentProcessResponse response = (PaymentProcessResponse) result;
+            if (response.getStatus_code().equalsIgnoreCase("1")) {
+
+//                FragmentPaymentWebView fragmentPaymentWebView = new FragmentPaymentWebView();
+//                getActivity().getIntent().putExtra("token", response.getToken());
+//                getActivity().getIntent().putExtra("amount_paid", amountET.getText().toString());
+//                MyFragmentManager.getInstance().addFragment(fragmentPaymentWebView);
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, fragmentPaymentWebView).commit();
+
+                Intent intent = new Intent(getActivity(),PaymentWebViewActivity.class);
                 intent.putExtra("token",response.getToken());
                 intent.putExtra("amount_paid",amountET.getText().toString());
-                startActivity(intent);
-            } else
-            {
-                Toast.makeText(getActivity(),""+response.getStatus_message(),Toast.LENGTH_SHORT).show();
+                startActivityForResult(intent,1);
+
+            } else {
+                Toast.makeText(getActivity(), "" + response.getStatus_message(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -130,11 +141,12 @@ public class PaymentFragment extends Fragment implements View.OnClickListener, I
                 } else {
                     if (checkValidation()) {
 
+                        Log.i("on ", "onClick: Payment Fragment btn pay now");
                         JSONObject request = new JSONObject();
                         try {
                             SharedPreferenceUtil sharedPreferenceUtil = SharedPreferenceUtil.getInstance(getActivity());
-                            request.put("app_id", "2452014176");
-                            request.put("app_key", "test");
+                            request.put("app_id", "7453014062");
+                            request.put("app_key", "31397653");
                             request.put("name", sharedPreferenceUtil.getClientFullName());
                             request.put("mobile", sharedPreferenceUtil.getClientContact());
                             request.put("email", sharedPreferenceUtil.getClientEmail());
@@ -144,19 +156,21 @@ public class PaymentFragment extends Fragment implements View.OnClickListener, I
                             request.put("order_desc", "1 Kg Milk");
 
                             dialogMsg = "Processing Payment...";
-                            NetworkOperations.getInstance().postData(getActivity(), Constants.INTERPAY_BASE_URL+Constants.ACTION_POST_PROCESS_PAYMENT, request, this, PaymentProcessResponse.class);
+                            NetworkOperations.getInstance().postData(getActivity(), Constants.INTERPAY_BASE_URL + Constants.ACTION_POST_PROCESS_PAYMENT, request, this, PaymentProcessResponse.class);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 }
-
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getActivity().onBackPressed();
+    }
 
     public boolean checkValidation() {
         isValidate = false;
@@ -169,5 +183,10 @@ public class PaymentFragment extends Fragment implements View.OnClickListener, I
 //            amountET.setError("Amount can'nt be greate than current balance");
 //        }
         return isValidate;
+    }
+
+    @Override
+    public void closeWindow() {
+
     }
 }

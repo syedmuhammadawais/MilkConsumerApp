@@ -86,6 +86,9 @@ public class MyFragmentManager implements Constants, OnItemClick {
 
                 break;
 
+
+
+
             case R.id.rl_deliveries_history:
             case R.id.iv_deliveries_history:
                 Log.i(TAG, "onClick: on DELEVIER order click");

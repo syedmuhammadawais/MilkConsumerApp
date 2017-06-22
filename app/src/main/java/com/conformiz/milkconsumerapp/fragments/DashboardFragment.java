@@ -106,6 +106,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         if ((v.getId() == R.id.iv_manager_order || v.getId() == R.id.rl_manage_order)
                 && SharedPreferenceUtil.getInstance(getActivity()).getCheckBoxValue()) {
             showMangeOrderDialogInfo(v.getId());
+
+//            ManageOrderInstructionsFragment manageOrderInstructionsFragment = new ManageOrderInstructionsFragment();
+//            MyFragmentManager.getInstance().addFragment(manageOrderInstructionsFragment);
+//            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//            transaction.replace(R.id.fragment_container,manageOrderInstructionsFragment).commit();
+
         } else {
             mClick.onClick(v.getId(), -1);
         }
@@ -127,10 +133,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         dontShowAgainCB = (CheckBox) dialogLayout.findViewById(R.id.cb_skip);
 //        WebView myWebView = (WebView)dialogLayout.findViewById(R.id.wv_manage_orders_instructions);
 //        myWebView.loadUrl("file:///android_asset/manage_order_instructions.html");
+//        myWebView.setLayerType(LAYER_TYPE_SOFTWARE,null);
         alertDialogBuilder.setView(dialogLayout);
         alertDialogBuilder.setIcon(R.drawable.product_info);
         alertDialogBuilder.setTitle("Manage Orders");
-
         alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
