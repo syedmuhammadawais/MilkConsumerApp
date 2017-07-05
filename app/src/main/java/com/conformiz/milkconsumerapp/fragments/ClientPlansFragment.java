@@ -63,7 +63,6 @@ public class ClientPlansFragment extends Fragment implements OnItemClick, View.O
         mClientPlanListAdapter = new ClientPlanListAdapter(mData, this);
         productsListRV.setLayoutManager(linearLayoutManager);
         productsListRV.setAdapter(mClientPlanListAdapter);
-
         view.findViewById(R.id.fab_btn_add_plan).setOnClickListener(this);
 
         return view;
