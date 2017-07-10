@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.conformiz.milkconsumerapp.R;
 import com.conformiz.milkconsumerapp.utils.SharedPreferenceUtil;
@@ -27,7 +28,8 @@ public class SplashActivity extends AppCompatActivity {
         public void onFinish() {
             if (SharedPreferenceUtil.getInstance(SplashActivity.this).getKeepSignInValue()) {
                 Intent i = new Intent();
-                i.setClass(SplashActivity.this, MainActivity.class);
+                i.setClass(SplashActivity.this, LoginActivity.class);
+                Log.i("Splash", " onCreate ");
                 startActivity(i);
                 finish();
             } else {

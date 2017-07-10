@@ -54,11 +54,15 @@ public interface Constants {
     String ACTION_POST_WEEKLY_SCHEDULE = "getWeeklySchedule";
     String ACTION_POST_SMS_ALERT_SETTINGS = "MessageAlertPermission";
     String ACTION_POST_SAVE_SMS_ALERT_SETTINGS = "saveMessageAlertPermission";
+    String ACTION_POST_IS_USER_ACTIVE = "checkUserActiveORInactive";
 
 
     String CLIENT_ID = "client_id";
     String KEEP_ME_SIGN = "keep_me_sign";
     String SHOW_CHECK_BOX = "show_check_box";
+
+    String SAVE_USERNAME = "save_username";
+    String SAVE_PASSWORD = "save_password";
 
 
     int ON_CLICK_PRODUCT = 100;

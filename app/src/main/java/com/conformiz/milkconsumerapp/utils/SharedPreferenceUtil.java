@@ -68,4 +68,24 @@ public class SharedPreferenceUtil implements Constants {
         return  mSharedPreferences.getBoolean(SHOW_CHECK_BOX,true);
     }
 
+
+    public void saveUsername(String username){
+        mSharedPreferences.edit().putString(SAVE_USERNAME,username).commit();
+
+    }
+
+    public String getUsername(){
+       return mSharedPreferences.getString(SAVE_USERNAME,"");
+    }
+
+    public void saveUserPassword(String password){
+        mSharedPreferences.edit().putString(SAVE_PASSWORD,password).commit();
+
+    }
+
+    public String getUserPassword(){
+
+        return mSharedPreferences.getString(SAVE_PASSWORD,"");
+    }
+
 }

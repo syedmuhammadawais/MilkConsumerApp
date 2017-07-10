@@ -59,9 +59,16 @@ public class LoginActivity extends AppCompatActivity implements
         mProgressDialog = new ProgressDialog(LoginActivity.this);
 
         if (SharedPreferenceUtil.getInstance(LoginActivity.this).getKeepSignInValue()) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+
+
+            bindView.etEnterUsername.setText(SharedPreferenceUtil.getInstance(LoginActivity.this).getUsername()+"");
+            bindView.etEnterPassword.setText(SharedPreferenceUtil.getInstance(LoginActivity.this).getUserPassword()+"");
+            bindView.tbRememberMe.setToggleStatus(3);
+            onClick(bindView.btnLogin);
+
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
         }
 
 
@@ -145,6 +152,9 @@ public class LoginActivity extends AppCompatActivity implements
 
                 if (!(bindView.tbRememberMe.getToggleStatus()).toString().equalsIgnoreCase("off")) {
                     SharedPreferenceUtil.getInstance(LoginActivity.this).saveKeepSignInValue(true);
+                    SharedPreferenceUtil.getInstance(LoginActivity.this).saveUserPassword(bindView.etEnterPassword.getText().toString()+"");
+                    SharedPreferenceUtil.getInstance(LoginActivity.this).saveUsername(bindView.etEnterUsername.getText().toString()+"");
+
                 } else {
                     SharedPreferenceUtil.getInstance(LoginActivity.this).saveKeepSignInValue(false);
                 }

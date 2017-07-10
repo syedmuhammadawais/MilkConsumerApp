@@ -82,8 +82,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             poweredBy.setText(Html.fromHtml(label));
         }
 
-        initManageOrderDialogUI();
-
         return view;
     }
 
@@ -118,11 +116,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     }
 
 
-    public void initManageOrderDialogUI(){
-
-
-
-    }
 
     public void showMangeOrderDialogInfo(final int id) {
         View dialogLayout;
@@ -161,9 +154,5 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         alertDialogBuilder.show();
 
     }
-
-
-
-
 }
 

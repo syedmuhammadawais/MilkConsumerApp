@@ -48,6 +48,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             case R.id.ll_row_logout:
 
                 SharedPreferenceUtil.getInstance(getActivity()).saveKeepSignInValue(false);
+                SharedPreferenceUtil.getInstance(getActivity()).saveUsername("");
+                SharedPreferenceUtil.getInstance(getActivity()).saveUserPassword("");
+
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
